@@ -78,14 +78,14 @@ gitGraph
     checkout dev
     merge issue_2
     commit
-		branch release
-		commit
-		checkout dev
-		merge release
-    checkout dev
-    checkout main
-    merge dev
+    branch release
+    checkout release
     commit
+    checkout main
+    merge release
+    commit
+    checkout dev
+    merge main
 
 ```
 
@@ -116,7 +116,7 @@ gitGraph
 `release` from dev. A final branch at the end of 'Development 1' to do final testing before being release/merged into main. (Perhaps also if we have deliverables at the end of each sprint)
 
 * Rules: 
-  * Once testing and review is complete Luke will merge into main and tag the release e.g. `version-1.0`
+  * Once testing and review is complete Luke will merge into main and tag the release  with the format version-\<major>.\<minor>.\<release> e.g. `version-1.0.0`
 
 
 
@@ -146,7 +146,6 @@ Specific guidlines when creating git issues:
 * Include relevant git issue numbers if relevant (e.g. Fix login error #22 ...)
 
   
-
 
 
 
