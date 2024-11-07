@@ -1,0 +1,86 @@
+* {
+    cursor : none ; 
+}
+
+
+header {
+    background-color:  rgb(255, 255, 255);
+}
+
+
+h1 {
+    /* not the right font but perhaps looks better for main title */
+    font-family: "Gabarito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 1000;
+    font-style: normal;
+    padding : 0; 
+    margin : 0; 
+}
+
+
+.menu{
+    .Hamburger {
+        position: absolute;
+        left : 10px;
+        transform: translateY(-87%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .Hamburger-Open{
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        transform : translateX(0) translateY(-90%) rotate(90deg); 
+    }
+}
+
+
+
+/* I have kept it named Sidebar (see Menu.js) incase we want to change later */
+.Sidebar {
+    width : 100%; 
+    ul{
+        list-style-type: none;
+        margin : 0; 
+        padding : 0;
+
+        a{
+            text-decoration: none; 
+            color : black; 
+
+            /* Need to change to ageed upon font */
+            font-family: "Gabarito", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+        }
+    }
+}
+
+
+.Sidebar-Open {
+    ul li {
+        transform: translateY(-120%);
+        position : absolute;
+        opacity : 1; 
+        visibility: visible;
+
+        &:nth-child(1){left : 12%; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);}
+        &:nth-child(2){left: 25%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
+        &:nth-child(3){left : 70%; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);}
+        &:nth-child(4){left : 85%; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);}
+    }
+}
+
+.Sidebar-Closed{
+    ul li {
+        transform: translateY(-800%);
+        position : absolute;
+
+        &:nth-child(1){left : 12%; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);}
+        &:nth-child(2){left: 25%; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);}
+        &:nth-child(3){left : 70%; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);}
+        &:nth-child(4){left : 85%; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);}
+    }
+
+}
+
