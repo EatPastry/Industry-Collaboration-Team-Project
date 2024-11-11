@@ -62,7 +62,7 @@
     justify-content: center;
     align-items: center;
     background-color: rgba(255, 255, 255, 1);
-    border-radius: 20px;
+    border-radius: 5px;
     height: 300px;
     width: 400px;
     left: 50%;
@@ -89,7 +89,7 @@
         width: 100%;
         padding : 1 rem;
         margin: auto;
-        border-radius: 10px;
+        border-radius: 5px;
     }
 
     button{
