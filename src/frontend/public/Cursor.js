@@ -26,7 +26,7 @@ document.addEventListener('mouseleave', () => {
     cursor.style.boxShadow = 'none'
 });
 
-document.addEventListener('mousedown', (e) => {
+document.addEventListener('mousedown', () => {
     cursor.style.transform = 'scale(1.2)';
     cursor.style.boxShadow = '0 0 0 1.4px rgba(0, 0, 0)'
 });

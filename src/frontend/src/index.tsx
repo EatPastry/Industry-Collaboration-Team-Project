@@ -7,8 +7,13 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './styles/styles.css';
 
 
-
-const root = ReactDom.createRoot(document.getElementById('root')); 
+let root : ReactDom.Root;
+const elem = document.getElementById('root'); 
+if (elem === null) {
+    throw new Error("Root is null");
+}else{
+    root = ReactDom.createRoot(elem);
+}
 
 
 root.render(

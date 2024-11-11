@@ -1,6 +1,7 @@
 import '../styles/styles.css'
 import Header from '../components/Header'
 import Home from './Home'
+import React from 'react';
 
 const Login = () => {
     return (
@@ -11,7 +12,7 @@ const Login = () => {
             <input type="text" required></input>
             <label>Password</label>
             <input type="password" required></input>
-            <button type="submit" onClick="">Login</button>
+            <button type="submit">Login</button>
         </form>
        </div> 
     )

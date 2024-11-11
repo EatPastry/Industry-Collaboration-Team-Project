@@ -4,10 +4,8 @@ import { ReactComponent as HamburgerIcon } from '../assets/hamburger-icon.svg';
 import {Link} from 'react-router-dom';
 import '../styles/header.css'
 
-
-
 const Header = () => {
-    const [open, setStateOpen] = useState(false); 
+    const [open, setStateOpen] = useState<boolean>(false); 
     
     return (
         <header>
