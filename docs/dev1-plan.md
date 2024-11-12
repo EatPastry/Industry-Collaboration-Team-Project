@@ -4,10 +4,10 @@
 
 ## Sprint 1 (Present - Mon 11th Nov)
 
-### **Research & Design (6 Story Points)1**
+### **Research & Design (8 Story Points)**
 
-- **Task:** Finalize requirements, define user metrics and data presentation, and create Figma mockups.
-- Deliverables:
+- **General Task:** Finalize requirements with UML diagrams, and create Figma mockups/prototypes.
+- oDeliverables:
   - Requirements document (with user stories) and Figma UI Protoypes.
 
 **Story points:** 
@@ -15,11 +15,11 @@
 * Research and find fonts, colors, create design guidelines (1 SP)
 * Use figma to create mockup designs For Desktop and Phone (2 SP)
   * Main Screen and Info page 
-  * Recapped page(s) and login 
+  * Recapped page(s) and login page
 * User stories and Use case diagram (1 SP)
 * Activity Diagram for requrements and Sequence for specifications (we have this - just make better && lower lever) (1 SP)
-* Basic webpage with simple design - perhaps a nav bar 
-* Drafting team manifesto
+* Basic webpage with simple design - perhaps a nav bar (1 SP) 
+* Drafting team manifesto (2 SP)
 
 
 
