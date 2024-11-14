@@ -10,10 +10,10 @@
 
 @keyframes move {
     0%{
-        background-position: 0% 100%;
+        background-position: 0 100%;
     }
     50%{
-        background-position: 100% 0%;
+        background-position: 100% 0;
     }
 }
 
@@ -74,7 +74,6 @@
     form {
         display: flex;
         flex-direction: column;
-        padding: auto;
         margin: auto;
 
         gap : 1rem; 
@@ -87,7 +86,6 @@
 
     input{
         width: 100%;
-        padding : 1 rem;
         margin: auto;
         border-radius: 5px;
     }
@@ -102,8 +100,13 @@
 
     }
 
+    strong {
+        color : darkred;
+    }
+
     button:hover{
         background-color: rgb(189, 230, 236);
         transform: translateY(-1px);
     }
 }
+

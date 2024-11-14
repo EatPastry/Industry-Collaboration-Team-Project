@@ -5,7 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <link rel="stylesheet" href="/styles/styles.css">
-        <script src="/Cursor.js" defer></script>
+        <script>
+            // might need some better way of detecting mobile...
+            if (window.innerWidth > 600){
+                const cursor = document.createElement('script'); 
+                cursor.src = "/Cursor.js";
+                cursor.defer = true;
+                document.head.appendChild(cursor);
+            }
+        </script>
         <title>Recapped Home</title>
     </head>
 
