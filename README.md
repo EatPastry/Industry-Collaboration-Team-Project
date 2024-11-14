@@ -19,14 +19,11 @@
 
 ## Repository Structure
 
-> [!NOTE]
->
-> This repo structure is just a draft, please add/remove from it as necessary 
-
 **Root Directory**
 
 * `/docs` contains the project documentation, planning/analysis docs, and meeting notes
 * `/src` contains source code
+  
   * `/frontend`
     * `/components` contains react components
     * `/pages` contains page-level components
@@ -37,7 +34,7 @@
     * `/frontend`
     * `/backend`
     * `/integration`
-
+  
 * `/assets` 
 
   * `/frontend` 
@@ -49,11 +46,7 @@
 
   
 
-## Branch Guidlines
-
-**Illustrative diagram**
-
-*subject to change*
+## Branching Guidlines
 
 ```mermaid
 gitGraph
@@ -105,18 +98,27 @@ gitGraph
 * Rules: 
   * Create a new feature branch for each new feature.
   * Branch off dev and merge back into dev once <u>only</u> that specific feature is complete.
-  * Use descriptive names for the branches e.g. `feature/user-authentication`
+  * Use name format `feature/<feature name>`
+
+`<test>` from dev. Contains branches for features.
+
+* Rules: 
+  * Create a new feature branch for each new set of tests.
+  * Use name format `test/<test name>`
 
 `issue_<id>` Fixes identified issues/bugs.
 
 * Rules: 
   * Create branches for fixing specific issues/bugs identified on <u>any</u> branch.
   * After fixing the issue, once reviewed, merge the branch back into the branch it originated from.
+  * Use name format `issue/issue_<id>`
 
 `release` from dev. A final branch at the end of 'Development 1' to do final testing before being release/merged into main. (Perhaps also if we have deliverables at the end of each sprint)
 
 * Rules: 
+  * use name format `release/version-<num>.<num>.<num>`
   * Once testing and review is complete Luke will merge into main and tag the release  with the format version-\<major>.\<minor>.\<release> e.g. `version-1.0.0`
+  
 
 
 
