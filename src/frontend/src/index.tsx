@@ -19,12 +19,11 @@ if (element === null) {
 root.render(
     <React.StrictMode>      
         <Router>
-        <div className='color_background'>
+        
         <Routes>
             <Route path = '/' element = {<Login />} />
             <Route path = '/pages/Recapped/:username' element = {<Recapped />} />
         </Routes>
-        </div>
         </Router>
         
     </React.StrictMode>

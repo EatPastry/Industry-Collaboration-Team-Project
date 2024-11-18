@@ -46,6 +46,8 @@ function Login () {
     }
 
     return (
+
+        <div className='color_background'>
         <div className='LoginPage'>
             <Header />
        <div className='login'>
@@ -63,6 +65,7 @@ function Login () {
                 <strong id = "loginResponse"></strong>
             </form>
            </div>
+        </div>
         </div>
     );
 
