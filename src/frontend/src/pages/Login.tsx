@@ -26,7 +26,7 @@ function Login () {
                 responseMsg.innerText = "";
             }
 
-            navigation(`/Recapped/${Username}`);
+            navigation(`pages/Recapped/${Username}`);
 
         }else{
             let usernameValue =  document.getElementById('usernameBox') as HTMLInputElement;

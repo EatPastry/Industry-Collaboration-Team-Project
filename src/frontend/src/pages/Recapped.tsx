@@ -8,10 +8,6 @@ function Recapped () {
            <strong> Hello Recapped </strong>
            <h1 id = "myElement">Hello World</h1>
     
-
-
-
-
        </div> 
     )
 
