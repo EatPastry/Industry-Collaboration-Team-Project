@@ -1,4 +1,42 @@
 * {
+    .Recapped{
+        position: absolute; 
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        background: #83cd9b;
+        background-size: 300% 300%;
+        
+        
+    }
+    .container{
+        position: relative;
+    }
+    .test5{
+        position: relative;
+        transform: translate(400px, 20px);
+    }
+    .test4{
+        position: relative;
+        transform: translate(270px, 320px);
+    }
+    .test3{
+        position: relative;
+        transform: translate(-220px, 260px);
+    }
+    .test2{
+        position: relative;
+        transform: translate(-260px, 60px);
+    }
+    .test1{
+        position: relative;
+        transform: translate(0px, 220px);
+    }
+
+
+    
     cursor : none; 
 
     font-family: "Gabarito", sans-serif;
@@ -109,7 +147,7 @@
         transform: translateY(-1px);
     }
 
-    #RecapColour{
+    .RecapColour{
     background:#83cd9b;
     position: absolute; 
     top: 0;
@@ -127,9 +165,11 @@
         border: none;
         border-radius: 10px;
       }
+      
+    
+      
 
-
-
+       
 
 }
 
