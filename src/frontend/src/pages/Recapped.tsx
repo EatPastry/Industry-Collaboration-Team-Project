@@ -29,11 +29,7 @@ function Recapped () {
             <div className='test5'>
             <DataString />
             </div>
-            
             </div>
-           
-           
-    
        </div> 
     )
 
