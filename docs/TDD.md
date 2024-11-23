@@ -2,13 +2,13 @@
 
 | **Test Case ID** | **Scenario**                                      | **Input**                 | **Expected Output**                                          | **Actual Output**          | **Issue ID** |
 |-------------------|--------------------------------------------------|---------------------------|-------------------------------------------------------------|-----------------------------|--------------|
-| 1                 | Both username and password are correct           | username: `user1`         | Redirect to `/user1` with the correct URL path              |                             |              |
+| 1                 | Both username and password are correct           | username: `user1`         | Redirect to `/user1` with the correct URL path              | logs in successfully with valid credentials (1.3s)                           |    TEST-1          |
 |                   |                                                  | password: `password1`     |                                                             |                             |              |
-| 2                 | Username correct, password incorrect             | username: `user1`         | Display error message: "Invalid username or password."      |                             |              |
+| 2                 | Username correct, password incorrect             | username: `user1`         | Display error message: "Invalid Credentials"      |                             |              |
 |                   |                                                  | password: `wrongpassword` |                                                             |                             |              |
-| 3                 | Username incorrect, password correct             | username: `wronguser`     | Display error message: "Invalid username or password."      |                             |              |
+| 3                 | Username incorrect, password correct             | username: `wronguser`     | Display error message: "Invalid Credentials"      |                             |              |
 |                   |                                                  | password: `password1`     |                                                             |                             |              |
-| 4                 | Both username and password are incorrect         | username: `wronguser`     | Display error message: "Invalid username or password."      |                             |              |
+| 4                 | Both username and password are incorrect         | username: `wronguser`     | Display error message: "Invalid Credentials"      |                             |              |
 |                   |                                                  | password: `wrongpassword` |                                                             |                             |              |
 | 5                 | Empty username and password                      | username: `(empty)`       | Display error message: "Please enter both username and password." |                       |              |
 |                   |                                                  | password: `(empty)`       |                                                             |                             |              |
