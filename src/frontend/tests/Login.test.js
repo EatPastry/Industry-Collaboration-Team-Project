@@ -32,3 +32,19 @@ test('shows error message for invalid credentials', async ({ page }) => {
   const responseText = await page.textContent('#loginResponse');
   expect(responseText).toBe('Invalid Credentials');
 });
+// Test Case ID: 3 - Correct username and incorrect password
+test('shows error message for correct username but incorrect password', async ({ page }) => {
+  await page.goto('http://localhost:3000');
+
+  await page.waitForSelector('#usernameBox');
+  await page.fill('#usernameBox', 'user1');
+
+  await page.waitForSelector('#passwordBox');
+  await page.fill('#passwordBox', 'wrongPassword');
+  
+  await page.click('#loginBtn');
+  
+  await page.waitForSelector('#loginResponse');
+  const responseText = await page.textContent('#loginResponse');
+  expect(responseText).toBe('Invalid Credentials');
+});
