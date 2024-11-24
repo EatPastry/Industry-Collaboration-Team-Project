@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-// Test Case ID: 1 - Both username and password are correct
-test('logs in successfully with valid credentials', async ({ page }) => {
+// Test Case ID: 1 - Logs in successfully with valid credentials for user1
+test('logs in successfully with valid credentials for user1', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
   await page.waitForSelector('#usernameBox');
@@ -16,7 +16,7 @@ test('logs in successfully with valid credentials', async ({ page }) => {
   expect(page.url()).toContain('user1');
 });
 
-// Test Case ID: 2 - Incorrect username and password
+// Test Case ID: 2 - Shows error message for invalid credentials
 test('shows error message for invalid credentials', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
@@ -32,8 +32,8 @@ test('shows error message for invalid credentials', async ({ page }) => {
   const responseText = await page.textContent('#loginResponse');
   expect(responseText).toBe('Invalid Credentials');
 });
-// Test Case ID: 3 - Correct username and incorrect password
-test('shows error message for correct username but incorrect password', async ({ page }) => {
+// Test Case ID: 3 - Valid username and incorrect password
+test('shows error message for valid username but incorrect password', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
   await page.waitForSelector('#usernameBox');
@@ -49,8 +49,8 @@ test('shows error message for correct username but incorrect password', async ({
   expect(responseText).toBe('Invalid Credentials');
 });
 
-// Test Case ID: 4 - Incorrect username and correct password
-test('shows error message for incorrect username but correct password', async ({ page }) => {
+// Test Case ID: 4 - Incorrect username but valid password
+test('shows error message for incorrect username but valid password', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
   await page.waitForSelector('#usernameBox');
