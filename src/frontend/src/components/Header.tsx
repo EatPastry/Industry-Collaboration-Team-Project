@@ -1,7 +1,5 @@
 
 import React, {useState} from "react";
-import { ReactComponent as HamburgerIcon } from '../assets/hamburger-icon.svg'; 
-import {Link} from 'react-router-dom';
 import '../styles/header.css'
 
 function Header () {
