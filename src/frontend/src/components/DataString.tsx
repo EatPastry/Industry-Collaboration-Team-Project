@@ -1,26 +1,34 @@
 import React, { useState } from "react";
 
-function DataString() {
+type DataStringProps = {
+  functions: Function; // Accepts a regular function as a prop
+};
+
+function DataString(props: DataStringProps) {
   const [value, setValue] = useState<string>("sample text");
-  const fetchedValue = "sample Text";/** the fetched value which will be given later a function as input */
+
   function HoverFunc() {
-    
-    setValue(fetchedValue);/**when the I get database values  */
-  };
+    const newValue = props.functions(); // Call the passed function
+    setValue(newValue); // Update the state with the fetched value
+  }
 
   return (
-    <div style={{color: '#83cd9b' }}>
-      <button style={{backgroundColor: '#83cd9b', fontFamily: 'Gabarito, sans-serif',
-      fontWeight: 'bold',fontSize: '18px', border: 'none',
-
-       }} className = "dataButton"
-        onMouseEnter={HoverFunc} 
+    <div style={{ color: "#83cd9b" }}>
+      <button
+        style={{
+          backgroundColor: "#83cd9b",
+          fontFamily: "Gabarito, sans-serif",
+          fontWeight: "bold",
+          fontSize: "18px",
+          border: "none",
+        }}
+        className="dataButton"
+        onMouseEnter={HoverFunc} // Trigger HoverFunc on mouse enter
       >
         {value}
       </button>
-      
     </div>
   );
-};
+}
 
 export default DataString;
