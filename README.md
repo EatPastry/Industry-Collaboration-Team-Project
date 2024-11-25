@@ -145,7 +145,7 @@ Specific guidlines when creating git issues:
 
 * Use [Imperative Moods](https://en.wikipedia.org/wiki/Imperative_mood) in the commit message e.g. 'add feature' instread of 'added feature' or 'adding feature'
 
-* Include relevant git issue numbers if relevant (e.g. Fix login error #22 ...)
+* Include relevant git issue numbers if relevant (e.g. Fix login error #22 ...) 
 
   
 
