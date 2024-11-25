@@ -19,36 +19,21 @@ function validatelogin (username : string, password: string) {
 function Login () {
     const [Username, setUsername] = React.useState('');
     const [Password, setPassword] = React.useState('');
-    let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
     const navigation = useNavigate();
 
     function onSubmit (){
-        if (validatelogin(Username, Password)){
-            if (responseMsg != null){
-                responseMsg.innerText = "";
-            }
-
-            navigation(`pages/Recapped/${Username}`);
-
-        }else{
-            let usernameValue =  document.getElementById('usernameBox') as HTMLInputElement;
-            let passwordValue =  document.getElementById('passwordBox') as HTMLInputElement;
-
-            if (usernameValue != null){
-                usernameValue.value = '';
-            }
-            if (passwordValue != null){
-                passwordValue.value = '';
-            }
-
-            if (responseMsg != null){
-                responseMsg.innerText = "Invalid Credentials";
+        let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
+        if (responseMsg != null) {
+            if (validatelogin(Username, Password)) {
+                    responseMsg.innerText = "";
+                navigation(`pages/Recapped/${Username}`);
+            } else {
+                    responseMsg.innerText = "Invalid Credentials";
             }
         }
     }
 
     return (
-
         <div className='color_background'>
         <div className='LoginPage'>
             <Header />
