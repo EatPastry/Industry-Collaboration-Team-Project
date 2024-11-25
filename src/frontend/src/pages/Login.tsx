@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 
 
-
 function validatelogin (username : string, password: string) {
     let validCredentials : string [][] = [['user1', 'password1'],['user2', 'password2']];
 
