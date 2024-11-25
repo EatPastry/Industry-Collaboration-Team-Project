@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 
-type DataStringProps = {
-  functions: Function; // Accepts a regular function as a prop
+type DataStringProps = {         // defines a prop of type Function          
+  functions: Function; 
 };
 
 function DataString(props: DataStringProps) {
-  const [value, setValue] = useState<string>("sample text");
+  const [value, setValue] = useState<string>("sample text"); 
 
   function HoverFunc() {
-    const newValue = props.functions(); // Call the passed function
-    setValue(newValue); // Update the state with the fetched value
+    const newValue = props.functions(); 
+    setValue(newValue);
   }
 
   return (
@@ -23,7 +23,7 @@ function DataString(props: DataStringProps) {
           border: "none",
         }}
         className="dataButton"
-        onMouseEnter={HoverFunc} // Trigger HoverFunc on mouse enter
+        onMouseEnter={HoverFunc} 
       >
         {value}
       </button>
