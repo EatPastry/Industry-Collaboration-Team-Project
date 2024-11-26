@@ -1,31 +1,29 @@
 import React from 'react'; 
 import ReactDom from 'react-dom/client'; 
-import Home from './pages/Home'; 
 import Header from './components/Header';
 import Login from './pages/Login';
+import Recapped from './pages/Recapped';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './styles/styles.css';
 
 
 let root : ReactDom.Root;
-const elem = document.getElementById('root'); 
-if (elem === null) {
+const element = document.getElementById('root');
+if (element === null) {
     throw new Error("Root is null");
 }else{
-    root = ReactDom.createRoot(elem);
+    root = ReactDom.createRoot(element);
 }
 
 
 root.render(
     <React.StrictMode>      
         <Router>
-        <div className='color_background'>
-            <Header />
+        
         <Routes>
-            <Route path = '/' element = {<Home />} />
-            <Route path = "/Login" element = {<Login />} />
+            <Route path = '/' element = {<Login />} />
+            <Route path = '/pages/Recapped/:username' element = {<Recapped />} />
         </Routes>
-        </div>
         </Router>
         
     </React.StrictMode>
