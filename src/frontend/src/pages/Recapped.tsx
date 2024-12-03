@@ -1,10 +1,23 @@
 import '../styles/styles.css'
 import React from 'react';
 import DataString from '../components/DataString'
+import {useLocation} from 'react-router-dom'
+import ProtectRoutes, {ProtectUserRoutes} from "../components/ProtectRoutes";
 
 
-
+/**
+ * Creates the elements for the Recapped Page
+ * Contains methods that return each String to be displayed, calls {@link DataString} on each of these
+ *@Returns the elements for the recapped page
+ */
 function Recapped () {
+
+    // Checks that url is user specific
+    const location = useLocation();
+    if (ProtectUserRoutes(location.pathname) != null){
+        return ProtectUserRoutes(location.pathname)
+    }
+
     function function1() {
         return "value 1";
       }
