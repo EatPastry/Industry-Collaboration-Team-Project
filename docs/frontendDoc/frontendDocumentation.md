@@ -12,13 +12,23 @@ Before we started the implementation of the coding of our project, the team deci
 
 ####   
 
+## Design research
+
+Our team decided to vote between Rubik, Gabarito and Afacad Flux as our main font for the project. The one that we chose was Gabarito as it was stylish and already similar to the font that UniDays uses on their website. We also decided the main colours that we should use for our page. The reason why we picked these colours is because they feature on the UniDays website so we thought that it would be quite synchronous with the website.
+
+## Fonts and Colour Images
+
+![The font choices](imagesFrontend/FontImg.png) ![The colour choices](imagesFrontend/ColoursImg.png)
+
+
+
 ## Figma Designs Documentation
 
-As part of our first sprint, we created some design mock-ups on figma of our frontend to flesh out some of our ideas and present them to the industry supervisors. When shown the designs, the supervisors were impressed by the professional nature and indicated that they would be a good starting point to begin initial development of the minimum viable product.
+ We created some design mock-ups on figma of our frontend to flesh out some of our ideas and present them to the industry supervisors. When shown the designs, the supervisors were impressed by the professional nature and indicated that they would be a good starting point to begin initial development of the minimum viable product.
 
-## Image Example
+## Login page and Recapped page designs
 
-Login page and Recapped page designs
+
 
 ![Login and Recapped page demos](../Figma Demos/Login_and_Recapped_Demos.png)
 
@@ -42,15 +52,7 @@ Considering that our supervisors liked the designs we showed in the pitch we dec
 
 
 
-Our team decided to vote between Rubik, Gabarito and Afacad Flux as our main font for the project. The one that we chose was Gabarito as it was stylish and already similar to the font that UniDays uses on their website. We also decided the main colours that we should use for our page. The reason why we picked these colours is because they feature on the UniDays website so we thought that it would be quite synchronous with the website.
-
-## Fonts and Colour Images
-
-![The font choices](imagesFrontend/FontImg.png) ![The colour choices](imagesFrontend/ColoursImg.png)
-
  ## Frontend Technologies Research 
-
-(notes don't just dive into it)
 
 We had researched multiple technologies in order to implement the frontend development of our project. Although none of our team members had experience with React or TypeScript ,based on recommendations from our industry supervisors, we decided to explore them as an option and eventually choose them. We chose TypeScript instead of normal JavaScript for our project due to its use of explicit types, which enhances code readability and improves team collaboration by making the code more understandable. Furthermore,TypeScript helps prevent type-related errors at compile time, improving overall code reliability. Through our research, we discovered React’s focus on reusable components and found that its learning curve was not too steep, especially since it is a JavaScript library and we have prior experience with JavaScript. This led us to select React and TypeScript, along with HTML and CSS, as our main languages and tools for developing the front end of our project.
 
