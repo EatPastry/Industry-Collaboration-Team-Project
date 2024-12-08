@@ -8,7 +8,9 @@ import '../styles/header.css'
 function Header () {
     return (
         <header>
-            <h1>UNiDAYS RECAPPED</h1>
+            <div>
+                <img width="150px" src="https://assets1.unidays.world/v5/main/assets/images/logo_v003.svg"></img><h1> RECAPPED</h1>
+            </div>
         </header>
     ); 
 }
