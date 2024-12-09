@@ -147,7 +147,7 @@ We have previously created cronjobs in our first year of programming at Nottingh
 
 We set the cronjob to ping once a day since this is enough to meet Supabase criteria to keep the database up and running. We then ran a test run to make sure it works:
 
-![Test run](images/Testrun.png)
+![Test run](images/Testrun6.png)
 
 This was a success:
 
