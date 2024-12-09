@@ -2,6 +2,12 @@
 
 Before we started the implementation of the coding of our project, the team decided that we should establish the requirements before hand. We decided have use case diagrams and user stories as our implement for this. The reason  we chose these is so that we can show clearly what the Uni-days user should experience from their perspective. Furthermore,  its use of abstraction makes it easier to show to our industry supervisors which can make sure that our expectation of the project aligns with theirs, therefore reducing the chance of miscommunication in the future. This proved beneficial as we we're able to showcase our requirements to our industry supervisors during a meeting where they understood and approved of them.
 
+
+
+## Use case Diagram 
+
+The user can view their recap only after logging in, hence why viewRecap is an extension of Login . The See Total Spent, Total Items Bought, See Most Used Brand, Number of Purchases, Amount Saved, and Most Visited Category use cases are included within the View Recap use case. However, the Share Recap and View Spending Per Month Chart components are not included in the recap. These components can only be accessed after the View Recap use case has been accessed, which is why they are shown as extensions of it. Furthermore, once the Share Recap component is accessed, users can see  their friends' recaps and compare them, which is why they are extensions of it.
+
 ## Images of Use Case Test and User Stories
 
 ![A repository tree](../UseCasDiagramAndUserStories/UseCase.JPG)
