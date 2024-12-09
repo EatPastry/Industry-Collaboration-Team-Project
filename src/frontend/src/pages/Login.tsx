@@ -40,7 +40,7 @@ function Login () {
         <div className='LoginPage'>
             <Header />
        <div className='login'>
-            <h1>Login</h1>
+            <div id="title">Log in</div>
             <form>
                 <label>Username</label>
                 <input id = "usernameBox" type="text" required
@@ -50,7 +50,7 @@ function Login () {
                 <input id = "passwordBox" type="password" required
                 onChange = {(e) => setPassword(e.target.value)}></input>
 
-                <button id = "loginBtn" type="button" onClick={onSubmit}>Login</button>
+                <button id = "loginBtn" type="button" onClick={onSubmit}>Log in</button>
                 <strong id = "loginResponse"></strong>
             </form>
            </div>
