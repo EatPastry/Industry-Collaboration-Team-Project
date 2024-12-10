@@ -19,7 +19,7 @@ if (element === null) { //Check that the root of the DOM exists, else throw an e
 // Renders the application into the root
 // Defines the landing page and other potential routes so that pages don't need to be loaded on navigation
 root.render(
-    <React.StrictMode>      
+    <React.StrictMode>
         <Router>
         <Routes>
             <Route path = '/' element = {<Login />} />

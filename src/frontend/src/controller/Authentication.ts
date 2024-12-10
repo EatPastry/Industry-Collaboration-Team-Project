@@ -1,13 +1,12 @@
 
-let token : string = '';
+let token : string =  "";
 
 /**
  * Uses a regex to see if a loginToken has been set
  * @returns true if there is a loginToken, else returns false
  */
 export function isAuthenticated(): Boolean{
-    const tokenMatch = document.cookie.match(new RegExp('loginToken=' + token));
-    return tokenMatch != null;
+    return document.cookie.match(new RegExp('loginToken=')) != null;
 }
 
 /**
@@ -15,10 +14,13 @@ export function isAuthenticated(): Boolean{
  * @returns true if there is a loginToken and if the token matches the url of the session, else returns false
  */
 export function isUserSpecific(url : string): Boolean{
-    const tokenMatch = document.cookie.match(new RegExp('loginToken=' + token));
-    const urlMatch = url.match(new RegExp(token))
-
-    return tokenMatch != null && urlMatch != null;
+    token = (document.cookie.match(/loginToken=([^;]*)/)?.[1]) || "";
+    if (token !== "") {
+        const urlMatch = url.match(new RegExp(token))
+        return urlMatch != null;
+    }else{
+        return false;
+    }
 }
 
 
@@ -45,17 +47,18 @@ export function validateLogin (username : string, password: string) {
  * @param password the entered password
  * @returns true if the credentials are valid, else false
  */
-export function authenticateLogin(username : string, password : string) {
+export async function authenticateLogin(username : string, password : string) {
     if (validateLogin(username, password)){
         // The token is just a mock, will need to be replaced with token from server
-        // I have set the token to expire in 10 seconds for testing purposes
-        token = username
-        document.cookie = `loginToken=${token}; path=/; max-age=5;`;
-        return true   
+        // I have set the token to expire in 5 seconds for testing
+        document.cookie = `loginToken=${username}; path=/; max-age=5;`;
+        return true
     }else{
         return false
     }
 }
+
+
 
 
 

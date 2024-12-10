@@ -14,7 +14,6 @@ function Login () {
     const [Password, setPassword] = React.useState('');
     const navigation = useNavigate();
 
-
     /**
      * Handler for Button of id `loginBtn`
      * <br>
@@ -26,7 +25,7 @@ function Login () {
         let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (authenticateLogin(Username, Password)){
+            if (await authenticateLogin(Username, Password)){
                 responseMsg.innerText = "";
                 navigation(`pages/Recapped/${Username}`);
             }else{
