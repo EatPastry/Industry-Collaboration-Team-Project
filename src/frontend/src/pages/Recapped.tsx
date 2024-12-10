@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { createClient } from "@supabase/supabase-js"
 import { useLocation } from 'react-router-dom';
 import DataString from '../components/DataString';
-import ProtectRoutes, { ProtectUserRoutes } from "../components/ProtectRoutes";
+import { ProtectUserRoutes } from "../components/ProtectRoutes";
 
 // Supabase client initialization
 const supabase = createClient(
-  "https://uruhpptcyvuqovyehgie.supabase.co", 
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVydWhwcHRjeXZ1cW92eWVoZ2llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM3MTY1OTUsImV4cCI6MjA0OTI5MjU5NX0.jEknBNqVB1IhIAcU3098P_09JpIDhYC068yF_QFL4fk"
+  "https://bplqbfrbhimqbsvqyrhw.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbHFiZnJiaGltcWJzdnF5cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MjA2NjYsImV4cCI6MjA0ODE5NjY2Nn0.xH5sdfWFLo5WOVqtr-uhXQ1s-hS6DLtVRLnLLa5u6Ik"
 );
 
 function Recapped() {
@@ -16,7 +16,7 @@ function Recapped() {
   const [loading, setLoading] = useState(true);
 
     // checks that url is user specific
-    const location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     async function fetchTransactionAmount() {
@@ -50,7 +50,11 @@ function Recapped() {
   }, [location.pathname]);
 
 
+
+
   const protectionError = ProtectUserRoutes(location.pathname);
+  console.log(location.pathname)
+  console.log(protectionError)
   if (protectionError != null) {
     return protectionError;
   }
@@ -78,37 +82,40 @@ function Recapped() {
   }
 
   return (
-    <div className="Recapped">
-      <div className="container">
-        <div className="user-greeting">
-          {loading ? (
-            <p>Loading user data...</p>
-          ) : (
-            <p>Hello, {userName ? userName : "User"}!</p>
-          )}
-        </div>
 
-        <div className="test1">
-          <DataString functions={function1} />
-        </div>
+      <div className="Recapped">
+        <div className='color_background'>
+          <div className="container">
+            <div className="user-greeting">
+              {loading ? (
+                  <p>Loading user data...</p>
+              ) : (
+                  <header><h1>Hello, {userName ? userName : "User"}!</h1></header>
+              )}
+            </div>
 
-        <div className="test2">
-          <DataString functions={function2} />
-        </div>
+            <div className="test1">
+              <DataString functions={function1}/>
+            </div>
 
-        <div className="test3">
-          <DataString functions={function3} />
-        </div>
+            <div className="test2">
+              <DataString functions={function2}/>
+            </div>
 
-        <div className="test4">
-          <DataString functions={function4} />
-        </div>
+            <div className="test3">
+              <DataString functions={function3}/>
+            </div>
 
-        <div className="test5">
-          <DataString functions={function5} />
+            <div className="test4">
+              <DataString functions={function4}/>
+            </div>
+
+            <div className="test5">
+              <DataString functions={function5}/>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 

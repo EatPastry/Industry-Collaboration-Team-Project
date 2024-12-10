@@ -24,21 +24,9 @@ function DataString(props: DataStringProps) {
   }
 
   return (
-    <div style={{ color: "#83cd9b" }}>
-      <button
-        style={{
-          backgroundColor: "#83cd9b",
-          fontFamily: "Gabarito, sans-serif",
-          fontWeight: "bold",
-          fontSize: "18px",
-          border: "none",
-        }}
-        className="dataButton"
-        onMouseEnter={HoverFunc} 
-      >
+      <button className="dataButton"  onMouseEnter={HoverFunc}>
         {value}
       </button>
-    </div>
   );
 }
 
