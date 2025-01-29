@@ -10,7 +10,7 @@ The user can view their recap only after logging in, hence why viewRecap is an e
 
 ## Images of Use Case Test and User Stories
 
-![A repository tree](../UseCasDiagramAndUserStories/UseCase.JPG)
+![A repository tree](../requirements gathering/useCase.JPG)
 
 
 
@@ -148,7 +148,7 @@ gitGraph
 
 ![A repository tree](imagesFrontend/RepoTreeLarge.png)
 
-##Continuous integration and deployment
+## Continuous integration and deployment
 After researching numerous services which allow for continuous deployment and website hosting, we settled for Vercel, a web platform and cloud service which integrates well with react and next js libraries, many developer tools and is free to use for a project of this scale. Because the git platform we use is privately hosted by the university, the git cannot simply be connected to the Vercel project. Instead we have a pipeline which deploys to Vercel through a runner which is hosted on one of our machines using Docker. This ensures that whenever a merge is made to the dev or main branch, the new deployment is uploaded to Vercel to be hosted on a domain for the team to access and test it. 
 
 This will also be useful for demonstrations to stakeholders and for the final demo day. It also allows us to see how the website responds to user traffic.
