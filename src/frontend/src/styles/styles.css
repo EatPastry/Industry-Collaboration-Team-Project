@@ -19,7 +19,7 @@
     }
 }
 
-.color_background {
+.colorBackground {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -51,7 +51,7 @@
         transform: translate(-50%, -40%) scale(1);
     }
 }
- 
+
 
 .login{
     position : absolute;
@@ -111,28 +111,41 @@
         border-color: #1343de;
         border-style: solid;
     }
-    
 
     button{
-        padding : 0.5rem; 
-        color: #ffffff;
+        padding : 0.5rem;
         margin: auto;
-        background-color: #1343de;  
         border-radius: 4px;
-        padding-left: 50px;
-        padding-right: 50px;
         border : none; 
         font-size: 1rem;
         transition: background-color 0.25s;
     }
 
-    button:hover{
-        background-color: #0d30a1;
+    #actionBtn{
+        background-color: #1343de;
+        color: #ffffff;
     }
 
-    strong {
-        color : red;
+    #switchBtn{
+        color: #1343de;
+        background-color: #ffffff;
+        border: 1px solid black;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-right: 20px;
     }
+
+    #switchBtn:hover{
+        background-color: lightblue;
+    }
+
+    #loginResponse{
+        display: block;
+        min-height: 20px;
+        color: red;
+        font-size: 18px;
+    }
+
 
     .dataButton {
         padding: 20px 20px;
