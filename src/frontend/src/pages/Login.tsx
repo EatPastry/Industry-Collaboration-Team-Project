@@ -35,25 +35,27 @@ function Login () {
     }
 
     return (
-        <div className='color_background'>
         <div className='LoginPage'>
             <Header />
-       <div className='login'>
-            <div id="title">Log in</div>
-            <form>
-                <label>Username</label>
-                <input id = "usernameBox" type="text" required
-                onChange = {(e) => setUsername(e.target.value)}></input>
+            <div className='fadeIn'>
+           <div className='login'>
+                <div id="title">Log In</div>
+               <form>
+                   <label>Username</label>
+                   <input id="usernameBox" type="text" required
+                          onChange={(e) => setUsername(e.target.value)}></input>
 
-                <label>Password</label>
-                <input id = "passwordBox" type="password" required
-                onChange = {(e) => setPassword(e.target.value)}></input>
-
-                <button id = "loginBtn" type="button" onClick={onSubmit}>Log in</button>
-                <strong id = "loginResponse"></strong>
-            </form>
+                   <label>Password</label>
+                   <input id="passwordBox" type="password" required onChange={(e) => setPassword(e.target.value)}></input>
+                   <div id = "buttonWrapper">
+                       <button id = "switchBtn" type="button" onClick={() => navigation('/SignUp')}>Create account</button>
+                       <button id="actionBtn" type="button" onClick={
+                           onSubmit}>Log In</button>
+                   </div>
+                   <strong id="loginResponse"></strong>
+               </form>
            </div>
-           </div>
+            </div>
         </div>
     );
 }
