@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 import "../controller/Authentication";
 import {authenticateLogin} from "../controller/Authentication";
+import GoogleButton from "../components/GoogleButton";
 
 /**
  * Creates the elements for the Login page
@@ -46,12 +47,17 @@ function Login () {
                           onChange={(e) => setUsername(e.target.value)}></input>
 
                    <label>Password</label>
-                   <input id="passwordBox" type="password" required onChange={(e) => setPassword(e.target.value)}></input>
-                   <div id = "buttonWrapper">
-                       <button id = "switchBtn" type="button" onClick={() => navigation('/SignUp')}>Create account</button>
+                   <input id="passwordBox" type="password" required
+                          onChange={(e) => setPassword(e.target.value)}></input>
+                   <div id="buttonWrapper">
+                       <button id="switchBtn" type="button" onClick={() => navigation('/SignUp')}>Create account
+                       </button>
                        <button id="actionBtn" type="button" onClick={
-                           onSubmit}>Log In</button>
+                           onSubmit}>Log In
+                       </button>
                    </div>
+                    <GoogleButton />
+
                    <strong id="loginResponse"></strong>
                </form>
            </div>
