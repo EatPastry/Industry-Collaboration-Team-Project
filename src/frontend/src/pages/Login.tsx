@@ -11,8 +11,8 @@ import GoogleButton from "../components/GoogleButton";
  *@returns HTML elements of the login page
  */
 function Login () {
-    const [Username, setUsername] = React.useState('');
-    const [Password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
     const navigation = useNavigate();
 
     /**
@@ -26,9 +26,9 @@ function Login () {
         let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (await authenticateLogin(Username, Password)){
+            if (await authenticateLogin(email, password)){
                 responseMsg.innerText = "";
-                navigation(`pages/Recapped/${Username}`);
+                navigation(`pages/Recapped/${email}`);
             }else{
                 responseMsg.innerText = "Invalid Credentials";
             }
@@ -42,9 +42,9 @@ function Login () {
            <div className='login'>
                 <div id="title">Log In</div>
                <form>
-                   <label>Username</label>
-                   <input id="usernameBox" type="text" required
-                          onChange={(e) => setUsername(e.target.value)}></input>
+                   <label>Email</label>
+                   <input id="emailBox" type="text" required
+                          onChange={(e) => setEmail(e.target.value)}></input>
 
                    <label>Password</label>
                    <input id="passwordBox" type="password" required

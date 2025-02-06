@@ -15,7 +15,7 @@ function SignUp () {
     const formReference = useRef<HTMLFormElement>(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [response, setResponse] = useState('');
 
@@ -65,9 +65,9 @@ function SignUp () {
                             </>
                         ) : (
                             <>
-                                <label>Username</label>
-                                <input type="text" value={userName}
-                                       onChange={(e) => setUserName(e.target.value.trim())}
+                                <label>Email</label>
+                                <input type="text" value={email}
+                                       onChange={(e) => setEmail(e.target.value.trim())}
                                        required
                                 ></input>
 
