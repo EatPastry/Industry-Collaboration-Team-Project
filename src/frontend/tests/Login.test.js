@@ -4,8 +4,8 @@ import { test, expect } from '@playwright/test';
 test('logs in successfully with valid credentials for user1', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', 'user1');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', 'user1');
 
   
   await page.waitForSelector('#passwordBox');
@@ -20,8 +20,8 @@ test('logs in successfully with valid credentials for user1', async ({ page }) =
 test('shows error message for invalid credentials', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', 'invalidUser');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', 'invalidUser');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', 'invalidPassword');
@@ -36,8 +36,8 @@ test('shows error message for invalid credentials', async ({ page }) => {
 test('shows error message for valid username but incorrect password', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', 'user1');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', 'user1');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', 'wrongPassword');
@@ -53,8 +53,8 @@ test('shows error message for valid username but incorrect password', async ({ p
 test('shows error message for incorrect username but valid password', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', 'wrongUser');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', 'wrongUser');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', 'password1');
@@ -69,8 +69,8 @@ test('shows error message for incorrect username but valid password', async ({ p
 test('logs in successfully with valid credentials for user2', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', 'user2');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', 'user2');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', 'password2');
@@ -84,8 +84,8 @@ test('logs in successfully with valid credentials for user2', async ({ page }) =
 test('shows error message for empty username and password', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', '');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', '');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', '');
@@ -100,8 +100,8 @@ test('shows error message for empty username and password', async ({ page }) => 
 test('shows error message for only username provided', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', 'user1');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', 'user1');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', '');
@@ -117,8 +117,8 @@ test('shows error message for only username provided', async ({ page }) => {
 test('shows error message for only password provided', async ({ page }) => {
   await page.goto('http://localhost:3000');
 
-  await page.waitForSelector('#usernameBox');
-  await page.fill('#usernameBox', '');
+  await page.waitForSelector('#emailBox');
+  await page.fill('#emailBox', '');
 
   await page.waitForSelector('#passwordBox');
   await page.fill('#passwordBox', 'password1');
