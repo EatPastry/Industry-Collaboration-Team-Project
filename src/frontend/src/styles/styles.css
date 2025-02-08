@@ -199,9 +199,24 @@
         left: 20vw;
     }
 
-    .share {
-        top: 90vh;
-        left: 90vh;
+    .share-container {
+        position:absolute;
+        bottom: 5vh;
+        right: 5vw;
+    }
+
+    .share-button {
+        border-radius: 5px;
+        border: none;
+        background-color: rgba(100, 100, 100, 0.5);
+    }
+
+    .share-button:hover {
+        background-color: rgba(100, 100, 100, 0.7);
+    }
+
+    canvas {
+        display:none;
     }
 }
 

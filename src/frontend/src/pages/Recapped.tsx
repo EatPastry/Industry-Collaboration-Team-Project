@@ -4,8 +4,6 @@ import { useLocation } from 'react-router-dom';
 import DataString from '../components/DataString';
 import { ProtectUserRoutes } from "../components/ProtectRoutes";
 import { ShareFileButton } from "../components/ShareButton";
-import { base64toFile } from "../utils/base64toImage";
-import { SUDO_LOGO_BASE64 } from "../utils/constants";
 
 // Supabase client initialization
 const supabase = createClient(
@@ -84,18 +82,29 @@ function Recapped() {
     return "Value 5";
   }
 
-  function App() {
-    const file = base64toFile(SUDO_LOGO_BASE64, `sudolabs.png`, "image/png");
+  function getStats() {
+    return transactionAmount !== null
+      ? `£${transactionAmount}`
+      : "";
+  }
+
+  function Stats() {
+    let value = getStats();
     return (
-      <div className="App">
-        <ShareFileButton file={file} />
-      </div>
+      <div>{value}</div>
+    );
+  }
+
+  function App() {
+    return (
+        <ShareFileButton/>
     );
   }
 
   return (
-
+      
       <div className="Recapped">
+        
         <div className='color_background'>
           <div className="container">
             <div className="user-greeting">
@@ -126,10 +135,11 @@ function Recapped() {
               <DataString functions={function5}/>
             </div>
 
-            <div className="share">
-              <App />
+            <div className="share-container">
+              <App/>
             </div>
-
+              
+            <canvas id="img-container" width="300" height="300"><Stats/></canvas>
           </div>
         </div>
       </div>
