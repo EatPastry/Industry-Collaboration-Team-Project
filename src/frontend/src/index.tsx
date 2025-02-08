@@ -1,5 +1,5 @@
-import React from 'react'; 
-import ReactDom from 'react-dom/client'; 
+import React from 'react';
+import ReactDom from 'react-dom/client';
 import Login from './pages/Login';
 import Recapped from './pages/Recapped';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';

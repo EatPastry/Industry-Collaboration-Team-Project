@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createClient } from "@supabase/supabase-js"
 import { useLocation } from 'react-router-dom';
 import DataString from '../components/DataString';
+import Button from "../components/Button";
 import { ProtectUserRoutes } from "../components/ProtectRoutes";
 
 // Supabase client initialization
@@ -81,6 +82,28 @@ function Recapped() {
     return "Value 5";
   }
 
+  // Function to add transaction to Supabase ************************
+  const addTransaction = async () => {
+    const fail = false;
+    /*const { data, error } = await supabase
+        .from("transactions") // Ensure this matches Supabase table name
+        .insert([
+          {
+            user: userName,
+            value: 10,
+            brand: "Starbucks",
+            timestamp: new Date().toISOString(),
+          },
+        ]);
+    */
+    if (fail) {
+      console.error("Error adding transaction.");
+    } else {
+      console.log("Transaction added.");
+    }
+  };
+  // *******************************************************************
+
   return (
 
       <div className="Recapped">
@@ -93,6 +116,13 @@ function Recapped() {
                   <header><h1>Hello, {userName ? userName : "User"}!</h1></header>
               )}
             </div>
+
+
+            {/* ***************************************************** */}
+            {/* Top-left button using Button.tsx prop*/}
+            <Button text="Add Starbucks Transaction" onClick={addTransaction} className="transaction-button"/>
+            {/* ***************************************************** */}
+
 
             <div className="test1">
               <DataString functions={function1}/>
