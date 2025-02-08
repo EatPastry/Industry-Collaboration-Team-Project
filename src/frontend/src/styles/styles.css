@@ -198,5 +198,10 @@
         top: 80vh;
         left: 20vw;
     }
+
+    .share {
+        top: 90vh;
+        left: 90vh;
+    }
 }
 

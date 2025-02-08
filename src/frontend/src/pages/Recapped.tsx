@@ -3,6 +3,9 @@ import { createClient } from "@supabase/supabase-js"
 import { useLocation } from 'react-router-dom';
 import DataString from '../components/DataString';
 import { ProtectUserRoutes } from "../components/ProtectRoutes";
+import { ShareFileButton } from "../components/ShareButton";
+import { base64toFile } from "../utils/base64toImage";
+import { SUDO_LOGO_BASE64 } from "../utils/constants";
 
 // Supabase client initialization
 const supabase = createClient(
@@ -81,6 +84,15 @@ function Recapped() {
     return "Value 5";
   }
 
+  function App() {
+    const file = base64toFile(SUDO_LOGO_BASE64, `sudolabs.png`, "image/png");
+    return (
+      <div className="App">
+        <ShareFileButton file={file} />
+      </div>
+    );
+  }
+
   return (
 
       <div className="Recapped">
@@ -113,6 +125,11 @@ function Recapped() {
             <div className="test5">
               <DataString functions={function5}/>
             </div>
+
+            <div className="share">
+              <App />
+            </div>
+
           </div>
         </div>
       </div>
