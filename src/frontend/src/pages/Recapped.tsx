@@ -1,60 +1,41 @@
-import React, {useEffect, useState} from 'react';
-import {Navigate, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { createClient } from "@supabase/supabase-js"
+import { useLocation } from 'react-router-dom';
 import DataString from '../components/DataString';
-import {ProtectUserRoutes} from '../components/ProtectRoutes';
-import {supabase} from '../utils/supabase'
-import {clearCookie, parseToken} from "../controller/Authentication";
+import Button from "../components/Button";
+import { ProtectUserRoutes } from "../components/ProtectRoutes";
 
-export function checkSession(navigation : NavigateFunction){
-  return setInterval(async () => {
-    let { error} = await supabase.auth.getUser();
-    if (error) {
-      clearCookie(parseToken());
-      navigation(`/`);
-    }
-  }, 3000)
-}
-
-async function signOut(navigation : NavigateFunction){
-  clearCookie(parseToken());
-  await supabase.auth.signOut();
-  navigation(`/`);
-}
+// Supabase client initialization
+const supabase = createClient(
+  "https://bplqbfrbhimqbsvqyrhw.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbHFiZnJiaGltcWJzdnF5cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MjA2NjYsImV4cCI6MjA0ODE5NjY2Nn0.xH5sdfWFLo5WOVqtr-uhXQ1s-hS6DLtVRLnLLa5u6Ik"
+);
 
 function Recapped() {
-  const navigation = useNavigate();
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
-  const [email, setUserName] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  let [firstName, setFirstName] = useState('');
+
     // checks that url is user specific
   const location = useLocation();
 
   useEffect(() => {
-    const hasSession = checkSession(navigation)
-
-    async function fetchUserData() {
+    async function fetchTransactionAmount() {
       try {
-        const {data : {session}} = await supabase.auth.getSession();
-        if (!session || !session.user){
-          return;
-        }
-
-        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
-        if (usersName) {
-          setFirstName(usersName.firstName?.toString());
-        }
-
+        const pathParts = location.pathname.split("/");
+        const simulatedUserID = pathParts[pathParts.length - 1] || "user1";
+        setUserName(simulatedUserID);
         const { data, error } = await supabase
           .from("Transactions")
-          .select("amountSpent")
-          .eq("userID", session.user.id)
+          .select("transactionAmount")
+          .eq("userID", simulatedUserID)
+          .single();
         if (error) {
           console.error("Error fetching transaction:", error);
           setTransactionAmount("Error fetching transaction");
         } else if (data) {
-          console.log("Transaction data fetched");
-          setTransactionAmount(data[0].amountSpent.toString());
+          console.log("Transaction data fetched:", data);
+          setTransactionAmount(data.transactionAmount.toString());
         } else {
           setTransactionAmount("No transaction data found");
         }
@@ -66,12 +47,10 @@ function Recapped() {
       }
     }
 
-    fetchUserData();
+    fetchTransactionAmount();
+  }, [location.pathname]);
 
-    return ()=> {
-      clearInterval(hasSession)
-    };
-  }, [location.pathname, navigation]);
+
 
 
   const protectionError = ProtectUserRoutes(location.pathname);
@@ -103,17 +82,47 @@ function Recapped() {
     return "Value 5";
   }
 
+  // Function to add transaction to Supabase ************************
+  const addTransaction = async () => {
+    const fail = false;
+    /*const { data, error } = await supabase
+        .from("transactions") // Ensure this matches Supabase table name
+        .insert([
+          {
+            user: userName,
+            value: 10,
+            brand: "Starbucks",
+            timestamp: new Date().toISOString(),
+          },
+        ]);
+    */
+    if (fail) {
+      console.error("Error adding transaction.");
+    } else {
+      console.log("Transaction added.");
+    }
+  };
+  // *******************************************************************
+
   return (
+
       <div className="Recapped">
-        <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
+        <div className='color_background'>
           <div className="container">
             <div className="user-greeting">
               {loading ? (
                   <p>Loading user data...</p>
               ) : (
-                  <header><h1>Hello, {firstName}!</h1></header>
+                  <header><h1>Hello, {userName ? userName : "User"}!</h1></header>
               )}
             </div>
+
+
+            {/* ***************************************************** */}
+            {/* Top-left button using Button.tsx prop*/}
+            <Button text="Add Starbucks Transaction" onClick={addTransaction} className="transaction-button"/>
+            {/* ***************************************************** */}
+
 
             <div className="test1">
               <DataString functions={function1}/>
@@ -136,6 +145,7 @@ function Recapped() {
             </div>
           </div>
         </div>
+      </div>
   );
 }
 
