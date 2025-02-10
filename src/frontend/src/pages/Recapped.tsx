@@ -82,9 +82,7 @@ function Recapped() {
   }
 
   return (
-
       <div className="Recapped">
-        <div className='color_background'>
           <div className="container">
             <div className="user-greeting">
               {loading ? (
@@ -115,7 +113,6 @@ function Recapped() {
             </div>
           </div>
         </div>
-      </div>
   );
 }
 
