@@ -3,7 +3,9 @@ import React, {useRef, useState} from 'react';
 import Header from '../components/Header'
 import "../controller/Authentication";
 import {useNavigate} from 'react-router-dom';
-import GoogleButton from "../components/GoogleButton";
+import SupabaseLogin from "../components/SupabaseLogin";
+import {authenticateLogin, createAccount} from "../controller/Authentication";
+
 
 /**
  * Creates the elements for the SignUp page
@@ -34,8 +36,15 @@ function SignUp () {
         }else{
             setNum(1);
         }
+    }
 
 
+    async function validateAccount(email : string, password: string, firstName : string, lastName: string){
+        let result = await createAccount(email, password, firstName, lastName)
+        let cookieResult =  await authenticateLogin(email, password)
+        if (result && cookieResult){
+            navigation(`/pages/Recapped/${email}`);
+        }
     }
 
 
@@ -78,17 +87,15 @@ function SignUp () {
 
                                 <div id="buttonWrapper">
                                     <button id="switchBtn" type="button" onClick={switchPageNum}>Back</button>
-                                    <button id="actionBtn" type="button">Sign Up</button>
+                                    <button id="actionBtn" type="button" onClick={()=> validateAccount(email, password, firstName, lastName)}>Sign Up</button>
                                 </div>
                             </>
                         )
                     }
-                    <GoogleButton/>
+                    <SupabaseLogin/>
                     <strong id="loginResponse">{response}</strong>
                 </form>
-
             </div>
-
         </div>
     );
 }

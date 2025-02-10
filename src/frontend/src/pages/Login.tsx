@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 import "../controller/Authentication";
 import {authenticateLogin} from "../controller/Authentication";
-import GoogleButton from "../components/GoogleButton";
+import SupabaseLogin from "../components/SupabaseLogin";
 
 /**
  * Creates the elements for the Login page
@@ -56,7 +56,7 @@ function Login () {
                            onSubmit}>Log In
                        </button>
                    </div>
-                    <GoogleButton />
+                    <SupabaseLogin />
 
                    <strong id="loginResponse"></strong>
                </form>
