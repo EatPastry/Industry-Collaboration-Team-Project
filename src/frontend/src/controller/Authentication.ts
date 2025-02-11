@@ -2,6 +2,11 @@ import { supabase} from "../utils/supabase";
 
 let token : string =  "";
 
+
+export function parseToken(): string{
+    return (document.cookie.match(/loginToken=([^;]*)/)?.[1]) || "";
+}
+
 /**
  * Uses a regex to see if a loginToken has been set
  * @returns true if there is a loginToken, else returns false
@@ -15,7 +20,7 @@ export function isAuthenticated(): Boolean{
  * @returns true if there is a loginToken and if the token matches the url of the session, else returns false
  */
 export function isUserSpecific(url : string): Boolean{
-    token = (document.cookie.match(/loginToken=([^;]*)/)?.[1]) || "";
+    token = parseToken()
     if (token !== "") {
         const urlMatch = url.match(new RegExp(token))
         return urlMatch != null;
@@ -25,8 +30,8 @@ export function isUserSpecific(url : string): Boolean{
 }
 
 
-export function changeCookie(email : string){
-    document.cookie = `loginToken=${email}; path=/; max-age=0;`;
+export function clearCookie(uuid : string){
+    document.cookie = `loginToken=${uuid}; path=/; max-age=0;`;
 }
 
 
@@ -84,9 +89,9 @@ export async function validateLogin (email : string, password: string) {
 
 // The token is just a mock, will need to be replaced with token from server
 // I have set the token to expire in 1 minute for testing
-export function generateCookie(email : string){
+export function generateCookie(uuid : string){
     //current user is null at this point
-    document.cookie = `loginToken=${(email)}; path=/; max-age=60;`;
+    document.cookie = `loginToken=${(uuid)}; path=/; max-age=60;`;
 }
 
 
