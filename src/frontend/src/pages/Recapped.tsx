@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Navigate, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import DataString from '../components/DataString';
-import { ProtectUserRoutes } from '../components/ProtectRoutes';
-import { supabase } from '../utils/supabase'
-import {changeCookie} from "../controller/Authentication";
+import {ProtectUserRoutes} from '../components/ProtectRoutes';
+import {supabase} from '../utils/supabase'
+import {clearCookie, parseToken} from "../controller/Authentication";
 
 
-function signOut(email : string | null, navigation : NavigateFunction){
-  supabase.auth.signOut();
-  if (email) {
-    changeCookie(email)
-  }
+export function checkSession(navigation : NavigateFunction){
+  return setInterval(async () => {
+    let { error} = await supabase.auth.getUser();
+    if (error) {
+      clearCookie(parseToken());
+      navigation(`/`);
+    }
+  }, 3000)
+}
 
+async function signOut(navigation : NavigateFunction){
+  clearCookie(parseToken());
+  await supabase.auth.signOut();
   navigation(`/`);
 }
 
@@ -23,6 +30,7 @@ function Recapped() {
 
     // checks that url is user specific
   const location = useLocation();
+  checkSession(navigation)
 
   useEffect(() => {
     async function fetchTransactionAmount() {
@@ -87,7 +95,7 @@ function Recapped() {
 
   return (
       <div className="Recapped">
-        <button id = "signOutBtn" onClick={() => signOut(email, navigation)}>sign out</button>
+        <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
           <div className="container">
             <div className="user-greeting">
               {loading ? (
