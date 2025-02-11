@@ -3,8 +3,9 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 import "../controller/Authentication";
-import {authenticateLogin} from "../controller/Authentication";
+import {generateCookie, validateLogin} from "../controller/Authentication";
 import SupabaseLogin from "../components/SupabaseLogin";
+import {supabase} from "../utils/supabase";
 
 /**
  * Creates the elements for the Login page
@@ -23,12 +24,19 @@ function Login () {
      * On success Navigates to Home page {@Link Recapped}, else denies access and displays message
      */
     async function onSubmit (){
-        let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
+        let responseMsg = document.getElementById('userResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (await authenticateLogin(email, password)){
+            if (await validateLogin(email, password)){
                 responseMsg.innerText = "";
-                navigation(`pages/Recapped/${email}`);
+
+                const {data: {session}} = await supabase.auth.getSession();
+                if (session && session.user.email){
+                    generateCookie(session.user.id)
+                    navigation(`pages/Recapped/${session.user.id}`);
+                }else{
+                    responseMsg.innerText = "Server Error";
+                }
             }else{
                 responseMsg.innerText = "Invalid Credentials";
             }
@@ -56,9 +64,9 @@ function Login () {
                            onSubmit}>Log In
                        </button>
                    </div>
-                    <SupabaseLogin />
+                   <SupabaseLogin/>
 
-                   <strong id="loginResponse"></strong>
+                   <strong id="userResponse"></strong>
                </form>
            </div>
             </div>

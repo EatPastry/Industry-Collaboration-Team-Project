@@ -25,23 +25,43 @@ export function isUserSpecific(url : string): Boolean{
 }
 
 
-export function changeCookie(username : string){
-    document.cookie = `loginToken=${username}; path=/; max-age=0;`;
+export function changeCookie(email : string){
+    document.cookie = `loginToken=${email}; path=/; max-age=0;`;
+}
+
+
+/**
+ * checks that email contains @ and password is of length 6 characters
+ * @param email is th email of the account to be checked
+ * @param password is the password of the account to be checked
+ */
+function signUpChecks(email : string, password : string){
+    if (password.trim().length < 6){
+        return {success : false, response : "password must be at least 6 characters"};
+    }else if(!email.includes('@')){
+        return {success : false, response : "email must contain a @"};
+    }
+    return {success : true, response : ""};
 }
 
 /**
- *Creates an account
+ *Checks that entered details are valid clientSide then creates an account
  * @param email is th email of the account
  * @param password is the password of the account
  */
-
 export async function createAccount(email : string, password : string, firstname : string, lastname : string){
-    const {error} = await supabase.auth.signUp({
-        email: email,
-        password: password,
-    })
+    let {success, response} = signUpChecks(email, password);
 
-    return !error;
+    if (success){
+        const {error} = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        })
+        response = "server error"
+        return {success : !error, response};
+    }else{
+        return {success : false, response};
+    }
 }
 
 
@@ -61,28 +81,12 @@ export async function validateLogin (email : string, password: string) {
     return !error;
 }
 
-/**
- * Creates a token if the credentials are valid
- * This is not secure, All tokens are the same. After Proof of concept we will need to generate tokens using supabase
- *
- * @param username the entered username
- * @param password the entered password
- * @returns true if the credentials are valid, else false
- */
-export async function authenticateLogin(username : string, password : string) {
-    if (await validateLogin(username, password)){
-        generateCoookie(username)
-        return true
-    }else{
-        return false
-    }
-}
-
 
 // The token is just a mock, will need to be replaced with token from server
 // I have set the token to expire in 1 minute for testing
-export function generateCoookie(username : string){
-    document.cookie = `loginToken=${username}; path=/; max-age=60;`;
+export function generateCookie(email : string){
+    //current user is null at this point
+    document.cookie = `loginToken=${(email)}; path=/; max-age=60;`;
 }
 
 
