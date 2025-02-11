@@ -139,7 +139,7 @@
         background-color: lightblue;
     }
 
-    #loginResponse{
+    #userResponse{
         display: block;
         min-height: 25px;
         color: red;

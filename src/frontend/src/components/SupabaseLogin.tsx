@@ -3,12 +3,10 @@ import { supabase } from '../utils/supabase'
 import { Session } from '@supabase/supabase-js';
 import GoogleButton from "./GoogleButton";
 import {useNavigate} from "react-router-dom";
-import {generateCoookie} from "../controller/Authentication";
-
-
+import {generateCookie} from "../controller/Authentication";
 
 // some of this taken from Supabase docs: https://supabase.com/docs/guides/auth/quickstarts/react
-function SupabaseLogin() {
+function SupabaseLogin(){
     const navigation = useNavigate();
     const [session, setSession] = useState<Session | null>(null)
 
@@ -19,25 +17,21 @@ function SupabaseLogin() {
             setSession(session)
         })
 
-
         const {
             data: {subscription},
         } = supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
 
             if (session){
-                const email =  session.user.email;
-                if (email) {
-                    generateCoookie(email)
-                }
+                let uuid = session.user.id;
+                generateCookie(uuid)
 
-                navigation(`/pages/Recapped/${email}`);
+                navigation(`/pages/Recapped/${uuid}`);
             }
         })
 
         return () => subscription.unsubscribe()
     }, [navigation])
-
 
     async function googleButtonHandler(){
         await supabase.auth.signInWithOAuth({
@@ -45,12 +39,10 @@ function SupabaseLogin() {
         })
     }
 
-
     if (!session) {
         return <GoogleButton onClick={googleButtonHandler}></GoogleButton>
     }
     return null
 }
-
 
 export default SupabaseLogin;

@@ -4,7 +4,8 @@ import Header from '../components/Header'
 import "../controller/Authentication";
 import {useNavigate} from 'react-router-dom';
 import SupabaseLogin from "../components/SupabaseLogin";
-import {authenticateLogin, createAccount} from "../controller/Authentication";
+import {createAccount, generateCookie, validateLogin} from "../controller/Authentication";
+import {supabase} from "../utils/supabase";
 
 
 /**
@@ -40,10 +41,23 @@ function SignUp () {
 
 
     async function validateAccount(email : string, password: string, firstName : string, lastName: string){
-        let result = await createAccount(email, password, firstName, lastName)
-        let cookieResult =  await authenticateLogin(email, password)
-        if (result && cookieResult){
-            navigation(`/pages/Recapped/${email}`);
+        let {success, response} = await createAccount(email, password, firstName, lastName)
+        let result = await validateLogin(email, password)
+
+        if (success && result){
+            // create cookie
+            const {data: {session}} = await supabase.auth.getSession();
+            if (session && session.user.email){
+                generateCookie(session.user.id)
+                navigation(`/pages/Recapped/${session.user.id}`);
+            }
+        }else{
+             let userResponse = document.getElementById('userResponse');
+
+             if (userResponse){
+                 userResponse.innerText = response;
+             }
+
         }
     }
 
@@ -92,8 +106,8 @@ function SignUp () {
                             </>
                         )
                     }
-                    <SupabaseLogin/>
-                    <strong id="loginResponse">{response}</strong>
+                    <SupabaseLogin />
+                    <strong id="userResponse">{response}</strong>
                 </form>
             </div>
         </div>

@@ -3,16 +3,15 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import DataString from '../components/DataString';
 import { ProtectUserRoutes } from '../components/ProtectRoutes';
 import { supabase } from '../utils/supabase'
-import {Simulate} from "react-dom/test-utils";
 import {changeCookie} from "../controller/Authentication";
 
 
-function signOut(username : string | null, navigation : NavigateFunction){
-
+function signOut(email : string | null, navigation : NavigateFunction){
   supabase.auth.signOut();
-  if (username) {
-    changeCookie(username)
+  if (email) {
+    changeCookie(email)
   }
+
   navigation(`/`);
 }
 
@@ -88,7 +87,7 @@ function Recapped() {
 
   return (
       <div className="Recapped">
-        <button onClick={() => signOut(email, navigation)}>sign out</button>
+        <button id = "signOutBtn" onClick={() => signOut(email, navigation)}>sign out</button>
           <div className="container">
             <div className="user-greeting">
               {loading ? (
