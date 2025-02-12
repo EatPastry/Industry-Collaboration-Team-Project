@@ -5,7 +5,6 @@ import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../controller/Authentication";
 
-
 export function checkSession(navigation : NavigateFunction){
   return setInterval(async () => {
     let { error} = await supabase.auth.getUser();
@@ -27,28 +26,37 @@ function Recapped() {
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
   const [email, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
+  let [firstName, setFirstName] = useState('');
     // checks that url is user specific
   const location = useLocation();
-  checkSession(navigation)
 
   useEffect(() => {
-    async function fetchTransactionAmount() {
+    const hasSession = checkSession(navigation)
+
+    async function fetchUserData() {
       try {
-        const pathParts = location.pathname.split("/");
-        const simulatedUserID = pathParts[pathParts.length - 1] || "user1";
-        setUserName(simulatedUserID);
+
+        const {data : {session}} = await supabase.auth.getSession();
+        if (!session || !session.user){
+          return;
+        }
+
+        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id);
+        if (usersName) {
+          console.log(usersName)
+          setFirstName(usersName[0].firstName?.toString());
+        }
+
         const { data, error } = await supabase
           .from("Transactions")
-          .select("transactionAmount")
-          .eq("userID", simulatedUserID)
-          .single();
+          .select("amountSpent")
+          .eq("userID", session.user.id)
         if (error) {
           console.error("Error fetching transaction:", error);
           setTransactionAmount("Error fetching transaction");
         } else if (data) {
-          console.log("Transaction data fetched:", data);
-          setTransactionAmount(data.transactionAmount.toString());
+          console.log("Transaction data fetched");
+          setTransactionAmount(data[0].amountSpent.toString());
         } else {
           setTransactionAmount("No transaction data found");
         }
@@ -60,8 +68,12 @@ function Recapped() {
       }
     }
 
-    fetchTransactionAmount();
-  }, [location.pathname]);
+    fetchUserData();
+
+    return ()=> {
+      clearInterval(hasSession)
+    };
+  }, [location.pathname, navigation]);
 
 
   const protectionError = ProtectUserRoutes(location.pathname);
@@ -101,7 +113,7 @@ function Recapped() {
               {loading ? (
                   <p>Loading user data...</p>
               ) : (
-                  <header><h1>Hello, {email ? email : "User"}!</h1></header>
+                  <header><h1>Hello, {firstName}!</h1></header>
               )}
             </div>
 
