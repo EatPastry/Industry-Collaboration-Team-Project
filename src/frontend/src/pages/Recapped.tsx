@@ -1,41 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import { createClient } from "@supabase/supabase-js"
-import { useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Navigate, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import DataString from '../components/DataString';
+import {ProtectUserRoutes} from '../components/ProtectRoutes';
+import {supabase} from '../utils/supabase'
+import {clearCookie, parseToken} from "../controller/Authentication";
 import Button from "../components/Button";
-import { ProtectUserRoutes } from "../components/ProtectRoutes";
 
-// Supabase client initialization
-const supabase = createClient(
-  "https://bplqbfrbhimqbsvqyrhw.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbHFiZnJiaGltcWJzdnF5cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MjA2NjYsImV4cCI6MjA0ODE5NjY2Nn0.xH5sdfWFLo5WOVqtr-uhXQ1s-hS6DLtVRLnLLa5u6Ik"
-);
+
+
+export function checkSession(navigation : NavigateFunction){
+  return setInterval(async () => {
+    let { error} = await supabase.auth.getUser();
+    if (error) {
+      clearCookie(parseToken());
+      navigation(`/`);
+    }
+  }, 3000)
+}
+
+async function signOut(navigation : NavigateFunction){
+  clearCookie(parseToken());
+  await supabase.auth.signOut();
+  navigation(`/`);
+}
 
 function Recapped() {
+  const navigation = useNavigate();
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
+  const [email, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-    // checks that url is user specific
+  let [firstName, setFirstName] = useState('');
+  // checks that url is user specific
   const location = useLocation();
 
   useEffect(() => {
-    async function fetchTransactionAmount() {
+    const hasSession = checkSession(navigation)
+
+    async function fetchUserData() {
       try {
-        const pathParts = location.pathname.split("/");
-        const simulatedUserID = pathParts[pathParts.length - 1] || "user1";
-        setUserName(simulatedUserID);
+        const {data : {session}} = await supabase.auth.getSession();
+        if (!session || !session.user){
+          return;
+        }
+
+        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+        if (usersName) {
+          setFirstName(usersName.firstName?.toString());
+        }
+
         const { data, error } = await supabase
-          .from("Transactions")
-          .select("transactionAmount")
-          .eq("userID", simulatedUserID)
-          .single();
+            .from("Transactions")
+            .select("amountSpent")
+            .eq("userID", session.user.id)
         if (error) {
           console.error("Error fetching transaction:", error);
           setTransactionAmount("Error fetching transaction");
         } else if (data) {
-          console.log("Transaction data fetched:", data);
-          setTransactionAmount(data.transactionAmount.toString());
+          console.log("Transaction data fetched");
+          setTransactionAmount(data[0].amountSpent.toString());
         } else {
           setTransactionAmount("No transaction data found");
         }
@@ -47,10 +69,12 @@ function Recapped() {
       }
     }
 
-    fetchTransactionAmount();
-  }, [location.pathname]);
+    fetchUserData();
 
-
+    return ()=> {
+      clearInterval(hasSession)
+    };
+  }, [location.pathname, navigation]);
 
 
   const protectionError = ProtectUserRoutes(location.pathname);
@@ -70,9 +94,9 @@ function Recapped() {
 
   function function3() {
     return transactionAmount !== null
-      ? `You spent £${transactionAmount} this year`
-      : "Loading...";
-  } 
+        ? `You spent £${transactionAmount} this year`
+        : "Loading...";
+  }
 
   function function4() {
     return "Value 4";
@@ -104,50 +128,47 @@ function Recapped() {
   };
   // *******************************************************************
 
+
   return (
-
       <div className="Recapped">
-        <div className='color_background'>
-          <div className="container">
-            <div className="user-greeting">
-              {loading ? (
-                  <p>Loading user data...</p>
-              ) : (
-                  <header><h1>Hello, {userName ? userName : "User"}!</h1></header>
-              )}
-            </div>
+        <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
+        <div className="container">
+          <div className="user-greeting">
+            {loading ? (
+                <p>Loading user data...</p>
+            ) : (
+                <header><h1>Hello, {firstName}!</h1></header>
+            )}
+          </div>
+
+          {/* ***************************************************** */}
+          {/* Top-left button using Button.tsx prop*/}
+          <Button text="Add Starbucks Transaction" onClick={addTransaction} className="transaction-button"/>
+          {/* ***************************************************** */}
 
 
-            {/* ***************************************************** */}
-            {/* Top-left button using Button.tsx prop*/}
-            <Button text="Add Starbucks Transaction" onClick={addTransaction} className="transaction-button"/>
-            {/* ***************************************************** */}
+          <div className="test1">
+            <DataString functions={function1}/>
+          </div>
 
+          <div className="test2">
+            <DataString functions={function2}/>
+          </div>
 
-            <div className="test1">
-              <DataString functions={function1}/>
-            </div>
+          <div className="test3">
+            <DataString functions={function3}/>
+          </div>
 
-            <div className="test2">
-              <DataString functions={function2}/>
-            </div>
+          <div className="test4">
+            <DataString functions={function4}/>
+          </div>
 
-            <div className="test3">
-              <DataString functions={function3}/>
-            </div>
-
-            <div className="test4">
-              <DataString functions={function4}/>
-            </div>
-
-            <div className="test5">
-              <DataString functions={function5}/>
-            </div>
+          <div className="test5">
+            <DataString functions={function5}/>
           </div>
         </div>
       </div>
   );
 }
-
 
 export default Recapped;
