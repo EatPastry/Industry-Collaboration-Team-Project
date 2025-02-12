@@ -35,16 +35,14 @@ function Recapped() {
 
     async function fetchUserData() {
       try {
-
         const {data : {session}} = await supabase.auth.getSession();
         if (!session || !session.user){
           return;
         }
 
-        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id);
+        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
         if (usersName) {
-          console.log(usersName)
-          setFirstName(usersName[0].firstName?.toString());
+          setFirstName(usersName.firstName?.toString());
         }
 
         const { data, error } = await supabase
