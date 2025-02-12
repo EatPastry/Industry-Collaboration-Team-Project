@@ -34,12 +34,14 @@ function SupabaseLogin(){
                 generateCookie(uuid)
 
                 const metaData = session.user.user_metadata
-                const splitName = metaData.full_name.split(' ');
-                const firstName = splitName[0] || '';
-                const lastName = splitName.slice(1).join(' ') || '';
-                const email = session.user.email;
-                if (email){
-                    addGoogleUserTable(email, firstName, lastName, session.user.id)
+                if (metaData && metaData.full_name) {
+                    const splitName = metaData.full_name.split(' ');
+                    const firstName = splitName[0] || '';
+                    const lastName = splitName.slice(1).join(' ') || '';
+                    const email = session.user.email;
+                    if (email) {
+                        addGoogleUserTable(email, firstName, lastName, session.user.id)
+                    }
                 }
 
                 navigation(`/pages/Recapped/${uuid}`);

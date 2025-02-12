@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+
 // Test Case ID: 1 - Logs in successfully with valid credentials for user1@gmail.com
 test('logs in successfully with valid credentials for user1@gmail.com', async ({ page }) => {
   await page.goto('http://localhost:3000');
@@ -14,7 +15,7 @@ test('logs in successfully with valid credentials for user1@gmail.com', async ({
   await page.click('#actionBtn');
 
   await page.waitForURL('**/Recapped/*', {timeout : 5000});
-  expect(page.url()).toContain('user1@gmail.com');
+  await expect(page.url()).toContain('00998bd5-74d1-4dd2-b4c3-d42c8ef73de5');
 
   await page.click('#signOutBtn')
   await page.waitForURL('http://localhost:3000');
@@ -83,7 +84,7 @@ test('logs in successfully with valid credentials for user2@gmail.com', async ({
   await page.click('#actionBtn');
 
   await page.waitForURL('**/Recapped/*', {timeout : 5000});
-  expect(page.url()).toContain('user2@gmail.com');
+  expect(page.url()).toContain('3c4d6f1c-11ff-4254-842a-c3c65eededbd');
 
   await page.click('#signOutBtn')
 });
