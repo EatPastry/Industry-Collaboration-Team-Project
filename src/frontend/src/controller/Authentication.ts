@@ -54,19 +54,22 @@ function signUpChecks(email : string, password : string){
  * @param email is th email of the account
  * @param password is the password of the account
  */
-export async function createAccount(email : string, password : string, firstname : string, lastname : string){
+export async function createAccount(email : string, password : string){
     let {success, response} = signUpChecks(email, password);
-
-    if (success){
-        const {error} = await supabase.auth.signUp({
-            email: email,
-            password: password,
-        })
-        response = "server error"
-        return {success : !error, response};
-    }else{
+    if (!success) {
         return {success : false, response};
     }
+
+    const {data : data, error : existsError} = await supabase.from('User').select('email').eq('email', email);
+    if (data && data.length > 0){
+        return {success : false, response : "Account already exists"}
+    }
+
+    const {error : signUpError} = await supabase.auth.signUp({
+        email: email,
+        password: password,
+    })
+    return {success : !signUpError, response : "server error"};
 }
 
 
@@ -87,21 +90,8 @@ export async function validateLogin (email : string, password: string) {
 }
 
 
-// The token is just a mock, will need to be replaced with token from server
-// I have set the token to expire in 1 minute for testing
 export function generateCookie(uuid : string){
     //current user is null at this point
     document.cookie = `loginToken=${(uuid)}; path=/; max-age=60;`;
 }
-
-
-
-
-
-
-
-
-
-
-
 

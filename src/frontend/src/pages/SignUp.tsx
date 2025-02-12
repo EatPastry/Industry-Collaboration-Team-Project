@@ -8,6 +8,9 @@ import {createAccount, generateCookie, validateLogin} from "../controller/Authen
 import {supabase} from "../utils/supabase";
 
 
+
+
+
 /**
  * Creates the elements for the SignUp page
  *@returns HTML elements of the SignUp page
@@ -41,23 +44,23 @@ function SignUp () {
 
 
     async function validateAccount(email : string, password: string, firstName : string, lastName: string){
-        let {success, response} = await createAccount(email, password, firstName, lastName)
+        let {success, response} = await createAccount(email, password)
         let result = await validateLogin(email, password)
 
         if (success && result){
             // create cookie
             const {data: {session}} = await supabase.auth.getSession();
-            if (session && session.user.email){
+            if (session && session.user.email) {
                 generateCookie(session.user.id)
+
+                // add row to user table
+                await supabase.from('User').insert([{
+                    userID : session.user.id, firstName : firstName, lastName : lastName, email : email}]);
+
                 navigation(`/pages/Recapped/${session.user.id}`);
             }
         }else{
-             let userResponse = document.getElementById('userResponse');
-
-             if (userResponse){
-                 userResponse.innerText = response;
-             }
-
+            setResponse(response);
         }
     }
 
