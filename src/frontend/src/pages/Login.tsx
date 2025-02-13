@@ -3,7 +3,7 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 import "../controller/Authentication";
-import {generateCookie, validateLogin} from "../controller/Authentication";
+import {generateCookie, signInWithPassword} from "../controller/Authentication";
 import SupabaseLogin from "../components/SupabaseLogin";
 import {supabase} from "../utils/supabase";
 
@@ -19,7 +19,7 @@ function Login () {
     /**
      * Handler for Button of id `loginBtn`
      * <br>
-     * Calls {@Link validateLogin} for input validation
+     * Calls {@Link signInWithPassword} to sign in
      * <br>
      * On success Navigates to Home page {@Link Recapped}, else denies access and displays message
      */
@@ -27,7 +27,7 @@ function Login () {
         let responseMsg = document.getElementById('userResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (await validateLogin(email, password)){
+            if (await signInWithPassword(email, password)){
                 responseMsg.innerText = "";
 
                 const {data: {session}} = await supabase.auth.getSession();

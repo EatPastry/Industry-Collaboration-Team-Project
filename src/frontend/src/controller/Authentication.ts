@@ -1,8 +1,8 @@
 import { supabase} from "../utils/supabase";
 
-let token : string =  "";
-
-
+/**
+ * Returns the string value stored in loginToken (the userID)
+ */
 export function parseToken(): string{
     return (document.cookie.match(/loginToken=([^;]*)/)?.[1]) || "";
 }
@@ -20,7 +20,7 @@ export function isAuthenticated(): Boolean{
  * @returns true if there is a loginToken and if the token matches the url of the session, else returns false
  */
 export function isUserSpecific(url : string): Boolean{
-    token = parseToken()
+    let token : string = parseToken()
     if (token !== "") {
         const urlMatch = url.match(new RegExp(token))
         return urlMatch != null;
@@ -29,7 +29,10 @@ export function isUserSpecific(url : string): Boolean{
     }
 }
 
-
+/**
+ * modifies the login cookie age to 0 such that it expires and the user is logged out
+ * @param uuid is the id of the user to be logged out
+ */
 export function clearCookie(uuid : string){
     document.cookie = `loginToken=${uuid}; path=/; max-age=0;`;
 }
@@ -50,7 +53,9 @@ function signUpChecks(email : string, password : string){
 }
 
 /**
- *Checks that entered details are valid clientSide then creates an account
+ * Creates a new account <br>
+ * Checks that entered details are valid <br>
+ * checks that account doesn't already exist <br>
  * @param email is th email of the account
  * @param password is the password of the account
  */
@@ -60,7 +65,7 @@ export async function createAccount(email : string, password : string){
         return {success : false, response};
     }
 
-    const {data : data, error : existsError} = await supabase.from('User').select('email').eq('email', email);
+    const {data } = await supabase.from('User').select('email').eq('email', email);
     if (data && data.length > 0){
         return {success : false, response : "Account already exists"}
     }
@@ -74,13 +79,13 @@ export async function createAccount(email : string, password : string){
 
 
 /**
- *Validates username and password using Supabase
+ *Signs in to Supabase with username and password
  *
  * @param email of the entered email
  * @param password of the entered password
  * @returns true if credentials correct, false if credentials invalid
  */
-export async function validateLogin (email : string, password: string) {
+export async function signInWithPassword (email : string, password: string) {
     const {error} = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -90,8 +95,11 @@ export async function validateLogin (email : string, password: string) {
 }
 
 
+/**
+ * Generates a cookie that expires in 1 hour
+ * @param uuid is the userID of the user that needs a cookie
+ */
 export function generateCookie(uuid : string){
-    //current user is null at this point
-    document.cookie = `loginToken=${(uuid)}; path=/; max-age=60;`;
+    document.cookie = `loginToken=${(uuid)}; path=/; max-age=3600;`;
 }
 

@@ -1,11 +1,19 @@
 import React from "react";
 import '../styles/googleButton.css'
 
+/**
+ * interface used for onClick functionality with GoogleButton such that {@link googleButtonHandler} is called
+ */
 interface GoogleButtonProps{
     onClick?: () => void;
 }
 
-// taken from https://developers.google.com/identity/branding-guidelines
+/**
+ * returns HTML for Sign in with Google button
+ * taken from https://developers.google.com/identity/branding-guidelines
+ *
+ * @param onClick is of GoogleButtonProps
+ */
 function GoogleButton({ onClick }: GoogleButtonProps) {
     return (
         <button className="gsi-material-button" onClick={(e) => {

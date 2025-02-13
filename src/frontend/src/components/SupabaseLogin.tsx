@@ -6,15 +6,38 @@ import {useNavigate} from "react-router-dom";
 import {generateCookie} from "../controller/Authentication";
 
 
+/**
+ * Creates a row for the User in the user table if the user doesn't yet exist in the table
+ *
+ * @param email is the email of the user to add
+ * @param firstName is the first name of the user to add
+ * @param lastName is the last name of the user to add
+ * @param uuid is the userID of the user to add
+ */
 async function addGoogleUserTable(email : string, firstName : string, lastName : string, uuid : string){
-    const {data : data} = await supabase.from('User').select('email').eq('email', email);
+    const {data } = await supabase.from('User').select('email').eq('email', email);
     if (data && data.length === 0){
         await supabase.from('User').insert([{
             userID : uuid, firstName : firstName, lastName : lastName, email : email}]);
     }
 }
 
-// some of this taken from Supabase docs: https://supabase.com/docs/guides/auth/quickstarts/react
+/**
+ * Handler for the Google button that signs into SupaBase with OAuth
+ */
+async function googleButtonHandler(){
+    await supabase.auth.signInWithOAuth({
+        provider: 'google'
+    })
+}
+
+/**
+ * Establishes a Session for a User if a session for that user doesn't already exist
+ * Calls addGoogleUserTable if the account is from Google
+ *If the user has a session Navigates to their recapped page else returns {@link GoogleButton}
+ *
+ * Session setUp follows : https://supabase.com/docs/guides/auth/quickstarts/react
+ */
 function SupabaseLogin(){
     const navigation = useNavigate();
     const [session, setSession] = useState<Session | null>(null)
@@ -50,12 +73,6 @@ function SupabaseLogin(){
 
         return () => subscription.unsubscribe()
     }, [navigation])
-
-    async function googleButtonHandler(){
-        await supabase.auth.signInWithOAuth({
-            provider: 'google'
-        })
-    }
 
     if (!session) {
         return <GoogleButton onClick={googleButtonHandler}></GoogleButton>

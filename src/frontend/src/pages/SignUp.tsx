@@ -4,12 +4,8 @@ import Header from '../components/Header'
 import "../controller/Authentication";
 import {useNavigate} from 'react-router-dom';
 import SupabaseLogin from "../components/SupabaseLogin";
-import {createAccount, generateCookie, validateLogin} from "../controller/Authentication";
+import {createAccount, generateCookie, signInWithPassword} from "../controller/Authentication";
 import {supabase} from "../utils/supabase";
-
-
-
-
 
 /**
  * Creates the elements for the SignUp page
@@ -42,26 +38,39 @@ function SignUp () {
         }
     }
 
-
+    /**
+     * Calls Create an Account, if this succeeds it then signs in <br>
+     * Generates a cookie and adds a row to the User table for new user
+     *
+     * @param email of the user to validate
+     * @param password of the user to validate
+     * @param firstName of the user to validate
+     * @param lastName of the user to validate
+     */
     async function validateAccount(email : string, password: string, firstName : string, lastName: string){
         let {success, response} = await createAccount(email, password)
-        let result = await validateLogin(email, password)
 
-        if (success && result){
-            // create cookie
-            const {data: {session}} = await supabase.auth.getSession();
-            if (session && session.user.email) {
-                generateCookie(session.user.id)
-
-                // add row to user table
-                await supabase.from('User').insert([{
-                    userID : session.user.id, firstName : firstName, lastName : lastName, email : email}]);
-
-                navigation(`/pages/Recapped/${session.user.id}`);
-            }
-        }else{
+        if (!success){
             setResponse(response);
+            return
         }
+
+        let result = await signInWithPassword(email, password)
+        if (!result){
+            setResponse(response);
+            return
+        }
+
+        const {data: {session}} = await supabase.auth.getSession();
+        if (session && session.user.email) {
+            generateCookie(session.user.id)
+
+            await supabase.from('User').insert([{
+                userID : session.user.id, firstName : firstName, lastName : lastName, email : email}]);
+
+            navigation(`/pages/Recapped/${session.user.id}`);
+        }
+
     }
 
 

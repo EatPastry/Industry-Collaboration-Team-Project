@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../controller/Authentication";
 
+/**
+ * Checks every 3 seconds that the session is still active <br>
+ * if the session is stale it logs the user out by clearing cookies
+ *
+ * @param navigation of useNavigate() to navigate to Log in (/) page
+ */
 export function checkSession(navigation : NavigateFunction){
   return setInterval(async () => {
     let { error} = await supabase.auth.getUser();
@@ -15,16 +21,25 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
+/**
+ * Handles user sign out. <br>
+ * Closes Session and Clears User cookies
+ *
+ * @param navigation of useNavigate() to navigate to Log in (/) page
+ */
 async function signOut(navigation : NavigateFunction){
   clearCookie(parseToken());
   await supabase.auth.signOut();
   navigation(`/`);
 }
 
+/**
+ * Generates Recapped page for logged in user
+ * @constructor
+ */
 function Recapped() {
   const navigation = useNavigate();
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
-  const [email, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   let [firstName, setFirstName] = useState('');
     // checks that url is user specific
