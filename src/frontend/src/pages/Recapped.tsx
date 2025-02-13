@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js"
 import { useLocation } from 'react-router-dom';
 import DataString from '../components/DataString';
 import { ProtectUserRoutes } from "../components/ProtectRoutes";
+import { ShareFileButton } from "../components/ShareButton";
 
 // Supabase client initialization
 const supabase = createClient(
@@ -81,8 +82,30 @@ function Recapped() {
     return "Value 5";
   }
 
+  function getStats() {
+    return transactionAmount !== null
+      ? `£${transactionAmount}`
+      : "";
+  }
+
+  function Stats() {
+    let value = getStats();
+    return (
+      <div>{value}</div>
+    );
+  }
+
+  function App() {
+    return (
+        <ShareFileButton/>
+    );
+  }
+
   return (
+      
       <div className="Recapped">
+        
+        <div className='color_background'>
           <div className="container">
             <div className="user-greeting">
               {loading ? (
@@ -111,6 +134,12 @@ function Recapped() {
             <div className="test5">
               <DataString functions={function5}/>
             </div>
+
+            <div className="share-container">
+              <App/>
+            </div>
+              
+            <canvas id="img-container" width="300" height="300"><Stats/></canvas>
           </div>
         </div>
   );

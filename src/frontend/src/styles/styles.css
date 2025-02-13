@@ -19,7 +19,12 @@
     }
 }
 
-.colorBackground {
+a, button {
+    cursor: pointer;
+}
+
+
+.color_background {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -210,6 +215,26 @@
     .test5 {
         top: 80vh;
         left: 20vw;
+    }
+
+    .share-container {
+        position:absolute;
+        bottom: 5vh;
+        right: 5vw;
+    }
+
+    .share-button {
+        border-radius: 5px;
+        border: none;
+        background-color: rgba(100, 100, 100, 0.5);
+    }
+
+    .share-button:hover {
+        background-color: rgba(100, 100, 100, 0.7);
+    }
+
+    canvas {
+        display:none;
     }
 }
 
