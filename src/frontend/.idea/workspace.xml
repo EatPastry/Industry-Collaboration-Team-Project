@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="97b586d6-c696-423a-ba29-b6a9bcf2e74c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/SignUp.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/SignUp.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -34,7 +36,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/signup-frontend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -66,6 +68,8 @@
       <workItem from="1734697086905" duration="114000" />
       <workItem from="1736864286543" duration="625000" />
       <workItem from="1737982588034" duration="14000" />
+      <workItem from="1738596064353" duration="12987000" />
+      <workItem from="1738767122269" duration="3382000" />
     </task>
     <servers />
   </component>

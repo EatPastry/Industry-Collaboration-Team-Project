@@ -56,7 +56,7 @@ a, button {
         transform: translate(-50%, -40%) scale(1);
     }
 }
- 
+
 
 .login{
     position : absolute;
@@ -67,7 +67,7 @@ a, button {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background-color: rgba(255, 255, 255, 1);
     border-radius: 5px;
-    height: 400px;
+    height: 450px;
     width: 400px;
     left: 50%;
     top: 40%;
@@ -116,28 +116,41 @@ a, button {
         border-color: #1343de;
         border-style: solid;
     }
-    
 
     button{
-        padding : 0.5rem; 
-        color: #ffffff;
+        padding : 0.5rem;
         margin: auto;
-        background-color: #1343de;  
         border-radius: 4px;
-        padding-left: 50px;
-        padding-right: 50px;
         border : none; 
         font-size: 1rem;
         transition: background-color 0.25s;
     }
 
-    button:hover{
-        background-color: #0d30a1;
+    #actionBtn{
+        background-color: #1343de;
+        color: #ffffff;
     }
 
-    strong {
-        color : red;
+    #switchBtn{
+        color: #1343de;
+        background-color: #ffffff;
+        border: 1px solid black;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-right: 20px;
     }
+
+    #switchBtn:hover{
+        background-color: lightblue;
+    }
+
+    #loginResponse{
+        display: block;
+        min-height: 25px;
+        color: red;
+        font-size: 20px;
+    }
+
 
     .dataButton {
         padding: 20px 20px;

@@ -142,7 +142,6 @@ function Recapped() {
             <canvas id="img-container" width="300" height="300"><Stats/></canvas>
           </div>
         </div>
-      </div>
   );
 }
 

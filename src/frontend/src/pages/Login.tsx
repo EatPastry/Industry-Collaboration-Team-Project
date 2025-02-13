@@ -4,14 +4,15 @@ import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 import "../controller/Authentication";
 import {authenticateLogin} from "../controller/Authentication";
+import GoogleButton from "../components/GoogleButton";
 
 /**
  * Creates the elements for the Login page
  *@returns HTML elements of the login page
  */
 function Login () {
-    const [Username, setUsername] = React.useState('');
-    const [Password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
     const navigation = useNavigate();
 
     /**
@@ -25,9 +26,9 @@ function Login () {
         let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (await authenticateLogin(Username, Password)){
+            if (await authenticateLogin(email, password)){
                 responseMsg.innerText = "";
-                navigation(`pages/Recapped/${Username}`);
+                navigation(`pages/Recapped/${email}`);
             }else{
                 responseMsg.innerText = "Invalid Credentials";
             }
@@ -35,25 +36,32 @@ function Login () {
     }
 
     return (
-        <div className='color_background'>
         <div className='LoginPage'>
             <Header />
-       <div className='login'>
-            <div id="title">Log in</div>
-            <form>
-                <label>Username</label>
-                <input id = "usernameBox" type="text" required
-                onChange = {(e) => setUsername(e.target.value)}></input>
+            <div className='fadeIn'>
+           <div className='login'>
+                <div id="title">Log In</div>
+               <form>
+                   <label>Email</label>
+                   <input id="emailBox" type="text" required
+                          onChange={(e) => setEmail(e.target.value)}></input>
 
-                <label>Password</label>
-                <input id = "passwordBox" type="password" required
-                onChange = {(e) => setPassword(e.target.value)}></input>
+                   <label>Password</label>
+                   <input id="passwordBox" type="password" required
+                          onChange={(e) => setPassword(e.target.value)}></input>
+                   <div id="buttonWrapper">
+                       <button id="switchBtn" type="button" onClick={() => navigation('/SignUp')}>Create account
+                       </button>
+                       <button id="actionBtn" type="button" onClick={
+                           onSubmit}>Log In
+                       </button>
+                   </div>
+                    <GoogleButton />
 
-                <button id = "loginBtn" type="button" onClick={onSubmit}>Log in</button>
-                <strong id = "loginResponse"></strong>
-            </form>
+                   <strong id="loginResponse"></strong>
+               </form>
            </div>
-           </div>
+            </div>
         </div>
     );
 }
