@@ -101,13 +101,13 @@ function SignUp () {
                         ) : (
                             <>
                                 <label>Email</label>
-                                <input type="text" value={email}
+                                <input type="text" id="signup-email" value={email}
                                        onChange={(e) => setEmail(e.target.value.trim())}
                                        required
                                 ></input>
 
                                 <label>Password</label>
-                                <input type="password" value={password}
+                                <input type="password" id="signup-password" value={password}
                                        onChange={(e) => setPassword(e.target.value.trim())}
                                        required></input>
 
