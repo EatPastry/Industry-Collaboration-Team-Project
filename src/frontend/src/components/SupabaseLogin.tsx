@@ -52,10 +52,13 @@ function SupabaseLogin(){
         } = supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
 
+            // If the user is logged in we will add them to the table of new users (if they are new)
             if (session){
                 const uuid = session.user.id;
                 generateCookie(uuid)
 
+                // Split the Google provided full name google metadata into firstname and surname components
+                // So that we can add these components to the User table if the user is new
                 const metaData = session.user.user_metadata
                 if (metaData && metaData.full_name) {
                     const splitName = metaData.full_name.split(' ');
@@ -63,10 +66,11 @@ function SupabaseLogin(){
                     const lastName = splitName.slice(1).join(' ') || '';
                     const email = session.user.email;
                     if (email) {
-                        addGoogleUserTable(email, firstName, lastName, session.user.id)
+                        addGoogleUserTable(email, firstName, lastName, session.user.id);
                     }
                 }
 
+                // navigate to the users recapped page
                 navigation(`/pages/Recapped/${uuid}`);
             }
         })
@@ -74,6 +78,7 @@ function SupabaseLogin(){
         return () => subscription.unsubscribe()
     }, [navigation])
 
+    // No logged in user returns Google button
     if (!session) {
         return <GoogleButton onClick={googleButtonHandler}></GoogleButton>
     }

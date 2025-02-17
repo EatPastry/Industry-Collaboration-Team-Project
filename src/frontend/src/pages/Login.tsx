@@ -27,6 +27,7 @@ function Login () {
         let responseMsg = document.getElementById('userResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
+            // Sign the user in using filled username and password. Generate a cookie and session
             if (await signInWithPassword(email, password)){
                 responseMsg.innerText = "";
 
@@ -64,6 +65,7 @@ function Login () {
                            onSubmit}>Log In
                        </button>
                    </div>
+                   {/*Call Supabase Login to check for existing session and if google button should be displayed*/}
                    <SupabaseLogin/>
 
                    <strong id="userResponse"></strong>

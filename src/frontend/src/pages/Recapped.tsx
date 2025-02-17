@@ -42,10 +42,10 @@ function Recapped() {
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   let [firstName, setFirstName] = useState('');
-    // checks that url is user specific
   const location = useLocation();
 
   useEffect(() => {
+    // Log user out if without session
     const hasSession = checkSession(navigation)
 
     async function fetchUserData() {
@@ -55,11 +55,14 @@ function Recapped() {
           return;
         }
 
+
+        // fetch current users firstname from the User table
         const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
         if (usersName) {
           setFirstName(usersName.firstName?.toString());
         }
 
+        // Fetch an instance of a transaction the current user has made from the Transaction table
         const { data, error } = await supabase
           .from("Transactions")
           .select("amountSpent")
@@ -83,39 +86,22 @@ function Recapped() {
 
     fetchUserData();
 
+
     return ()=> {
       clearInterval(hasSession)
     };
   }, [location.pathname, navigation]);
 
-
+  // Check that the current user has http cookie necessary for Recapped access
   const protectionError = ProtectUserRoutes(location.pathname);
-  console.log(location.pathname)
-  console.log(protectionError)
   if (protectionError != null) {
     return protectionError;
-  }
-
-  function function1() {
-    return "Value 1";
-  }
-
-  function function2() {
-    return "Value 2";
   }
 
   function function3() {
     return transactionAmount !== null
       ? `You spent £${transactionAmount} this year`
       : "Loading...";
-  } 
-
-  function function4() {
-    return "Value 4";
-  }
-
-  function function5() {
-    return "Value 5";
   }
 
   return (
@@ -131,11 +117,11 @@ function Recapped() {
             </div>
 
             <div className="test1">
-              <DataString functions={function1}/>
+              <DataString functions={() => {return "Value 1"}}/>
             </div>
 
             <div className="test2">
-              <DataString functions={function2}/>
+              <DataString functions={() => {return "Value 2"}}/>
             </div>
 
             <div className="test3">
@@ -143,11 +129,11 @@ function Recapped() {
             </div>
 
             <div className="test4">
-              <DataString functions={function4}/>
+              <DataString functions={() => {return "Value 4"}}/>
             </div>
 
             <div className="test5">
-              <DataString functions={function5}/>
+              <DataString functions={() => {return "Value 5"}}/>
             </div>
           </div>
         </div>

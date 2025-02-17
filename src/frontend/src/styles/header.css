@@ -1,8 +1,12 @@
+/*Styling for the UNiDAYS RECAPPED header*/
+
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap');
+
 
 /** {
     cursor : none ; 
 }*/
+
 
 header {
     background-color:  rgb(255, 255, 255);

@@ -8,8 +8,7 @@
     font-style: normal;
 }
 
-
-
+/*used by .colorBackground to shift the gradient over the course of 60 seconds*/
 @keyframes move {
     0%{
         background-position: 0 100%;
@@ -27,11 +26,13 @@
     right: 0;
     text-align: center;
 
+    /*Background colors are of UNiDAYS branding guidelines*/
     background: linear-gradient(270deg, #c3ffd3, #1343de, #00BCD2, #6a3af7);
     background-size: 300% 300%;
     animation: move 60s ease infinite;
 }
 
+/*Cursor properties for our custom cursor, currently disabled*/
 .cursor {
     position: fixed;
     width: 20px;
@@ -41,6 +42,8 @@
     box-shadow: 0 0 0 1px black;
 }
 
+
+/* Used by .login to fade the login and signup form in on navigation */
 @keyframes FadeIn {
     0% {
         opacity: 0;
@@ -52,7 +55,7 @@
     }
 }
 
-
+/*attributes given to the login and signup forms*/
 .login{
     position : absolute;
     display: flex;
@@ -85,7 +88,7 @@
     }
 
     label{
-        padding: 0rem;
+        padding: 0;
         margin: auto;
         font-size: 1rem;
     }
@@ -102,10 +105,12 @@
         font-size: 1rem;
     }
 
+    /*Input forms glow blue on hover*/
     input:hover {
         border-color: #1343de;
     }
 
+    /*input forms stay blue on focus*/
     input:focus {
         border-width: 2px;
         border-color: #1343de;
@@ -126,6 +131,7 @@
         color: #ffffff;
     }
 
+    /*Have used inverted colours that the action button akin to google sign in*/
     #switchBtn{
         color: #1343de;
         background-color: #ffffff;
@@ -135,10 +141,12 @@
         margin-right: 20px;
     }
 
+    /*Switch Button glows light blue on hover*/
     #switchBtn:hover{
         background-color: lightblue;
     }
 
+    /*User response upon login/signup error*/
     #userResponse{
         display: block;
         min-height: 25px;
@@ -154,12 +162,14 @@
       }
 }
 
+/*modifies the .login width for smaller devices (e.g. phones)*/
 @media screen and (max-width: 500px) {
     .login{
         width: 100vw;
     }
 }
 
+/*modifies the .login margin-top for smaller devices (e.g. phones)*/
 @media screen and (max-height: 800px) {
     .login {
         margin-top: 10vh;
@@ -169,6 +179,7 @@
 .Recapped {
     height: 100vh;
 
+    /*Each test function div is given an animation and the same attributes*/
     [class^="test"]{
         position: absolute;
         animation: FadeIn 0.6s ease-out forwards;
@@ -186,6 +197,8 @@
             transform: scale(1.1);
         }
     }
+
+    /*Used to scatter the test functions about the Recapped page such that they resize appropiately with smaller screens*/
 
     .test1 {
         top: 70vh;
