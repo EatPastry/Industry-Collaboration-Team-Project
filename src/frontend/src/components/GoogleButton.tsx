@@ -1,10 +1,25 @@
 import React from "react";
 import '../styles/googleButton.css'
 
-// taken from https://developers.google.com/identity/branding-guidelines
-function GoogleButton(){
+/**
+ * interface used for onClick functionality with GoogleButton such that {@link googleButtonHandler} is called
+ */
+interface GoogleButtonProps{
+    onClick?: () => void;
+}
+
+/**
+ * returns HTML for Sign in with Google button
+ * taken from https://developers.google.com/identity/branding-guidelines
+ *
+ * @param onClick is of GoogleButtonProps
+ */
+function GoogleButton({ onClick }: GoogleButtonProps) {
     return (
-        <button className="gsi-material-button">
+        <button className="gsi-material-button" onClick={(e) => {
+            e.preventDefault();
+            if (onClick) onClick();
+        }}>
             <div className="gsi-material-button-state"></div>
             <div className="gsi-material-button-content-wrapper">
                 <div className="gsi-material-button-icon">
@@ -21,8 +36,8 @@ function GoogleButton(){
                         <path fill="none" d="M0 0h48v48H0z"></path>
                     </svg>
                 </div>
-                <span className="gsi-material-button-contents">Sign in with Google</span>
-                <span style={{display: "none"}}>Sign in with Google</span>
+                <span className="gsi-material-button-contents">Log in with Google</span>
+                <span style={{display: "none"}}>Log in with Google</span>
             </div>
         </button>
     );

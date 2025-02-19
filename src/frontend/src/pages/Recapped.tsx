@@ -1,41 +1,79 @@
-import React, { useEffect, useState } from 'react';
-import { createClient } from "@supabase/supabase-js"
-import { useLocation } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import DataString from '../components/DataString';
-import { ProtectUserRoutes } from "../components/ProtectRoutes";
+import {ProtectUserRoutes} from '../components/ProtectRoutes';
+import {supabase} from '../utils/supabase'
+import {clearCookie, parseToken} from "../controller/Authentication";
 import { ShareFileButton } from "../components/ShareButton";
 
-// Supabase client initialization
-const supabase = createClient(
-  "https://bplqbfrbhimqbsvqyrhw.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbHFiZnJiaGltcWJzdnF5cmh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2MjA2NjYsImV4cCI6MjA0ODE5NjY2Nn0.xH5sdfWFLo5WOVqtr-uhXQ1s-hS6DLtVRLnLLa5u6Ik"
-);
+/**
+ * Checks every 3 seconds that the session is still active <br>
+ * if the session is stale it logs the user out by clearing cookies
+ *
+ * @param navigation of useNavigate() to navigate to Log in (/) page
+ */
+export function checkSession(navigation : NavigateFunction){
+  return setInterval(async () => {
+    let { error} = await supabase.auth.getUser();
+    if (error) {
+      clearCookie(parseToken());
+      navigation(`/`);
+    }
+  }, 3000)
+}
 
+/**
+ * Handles user sign out. <br>
+ * Closes Session and Clears User cookies
+ *
+ * @param navigation of useNavigate() to navigate to Log in (/) page
+ */
+async function signOut(navigation : NavigateFunction){
+  clearCookie(parseToken());
+  await supabase.auth.signOut();
+  navigation(`/`);
+}
+
+/**
+ * Generates Recapped page for logged in user
+ * @constructor
+ */
 function Recapped() {
+  const navigation = useNavigate();
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-
-    // checks that url is user specific
+  let [firstName, setFirstName] = useState('');
   const location = useLocation();
 
   useEffect(() => {
-    async function fetchTransactionAmount() {
+    // Log user out if without session
+    const hasSession = checkSession(navigation)
+
+    async function fetchUserData() {
       try {
-        const pathParts = location.pathname.split("/");
-        const simulatedUserID = pathParts[pathParts.length - 1] || "user1";
-        setUserName(simulatedUserID);
+        const {data : {session}} = await supabase.auth.getSession();
+        if (!session || !session.user){
+          return;
+        }
+
+
+        // fetch current users firstname from the User table
+        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+        if (usersName) {
+          setFirstName(usersName.firstName?.toString());
+        }
+
+        // Fetch an instance of a transaction the current user has made from the Transaction table
         const { data, error } = await supabase
           .from("Transactions")
-          .select("transactionAmount")
-          .eq("userID", simulatedUserID)
-          .single();
+          .select("amountSpent")
+          .eq("userID", session.user.id)
         if (error) {
           console.error("Error fetching transaction:", error);
           setTransactionAmount("Error fetching transaction");
         } else if (data) {
-          console.log("Transaction data fetched:", data);
-          setTransactionAmount(data.transactionAmount.toString());
+          console.log("Transaction data fetched");
+          setTransactionAmount(data[0].amountSpent.toString());
         } else {
           setTransactionAmount("No transaction data found");
         }
@@ -47,39 +85,24 @@ function Recapped() {
       }
     }
 
-    fetchTransactionAmount();
-  }, [location.pathname]);
+    fetchUserData();
 
 
+    return ()=> {
+      clearInterval(hasSession)
+    };
+  }, [location.pathname, navigation]);
 
-
+  // Check that the current user has http cookie necessary for Recapped access
   const protectionError = ProtectUserRoutes(location.pathname);
-  console.log(location.pathname)
-  console.log(protectionError)
   if (protectionError != null) {
     return protectionError;
-  }
-
-  function function1() {
-    return "Value 1";
-  }
-
-  function function2() {
-    return "Value 2";
   }
 
   function function3() {
     return transactionAmount !== null
       ? `You spent £${transactionAmount} this year`
       : "Loading...";
-  } 
-
-  function function4() {
-    return "Value 4";
-  }
-
-  function function5() {
-    return "Value 5";
   }
 
   function getStats() {
@@ -104,21 +127,22 @@ function Recapped() {
   return (
       
       <div className="Recapped">
+        <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
           <div className="container">
             <div className="user-greeting">
               {loading ? (
                   <p>Loading user data...</p>
               ) : (
-                  <header><h1>Hello, {userName ? userName : "User"}!</h1></header>
+                  <header><h1>Hello, {firstName}!</h1></header>
               )}
             </div>
 
             <div className="test1">
-              <DataString functions={function1}/>
+              <DataString functions={() => {return "Value 1"}}/>
             </div>
 
             <div className="test2">
-              <DataString functions={function2}/>
+              <DataString functions={() => {return "Value 2"}}/>
             </div>
 
             <div className="test3">
@@ -126,11 +150,11 @@ function Recapped() {
             </div>
 
             <div className="test4">
-              <DataString functions={function4}/>
+              <DataString functions={() => {return "Value 4"}}/>
             </div>
 
             <div className="test5">
-              <DataString functions={function5}/>
+              <DataString functions={() => {return "Value 5"}}/>
             </div>
 
             <div className="share-container">

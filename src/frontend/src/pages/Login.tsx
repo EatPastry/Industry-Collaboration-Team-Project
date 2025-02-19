@@ -3,8 +3,9 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
 import "../controller/Authentication";
-import {authenticateLogin} from "../controller/Authentication";
-import GoogleButton from "../components/GoogleButton";
+import {generateCookie, signInWithPassword} from "../controller/Authentication";
+import SupabaseLogin from "../components/SupabaseLogin";
+import {supabase} from "../utils/supabase";
 
 /**
  * Creates the elements for the Login page
@@ -18,17 +19,25 @@ function Login () {
     /**
      * Handler for Button of id `loginBtn`
      * <br>
-     * Calls {@Link validateLogin} for input validation
+     * Calls {@Link signInWithPassword} to sign in
      * <br>
      * On success Navigates to Home page {@Link Recapped}, else denies access and displays message
      */
     async function onSubmit (){
-        let responseMsg = document.getElementById('loginResponse') as HTMLInputElement;
+        let responseMsg = document.getElementById('userResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (await authenticateLogin(email, password)){
+            // Sign the user in using filled username and password. Generate a cookie and session
+            if (await signInWithPassword(email, password)){
                 responseMsg.innerText = "";
-                navigation(`pages/Recapped/${email}`);
+
+                const {data: {session}} = await supabase.auth.getSession();
+                if (session && session.user.email){
+                    generateCookie(session.user.id)
+                    navigation(`pages/Recapped/${session.user.id}`);
+                }else{
+                    responseMsg.innerText = "Server Error";
+                }
             }else{
                 responseMsg.innerText = "Invalid Credentials";
             }
@@ -56,9 +65,10 @@ function Login () {
                            onSubmit}>Log In
                        </button>
                    </div>
-                    <GoogleButton />
+                   {/*Call Supabase Login to check for existing session and if google button should be displayed*/}
+                   <SupabaseLogin/>
 
-                   <strong id="loginResponse"></strong>
+                   <strong id="userResponse"></strong>
                </form>
            </div>
             </div>
