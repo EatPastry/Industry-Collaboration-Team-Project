@@ -4,6 +4,7 @@ import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../controller/Authentication";
+import { ShareFileButton } from "../components/ShareButton";
 
 /**
  * Checks every 3 seconds that the session is still active <br>
