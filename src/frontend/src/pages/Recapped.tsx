@@ -104,7 +104,27 @@ function Recapped() {
       : "Loading...";
   }
 
+  function getStats() {
+    return transactionAmount !== null
+      ? `£${transactionAmount}`
+      : "";
+  }
+
+  function Stats() {
+    let value = getStats();
+    return (
+      <div>{value}</div>
+    );
+  }
+
+  function App() {
+    return (
+        <ShareFileButton/>
+    );
+  }
+
   return (
+      
       <div className="Recapped">
         <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
           <div className="container">
@@ -135,8 +155,14 @@ function Recapped() {
             <div className="test5">
               <DataString functions={() => {return "Value 5"}}/>
             </div>
+
+            <div className="share-container">
+              <App/>
+            </div>
+              
+            <canvas id="img-container" width="300" height="300"><Stats/></canvas>
           </div>
-        </div>
+      </div>
   );
 }
 
