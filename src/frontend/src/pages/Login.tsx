@@ -11,6 +11,7 @@ import {supabase} from "../utils/supabase";
  * Creates the elements for the Login page
  *@returns HTML elements of the login page
  */
+
 function Login () {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
