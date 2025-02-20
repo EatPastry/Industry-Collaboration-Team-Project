@@ -1,10 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-import DataString from '../components/DataString';
+// import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../controller/Authentication";
 import { ShareFileButton } from "../components/ShareButton";
+import {Button} from "@supabase/auth-ui-react/dist/components/UI";
+import Savings from "./recappedSubPages/Savings";
+import Brand from "./recappedSubPages/Brand";
+import ComparativeStats from "./recappedSubPages/ComparativeStats";
+import FunFacts from "./recappedSubPages/FunFacts";
+import Categories from "./recappedSubPages/Categories";
+import SeasonalSummaries from "./recappedSubPages/SeasonalSummaries";
+import ShoppingPatterns from "./recappedSubPages/ShoppingPatterns";
+import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
+
+
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -45,29 +56,56 @@ function Recapped() {
   let [firstName, setFirstName] = useState('');
   const location = useLocation();
 
+  //Recapped SubPage state Handling
+  const [savings, setSavings] = useState(false);
+  const [shoppingPatterns, setShoppingPatterns] = useState(false);
+  const [categories, setCategories] = useState(false);
+  const [seasonalSummaries, setSeasonalSummaries] = useState(false);
+  const [brand, setBrand] = useState(false);
+  const [comparativeStats, setComparativeStats] = useState(false);
+  const [timeBasedInsights, setTimeBasedInsights] = useState(false);
+  const [funFacts, setFunFacts] = useState(false);
+
+
+  /**
+   * When one subpage is returned when its corresponding button is pressed
+   * the other subpage states should be set to false
+   */
+   function toggleSubPages(subpage : string){
+    setSavings(subpage == "savings")
+    setShoppingPatterns(subpage == "shoppingPatterns")
+    setCategories(subpage == "categories")
+    setSeasonalSummaries(subpage == "seasonalSummaries")
+    setBrand(subpage == "brands")
+    setTimeBasedInsights(subpage == "timeBasedInsights")
+    setComparativeStats(subpage == "comparativeStats")
+    setFunFacts(subpage == "funFacts")
+  }
+
+
   useEffect(() => {
     // Log user out if without session
     const hasSession = checkSession(navigation)
 
     async function fetchUserData() {
       try {
-        const {data : {session}} = await supabase.auth.getSession();
-        if (!session || !session.user){
+        const {data: {session}} = await supabase.auth.getSession();
+        if (!session || !session.user) {
           return;
         }
 
 
         // fetch current users firstname from the User table
-        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+        const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
         if (usersName) {
           setFirstName(usersName.firstName?.toString());
         }
 
         // Fetch an instance of a transaction the current user has made from the Transaction table
-        const { data, error } = await supabase
-          .from("Transactions")
-          .select("amountSpent")
-          .eq("userID", session.user.id)
+        const {data, error} = await supabase
+            .from("Transactions")
+            .select("amountSpent")
+            .eq("userID", session.user.id)
         if (error) {
           console.error("Error fetching transaction:", error);
           setTransactionAmount("Error fetching transaction");
@@ -88,7 +126,7 @@ function Recapped() {
     fetchUserData();
 
 
-    return ()=> {
+    return () => {
       clearInterval(hasSession)
     };
   }, [location.pathname, navigation]);
@@ -99,22 +137,16 @@ function Recapped() {
     return protectionError;
   }
 
-  function function3() {
-    return transactionAmount !== null
-      ? `You spent £${transactionAmount} this year`
-      : "Loading...";
-  }
-
   function getStats() {
     return transactionAmount !== null
-      ? `£${transactionAmount}`
-      : "";
+        ? `£${transactionAmount}`
+        : "";
   }
 
   function Stats() {
     let value = getStats();
     return (
-      <div>{value}</div>
+        <div>{value}</div>
     );
   }
 
@@ -125,44 +157,47 @@ function Recapped() {
   }
 
   return (
-      
+
       <div className="Recapped">
-        <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
-          <div className="container">
-            <div className="user-greeting">
-              {loading ? (
-                  <p>Loading user data...</p>
-              ) : (
-                  <header><h1>Hello, {firstName}!</h1></header>
-              )}
-            </div>
-
-            <div className="test1">
-              <DataString functions={() => {return "Value 1"}}/>
-            </div>
-
-            <div className="test2">
-              <DataString functions={() => {return "Value 2"}}/>
-            </div>
-
-            <div className="test3">
-              <DataString functions={function3}/>
-            </div>
-
-            <div className="test4">
-              <DataString functions={() => {return "Value 4"}}/>
-            </div>
-
-            <div className="test5">
-              <DataString functions={() => {return "Value 5"}}/>
-            </div>
-
-            <div className="share-container">
-              <App/>
-            </div>
-              
-            <canvas id="img-container" width="300" height="300"><Stats/></canvas>
+        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
+        <div className="container">
+          <div className="user-greeting">
+            {loading ? (
+                <p>Loading user data...</p>
+            ) : (
+                <header><h1>Hello, {firstName}!</h1></header>
+            )}
           </div>
+          <br/>
+
+          {/*Add Recapped Sub page buttons*/}
+          <button onClick={() => toggleSubPages("savings")}>Savings</button>
+          <button onClick={() => toggleSubPages("shoppingPatterns")}>Shopping Patterns</button>
+          <button onClick={() => toggleSubPages("categories")}>Categories</button>
+          <button onClick={() => toggleSubPages("seasonalSummaries")}>Seasonal Summaries</button>
+          <button onClick={() => toggleSubPages("brands")}>Brands</button>
+          <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
+          <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
+          <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
+
+          <br/>
+
+          {/*Compare subpage state && return subpage if true*/}
+          {savings && <Savings/>}
+          {shoppingPatterns && <ShoppingPatterns/>}
+          {categories && <Categories/>}
+          {seasonalSummaries && <SeasonalSummaries/>}
+          {brand && <Brand/>}
+          {comparativeStats && <ComparativeStats/>}
+          {timeBasedInsights && <TimeBasedInsights/>}
+          {funFacts && <FunFacts/>}
+
+          <div className="share-container">
+            <App/>
+          </div>
+
+          <canvas id="img-container" width="300" height="300"><Stats/></canvas>
+        </div>
       </div>
   );
 }
