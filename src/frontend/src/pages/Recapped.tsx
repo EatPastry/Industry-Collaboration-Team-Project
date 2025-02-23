@@ -5,14 +5,11 @@ import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../controller/Authentication";
 import { ShareFileButton } from "../components/ShareButton";
-import {Button} from "@supabase/auth-ui-react/dist/components/UI";
 import Savings from "./recappedSubPages/Savings";
 import Brand from "./recappedSubPages/Brand";
 import ComparativeStats from "./recappedSubPages/ComparativeStats";
 import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
-import SeasonalSummaries from "./recappedSubPages/SeasonalSummaries";
-import ShoppingPatterns from "./recappedSubPages/ShoppingPatterns";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 
 
@@ -58,9 +55,7 @@ function Recapped() {
 
   //Recapped SubPage state Handling
   const [savings, setSavings] = useState(false);
-  const [shoppingPatterns, setShoppingPatterns] = useState(false);
   const [categories, setCategories] = useState(false);
-  const [seasonalSummaries, setSeasonalSummaries] = useState(false);
   const [brand, setBrand] = useState(false);
   const [comparativeStats, setComparativeStats] = useState(false);
   const [timeBasedInsights, setTimeBasedInsights] = useState(false);
@@ -73,12 +68,10 @@ function Recapped() {
    */
    function toggleSubPages(subpage : string){
     setSavings(subpage == "savings")
-    setShoppingPatterns(subpage == "shoppingPatterns")
     setCategories(subpage == "categories")
-    setSeasonalSummaries(subpage == "seasonalSummaries")
     setBrand(subpage == "brands")
-    setTimeBasedInsights(subpage == "timeBasedInsights")
     setComparativeStats(subpage == "comparativeStats")
+    setTimeBasedInsights(subpage == "timeBasedInsights")
     setFunFacts(subpage == "funFacts")
   }
 
@@ -172,9 +165,7 @@ function Recapped() {
 
           {/*Add Recapped Sub page buttons*/}
           <button onClick={() => toggleSubPages("savings")}>Savings</button>
-          <button onClick={() => toggleSubPages("shoppingPatterns")}>Shopping Patterns</button>
           <button onClick={() => toggleSubPages("categories")}>Categories</button>
-          <button onClick={() => toggleSubPages("seasonalSummaries")}>Seasonal Summaries</button>
           <button onClick={() => toggleSubPages("brands")}>Brands</button>
           <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
           <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
@@ -184,9 +175,7 @@ function Recapped() {
 
           {/*Compare subpage state && return subpage if true*/}
           {savings && <Savings/>}
-          {shoppingPatterns && <ShoppingPatterns/>}
           {categories && <Categories/>}
-          {seasonalSummaries && <SeasonalSummaries/>}
           {brand && <Brand/>}
           {comparativeStats && <ComparativeStats/>}
           {timeBasedInsights && <TimeBasedInsights/>}

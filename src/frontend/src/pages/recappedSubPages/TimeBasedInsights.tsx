@@ -10,7 +10,10 @@ function TimeBasedInsights(){
 
     return (
         <div>
-            No Time Based Insights
+            <br/>
+            <header>
+                No Time Based Insights
+            </header>
         </div>
     );
 }

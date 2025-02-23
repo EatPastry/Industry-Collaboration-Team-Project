@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
+import {createJsWithBabelEsmLegacyPreset} from "ts-jest";
 
 
 
@@ -8,7 +9,6 @@ function Savings(){
     const [numMonthsNetflix, setNumMonthsNetflix] = useState<number | null>(null);
     const [bestDay, setBestDay] = useState<string | null>(null);
     const [bestDayAmount, setBestDayAmount] = useState<number | null>(null);
-    const [userPercentile, setUserPercentile] = useState<string | null>(null);
     const [numGroceryWeeks, setGroceryWeeks] = useState<number | null>(null);
 
 
@@ -45,7 +45,12 @@ function Savings(){
             }
             const date = t.transactionTimestamp.split('T')[0];
             const saving = (t.amountSpent * t.discountPercentage) / 100;
-            sum[date] = (sum[date] || 0) + saving;
+
+            if(!sum[date]){
+                sum[date] = saving;
+            }else{
+                sum[date] += saving;
+            }
             return sum;
         }, {});
 
@@ -59,14 +64,17 @@ function Savings(){
     calculateSavings()
 
     return (
-        <div>
-        <br/>
-            <ul>
-                <li>You saved £{totalSaved} this year with student discounts! That's like {numMonthsNetflix} months of Netflix! </li>
-                <li>Your best shopping day was {bestDay} when you saved £{bestDayAmount} in a single purchase</li>
-                <li>You're in the top {userPercentile}% of shoppers among UniDays users</li>
-                <li>Your discounts could buy {numGroceryWeeks} weeks of groceries! </li>
-            </ul>
+        <div className={"container"}>
+            <br/>
+            <header>
+                <ul>
+                    <li>You saved £{totalSaved} this year with student discounts! That's like {numMonthsNetflix} months
+                        of Netflix!
+                    </li>
+                    <li>Your best shopping day was {bestDay} when you saved £{bestDayAmount} in a single purchase</li>
+                    <li>Your discounts could buy {numGroceryWeeks} weeks of groceries!</li>
+                </ul>
+            </header>
         </div>
     );
 }

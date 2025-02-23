@@ -10,6 +10,10 @@ function Brand(){
 
     return (
         <div>
+            <br/>
+            <header>
+                No Brands
+            </header>
         </div>
     );
 }

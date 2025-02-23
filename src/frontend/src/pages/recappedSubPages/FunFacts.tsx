@@ -8,7 +8,10 @@ function FunFacts(){
 
     return (
         <div>
-            no fun facts
+            <br/>
+            <header>
+                no fun facts
+            </header>
         </div>
     );
 }
