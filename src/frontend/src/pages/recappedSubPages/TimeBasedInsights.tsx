@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
+/**
+ * Returns time based insights for the current signed-in User
+ */
 function TimeBasedInsights(){
     const [summerSaving, setSummerSaving] = useState(0);
 
@@ -12,6 +15,8 @@ function TimeBasedInsights(){
     const [latestPurchaseDate, setLatestPurchaseDate] = useState('');
     const [latestPurchasePrice, setLatestPurchasePrice] = useState(0);
 
+
+
     async function calculateTimeInsights(){
         const {data: {session}} = await supabase.auth.getSession();
         if (!session || !session.user) {
@@ -20,6 +25,7 @@ function TimeBasedInsights(){
 
         const userID = session.user.id;
 
+        // Select all transactions of the current signed-in user
         const {data: userTransactions} = await supabase
             .from("Transactions")
             .select("*")
@@ -54,10 +60,11 @@ function TimeBasedInsights(){
         }, 0)
 
         if (summerSaving){
+            // Sets the summer saving value to 2 dp
             setSummerSaving(summerSaving.toFixed(2))
         }
 
-
+        // takes the first and last purchase from first/last index of userTransactions
         const firstPurchase = userTransactions[0];
         const latestPurchase = userTransactions[userTransactions.length - 1];
 
@@ -65,9 +72,11 @@ function TimeBasedInsights(){
             if (firstPurchase.transactionTimestamp){
                 setFirstPurchaseDate(new Date(firstPurchase.transactionTimestamp).toLocaleDateString());
             }
-            const firstPrice = (firstPurchase.amountSpent - ((firstPurchase.amountSpent * firstPurchase.discountPercentage)/100))
+            // Calculate the first price the student paid
+            const firstPrice = firstPurchase.amountSpent - ((firstPurchase.amountSpent * firstPurchase.discountPercentage)/100)
             setFirstPurchasePrice(Number(firstPrice.toFixed(2)));
 
+            // Search through the Partner Table for the partner Name for the first Purchase
             if (firstPurchase.partnerID){
                 const {data : firstPartner} =
                     await supabase.from("Partner")
@@ -82,9 +91,12 @@ function TimeBasedInsights(){
             if (latestPurchase.transactionTimestamp){
                 setLatestPurchaseDate(new Date(latestPurchase.transactionTimestamp).toLocaleDateString());
             }
-            const latestPrice = (latestPurchase.amountSpent - ((latestPurchase.amountSpent * latestPurchase.discountPercentage)/100))
+
+            // Calculate the latest price the student paid
+            const latestPrice = latestPurchase.amountSpent - ((latestPurchase.amountSpent * latestPurchase.discountPercentage)/100)
             setLatestPurchasePrice(Number(latestPrice.toFixed(2)));
 
+            // Search through the Partner Table for the partner Name for the Latest Purchase
             if (latestPurchase.partnerID){
                 const {data : latestPartner} =
                     await supabase.from("Partner")

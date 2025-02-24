@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
+/**
+ * Returns comparative statistics between the current signed-in user and other users
+ */
 function ComparativeStats(){
     const [percentRank, setPercentRank] = useState(0);
     const [percentExplored, setPercentExplored] = useState(0);
@@ -8,6 +11,8 @@ function ComparativeStats(){
     const [userRarity, setUserRarity] = useState("");
     const [rarityColour, setRarityColour] = useState("Black");
 
+
+    // Map levels to the rarity of the level and the css colour that should be displayed
     const levelMap = [
         [15, 'Common', 'green'],
         [30, 'Rare', 'darkblue'],
@@ -27,6 +32,7 @@ function ComparativeStats(){
 
         const userID = session.user.id;
 
+        // Select all transactions of the current signed-in user
         const {data : userTransactions} = await supabase
             .from('Transactions')
             .select('amountSpent, discountPercentage, partnerID')
@@ -36,10 +42,11 @@ function ComparativeStats(){
             return;
         }
 
+        // Calculate the Savings for each transaction, then sum to find total savings
         const savings = userTransactions.map(t => ((t.amountSpent * t.discountPercentage) / 100))
         const calculateTotalSaved = Math.floor(savings.reduce((sum, val) => sum + val, 0)) || 0
 
-
+        // Select transactions for all users
         const {data : allTransactions} = await supabase
             .from('Transactions')
             .select('userID, partnerID, amountSpent, discountPercentage')
@@ -48,6 +55,7 @@ function ComparativeStats(){
             return
         }
 
+        // Calculate the total savings for each user in the transactions table
         const savingsPerUser =  allTransactions.reduce((sum:  Record<string, number>, t) => {
             const amountSaved = (t.amountSpent * t.discountPercentage) / 100
 
@@ -59,10 +67,11 @@ function ComparativeStats(){
             return sum;
         }, {})
 
+        // Sort by savings per user to find the user savings rank
         const allSavings = Object.values(savingsPerUser).sort((a : number, b : number) => b - a);
         let rankUser = allSavings.findIndex(rank => rank <= calculateTotalSaved)
 
-        // if find Index returns -1
+        // if findUser Index is -1
         if (rankUser === -1) {
             rankUser = allSavings.length;
         }
@@ -71,10 +80,11 @@ function ComparativeStats(){
         if (allSavings.length === 0){
             setPercentRank(100);
         }else {
+            // Calculate the Percentile rank for the current user
             setPercentRank(Number((100-((1 - (rankUser / (allSavings.length))) * 100)).toFixed(2)));
         }
 
-
+        // Calculate the set of brands the current user has purchased from
         const brandsExplored = new Set(userTransactions.map(t => t.partnerID)).size;
 
         // Calculate the partners per each user, store them in a set
@@ -86,16 +96,18 @@ function ComparativeStats(){
             return sum;
         }, {})
 
-
+        // Calculate the average number of partners per user
         const avgPartnersPerUser = Object.values(partnersPerUser).reduce((sum, partners) => sum + partners.size, 0) / Object.keys(partnersPerUser).length
 
 
         if (brandsExplored === 0){
             setPercentExplored(0);
         }else {
+            // Calculate percentage deviation from the average of brands explored
             setPercentExplored(Number((((brandsExplored / avgPartnersPerUser) - 1) * 100).toFixed(2)));
         }
 
+        // Set the user level, and the corresponding userRarity and colour using the levelMap 2d arr
         setUserLevel(Math.floor(100-percentRank))
         for (let i = 0; i < levelMap.length; i++) {
             if (levelMap[i][0] > (userLevel)){

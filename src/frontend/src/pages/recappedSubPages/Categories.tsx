@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
 
-
+/**
+ * Returns category statistics for the current signed-in user
+ */
 function Categories(){
 
     // modeCategory variable used for most commonly shopped category e.g. Fashion or Technology

@@ -2,7 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
 
-
+/**
+ * Returns brand statistics for the current signed-in User
+ */
 function Brand() {
 
     // modeBrand variable used for most commonly shopped category e.g. Starbucks or Nike

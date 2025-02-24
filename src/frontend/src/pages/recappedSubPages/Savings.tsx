@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
-import {createJsWithBabelEsmLegacyPreset} from "ts-jest";
 
 
-
+/**
+ * Returns Savings based metrics for the current signed-in User
+ */
 function Savings(){
     const [totalSaved, setTotalSaved] = useState<number | null>(null);
     const [numMonthsNetflix, setNumMonthsNetflix] = useState<number | null>(null);
@@ -19,6 +20,7 @@ function Savings(){
 
         const userID = session.user.id;
 
+        // Select all transactions of the current signed-in user
         const {data: userTransactions} = await supabase
             .from("Transactions")
             .select("*")
@@ -28,6 +30,7 @@ function Savings(){
             return;
         }
 
+        // Calculate the Saving for each transaction for the current signed-in user, then Sum these Savings
         const savings = userTransactions.map(t => ((t.amountSpent * t.discountPercentage) / 100))
         const calculateTotalSaved = Math.floor(savings.reduce((sum, val) => sum + val, 0)) || 0
         setTotalSaved(calculateTotalSaved);
@@ -38,6 +41,8 @@ function Savings(){
         // taking the price of groceries per week to be 42 pounds per person
         setGroceryWeeks(Math.floor(calculateTotalSaved / 42))
 
+
+        // Calculate the savings for each day for the current user
         const dailySavings : Record<string, number> = userTransactions.reduce((sum, t) => {
             if (!t.transactionTimestamp) {
                 return sum;
@@ -53,11 +58,15 @@ function Savings(){
             return sum;
         }, {});
 
+
+        // Of the daily savings calculate the highest saving
         const bestDay= Object.entries(dailySavings)
             .reduce((best, candidate) => candidate[1] > best[1] ? candidate : best, ["", 0]);
 
+        // Get the date of the highest saving from index 0 of bestDay
         setBestDay(new Date(bestDay[0]).toLocaleDateString());
 
+        // Get the Price of the highest saving from index 1 of bestDay
         setBestDayAmount(bestDay[1]);
     }
 
