@@ -11,7 +11,6 @@ function Savings(){
     const [bestDayAmount, setBestDayAmount] = useState<number | null>(null);
     const [numGroceryWeeks, setGroceryWeeks] = useState<number | null>(null);
 
-
     async function calculateSavings(): Promise<void> {
         const {data: {session}} = await supabase.auth.getSession();
         if (!session || !session.user) {
@@ -54,14 +53,18 @@ function Savings(){
             return sum;
         }, {});
 
-        const bestDay= Object.entries(dailySavings).reduce((best, candidate) => candidate[1] > best[1] ? candidate : best, ["", 0]);
+        const bestDay= Object.entries(dailySavings)
+            .reduce((best, candidate) => candidate[1] > best[1] ? candidate : best, ["", 0]);
 
         setBestDay(new Date(bestDay[0]).toLocaleDateString());
 
         setBestDayAmount(bestDay[1]);
     }
 
-    calculateSavings()
+    // So that it only runs when a change occurs and not every rerender
+    useEffect(() => {
+        calculateSavings()
+    },[]);
 
     return (
         <div className={"container"}>

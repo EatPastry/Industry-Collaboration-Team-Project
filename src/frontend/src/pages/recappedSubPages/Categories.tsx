@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
 
@@ -39,6 +39,7 @@ function Categories(){
             .from("Partner")
             .select("partnerID, shopCategory")
             .in("partnerID", partnerIDs);
+
         // Error check the partnerData
         if (partnerError || !partnerData) {
             console.error("Error fetching partner categories:", partnerError?.message);
@@ -63,28 +64,21 @@ function Categories(){
         }
     }
 
-    calculateCategories();
+    // So that it only runs when a change occurs and not every rerender
+    useEffect(() => {
+        calculateCategories()
+    },[]);
+
 
     // Return message
     return (
-        <div>You love to shop in {modeCategory}!</div>
+        <div>
+            <br/>
+            <header>
+             You love to shop in {modeCategory}!
+            </header>
+        </div>
     );
-
-
-// * "You're a Fashion Fanatic! {X}% of your shopping was in fashion"
-//     * "Tech Trendsetter: You spent more on tech than {X}% of students"
-//     * "Beauty Buff: You tried {X} different beauty brands this year"
-//     * "Foodie Alert: You ordered enough to feed a small army - {X} food orders!"
-//
-//     return (
-//         <div>
-//             <br/>
-//             <text>You saved £{totalSaved} this year with student discounts! That's like {numMonths} months of Netflix! </text>
-//             <text>Your best shopping day was {shoppingDate} when you saved £{savingAmount} in a single purchase"</text>
-//             <text>You're in the top {userPercentile}% of savvy shoppers among UniDays users </text>
-//             <text>Your discounts could buy {numWeeks} weeks of groceries! </text>
-//         </div>
-//     );
 }
 
 

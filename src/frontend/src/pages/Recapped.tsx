@@ -3,7 +3,7 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 // import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
-import {clearCookie, parseToken} from "../controller/Authentication";
+import {clearCookie, parseToken} from "../services/Authentication";
 import { ShareFileButton } from "../components/ShareButton";
 import Savings from "./recappedSubPages/Savings";
 import Brand from "./recappedSubPages/Brand";

@@ -2,8 +2,8 @@ import '../styles/styles.css'
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
-import "../controller/Authentication";
-import {generateCookie, signInWithPassword} from "../controller/Authentication";
+import "../services/Authentication";
+import {generateCookie, signInWithPassword} from "../services/Authentication";
 import SupabaseLogin from "../components/SupabaseLogin";
 import {supabase} from "../utils/supabase";
 

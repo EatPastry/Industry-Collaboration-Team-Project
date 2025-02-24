@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
 function ComparativeStats(){
@@ -32,7 +32,7 @@ function ComparativeStats(){
             .select('amountSpent, discountPercentage, partnerID')
             .eq('userID', userID)
 
-        if (userTransactions == null) {
+        if (userTransactions === null) {
             return;
         }
 
@@ -44,7 +44,7 @@ function ComparativeStats(){
             .from('Transactions')
             .select('userID, partnerID, amountSpent, discountPercentage')
 
-        if (allTransactions == null) {
+        if (allTransactions === null) {
             return
         }
 
@@ -68,10 +68,10 @@ function ComparativeStats(){
         }
 
         // Check all savings length to avoid division by zero
-        if (allSavings.length == 0){
+        if (allSavings.length === 0){
             setPercentRank(100);
         }else {
-            setPercentRank(Number((100-((1 - (rankUser / (allSavings.length))) * 100)).toFixed(5)));
+            setPercentRank(Number((100-((1 - (rankUser / (allSavings.length))) * 100)).toFixed(2)));
         }
 
 
@@ -90,7 +90,7 @@ function ComparativeStats(){
         const avgPartnersPerUser = Object.values(partnersPerUser).reduce((sum, partners) => sum + partners.size, 0) / Object.keys(partnersPerUser).length
 
 
-        if (brandsExplored == 0){
+        if (brandsExplored === 0){
             setPercentExplored(0);
         }else {
             setPercentExplored(Number((((brandsExplored / avgPartnersPerUser) - 1) * 100).toFixed(2)));
@@ -104,13 +104,13 @@ function ComparativeStats(){
                 break;
             }
         }
+
     }
 
     calculateComparativeStats()
 
     return (
         <div>
-
             <br/>
             <header>
                 <ul>

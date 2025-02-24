@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {supabase} from "../../utils/supabase";
 
 
@@ -64,13 +64,21 @@ function Brand() {
         }
     }
 
-    calculateBrands();
+    // So that it only runs when a change occurs and not every rerender
+    useEffect(() => {
+        calculateBrands()
+    },[]);
+
 
     return (
-        <div>Your favorite brand was {modeBrand}!</div>
+        <div>
+            <br/>
+            <header>
+                Your favorite brand was {modeBrand}!
+            </header>
+        </div>
     );
 }
-
 
 export default Brand;
 

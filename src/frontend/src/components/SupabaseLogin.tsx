@@ -3,7 +3,7 @@ import { supabase } from '../utils/supabase'
 import { Session } from '@supabase/supabase-js';
 import GoogleButton from "./GoogleButton";
 import {useNavigate} from "react-router-dom";
-import {generateCookie} from "../controller/Authentication";
+import {generateCookie} from "../services/Authentication";
 
 
 /**
