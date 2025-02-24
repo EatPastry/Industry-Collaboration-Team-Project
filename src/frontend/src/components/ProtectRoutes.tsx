@@ -1,7 +1,7 @@
 import React from "react";
 import {Navigate} from "react-router-dom";
-import "../controller/Authentication.ts";
-import {isAuthenticated, isUserSpecific} from "../controller/Authentication";
+import "../services/Authentication.ts";
+import {isAuthenticated, isUserSpecific} from "../services/Authentication";
 import {supabase} from "../utils/supabase";
 
 interface ProtectRoutesProps{
