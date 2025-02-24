@@ -5,6 +5,19 @@ function ComparativeStats(){
     const [percentRank, setPercentRank] = useState(0);
     const [percentExplored, setPercentExplored] = useState(0);
     const [userLevel, setUserLevel] = useState(0);
+    const [userRarity, setUserRarity] = useState("");
+    const [rarityColour, setRarityColour] = useState("Black");
+
+    const levelMap = [
+        [15, 'Common', 'green'],
+        [30, 'Rare', 'darkblue'],
+        [45, 'Epic', 'purple'],
+        [60, 'Legendary', 'red'],
+        [75, 'Mythic', 'lightblue'],
+        [90, 'Ultra', 'darkred'],
+        [100, 'Super', 'lightgreen'],
+    ]
+
 
     async function calculateComparativeStats(){
         const {data: {session}} = await supabase.auth.getSession();
@@ -82,6 +95,15 @@ function ComparativeStats(){
         }else {
             setPercentExplored(Number((((brandsExplored / avgPartnersPerUser) - 1) * 100).toFixed(2)));
         }
+
+        setUserLevel(Math.floor(100-percentRank))
+        for (let i = 0; i < levelMap.length; i++) {
+            if (levelMap[i][0] > (userLevel)){
+                setUserRarity(levelMap[i][1].toString());
+                setRarityColour(levelMap[i][2].toString())
+                break;
+            }
+        }
     }
 
     calculateComparativeStats()
@@ -94,7 +116,8 @@ function ComparativeStats(){
                 <ul>
                     <li>You're in the top {percentRank}% of shoppers</li>
                     <li>Your shopping game is strong - you explored {percentExplored}% more brands than average</li>
-                    <li>You are a Level {userLevel} saver</li>
+                    <li>You are a Level {userLevel} saver of {' '}
+                    <span style={{color: rarityColour}}>{userRarity}</span> status</li>
                 </ul>
             </header>
         </div>
