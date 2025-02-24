@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {supabase} from "../../utils/supabase";
+import {getCurrentUserTransactions} from "../../services/API";
 
 
 /**
@@ -13,20 +13,8 @@ function Savings(){
     const [numGroceryWeeks, setGroceryWeeks] = useState<number | null>(null);
 
     async function calculateSavings(): Promise<void> {
-        const {data: {session}} = await supabase.auth.getSession();
-        if (!session || !session.user) {
-            return;
-        }
-
-        const userID = session.user.id;
-
-        // Select all transactions of the current signed-in user
-        const {data: userTransactions} = await supabase
-            .from("Transactions")
-            .select("*")
-            .eq("userID", userID)
-
-        if (userTransactions == null) {
+        const userTransactions = await getCurrentUserTransactions();
+        if (!userTransactions){
             return;
         }
 

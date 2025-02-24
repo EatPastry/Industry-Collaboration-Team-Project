@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {supabase} from "../../utils/supabase";
+import {getCurrentUserTransactions, getSinglePartnerName} from "../../services/API";
 
 /**
  * Returns time based insights for the current signed-in User
@@ -18,21 +18,8 @@ function TimeBasedInsights(){
 
 
     async function calculateTimeInsights(){
-        const {data: {session}} = await supabase.auth.getSession();
-        if (!session || !session.user) {
-            return;
-        }
-
-        const userID = session.user.id;
-
-        // Select all transactions of the current signed-in user
-        const {data: userTransactions} = await supabase
-            .from("Transactions")
-            .select("*")
-            .eq("userID", userID)
-
-        if (userTransactions == null) {
-            console.error("Error fetching user transactions");
+        const userTransactions = await getCurrentUserTransactions();
+        if (!userTransactions){
             return;
         }
 
@@ -78,13 +65,10 @@ function TimeBasedInsights(){
 
             // Search through the Partner Table for the partner Name for the first Purchase
             if (firstPurchase.partnerID){
-                const {data : firstPartner} =
-                    await supabase.from("Partner")
-                        .select("partnerName")
-                        .eq("partnerID", firstPurchase.partnerID).single()
-
-                    if (firstPartner){
-                        setFirstPurchaseName(firstPartner.partnerName);
+                // fetch the partner name using the partner ID
+                const partnerName = await getSinglePartnerName(firstPurchase.partnerID)
+                    if (partnerName){
+                        setFirstPurchaseName(partnerName);
                     }
             }
 
@@ -98,13 +82,10 @@ function TimeBasedInsights(){
 
             // Search through the Partner Table for the partner Name for the Latest Purchase
             if (latestPurchase.partnerID){
-                const {data : latestPartner} =
-                    await supabase.from("Partner")
-                        .select("partnerName")
-                        .eq("partnerID", latestPurchase.partnerID).single()
-
-                if (latestPartner){
-                    setLatestPurchaseName(latestPartner.partnerName);
+                // fetch the partner name using the partner ID
+                const partnerName = await getSinglePartnerName(latestPurchase.partnerID)
+                if (partnerName){
+                    setLatestPurchaseName(partnerName);
                 }
             }
         }

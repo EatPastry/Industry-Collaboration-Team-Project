@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {supabase} from "../../utils/supabase";
+import {getCurrentUserTransactions, getSession, getEveryUsersTransactions} from "../../services/API";
 
 /**
  * Returns comparative statistics between the current signed-in user and other users
@@ -25,20 +25,16 @@ function ComparativeStats(){
 
 
     async function calculateComparativeStats(){
-        const {data: {session}} = await supabase.auth.getSession();
-        if (!session || !session.user) {
+        const session = await getSession();
+
+        if (!session){
             return;
         }
 
         const userID = session.user.id;
 
-        // Select all transactions of the current signed-in user
-        const {data : userTransactions} = await supabase
-            .from('Transactions')
-            .select('amountSpent, discountPercentage, partnerID')
-            .eq('userID', userID)
-
-        if (userTransactions === null) {
+        const userTransactions = await getCurrentUserTransactions();
+        if (!userTransactions){
             return;
         }
 
@@ -46,13 +42,10 @@ function ComparativeStats(){
         const savings = userTransactions.map(t => ((t.amountSpent * t.discountPercentage) / 100))
         const calculateTotalSaved = Math.floor(savings.reduce((sum, val) => sum + val, 0)) || 0
 
-        // Select transactions for all users
-        const {data : allTransactions} = await supabase
-            .from('Transactions')
-            .select('userID, partnerID, amountSpent, discountPercentage')
-
-        if (allTransactions === null) {
-            return
+        // Get transactions for all users
+        const allTransactions = await getEveryUsersTransactions();
+        if (!allTransactions){
+            return;
         }
 
         // Calculate the total savings for each user in the transactions table

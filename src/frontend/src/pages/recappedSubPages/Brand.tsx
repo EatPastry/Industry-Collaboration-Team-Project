@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {supabase} from "../../utils/supabase";
+// import {supabase} from "../../utils/supabase";
+import {getCurrentUserTransactions, getPartnerIds} from "../../services/API";
 
 
 /**
@@ -13,38 +14,17 @@ function Brand() {
 
     // Function to calculate and set category variables
     async function calculateBrands(): Promise<void> {
-
-        // getSession from supabase
-        const {data: {session}} = await supabase.auth.getSession();
-        if (!session || !session.user) {
-            return;
-        }
-        // Assign userID variable for transaction search
-        const userID = session.user.id;
-
-        // Pull all transactions associated with a given user
-        const {data: userTransactions} = await supabase
-            .from("Transactions")
-            .select("*")
-            .eq("userID", userID)
-
-        // Error check transaction pull
-        if (userTransactions == null) {
-            console.error("Error fetching user transactions");
+        const userTransactions = await getCurrentUserTransactions();
+        if (!userTransactions){
             return;
         }
 
         // Map a list of partnerIDs from the userTransactions
         const partnerIDs = userTransactions.map((t) => t.partnerID);
 
-        // Pull the partnerData for each partnerID
-        const { data: partnerData, error: partnerError } = await supabase
-            .from("Partner")
-            .select("partnerID, partnerName")
-            .in("partnerID", partnerIDs);
-        // Error check the partnerData
-        if (partnerError || !partnerData) {
-            console.error("Error fetching partner categories:", partnerError?.message);
+        // Fetch Partner for PartnerID
+        const partnerData = await getPartnerIds(partnerIDs)
+        if (!partnerData) {
             return;
         }
 
