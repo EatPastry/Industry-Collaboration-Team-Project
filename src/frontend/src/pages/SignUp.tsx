@@ -1,10 +1,10 @@
 import '../styles/styles.css'
 import React, {useRef, useState} from 'react';
 import Header from '../components/Header'
-import "../controller/Authentication";
+import "../services/Authentication";
 import {useNavigate} from 'react-router-dom';
 import SupabaseLogin from "../components/SupabaseLogin";
-import {createAccount, generateCookie, signInWithPassword} from "../controller/Authentication";
+import {createAccount, generateCookie, signInWithPassword} from "../services/Authentication";
 import {supabase} from "../utils/supabase";
 
 /**
