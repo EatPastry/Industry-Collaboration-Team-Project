@@ -137,7 +137,7 @@ Specific guidlines when creating git issues:
 >
 > If a branch for a function exists it may be better to switch to that branch instead of making a new one
 
-
+ 
 
 ## Commit Message Guidelines
 

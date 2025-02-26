@@ -2,8 +2,8 @@ import '../styles/styles.css'
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Header from '../components/Header'
-import "../controller/Authentication";
-import {generateCookie, validateLogin} from "../controller/Authentication";
+import "../services/Authentication";
+import {generateCookie, signInWithPassword} from "../services/Authentication";
 import SupabaseLogin from "../components/SupabaseLogin";
 import {supabase} from "../utils/supabase";
 
@@ -11,6 +11,7 @@ import {supabase} from "../utils/supabase";
  * Creates the elements for the Login page
  *@returns HTML elements of the login page
  */
+
 function Login () {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -19,7 +20,7 @@ function Login () {
     /**
      * Handler for Button of id `loginBtn`
      * <br>
-     * Calls {@Link validateLogin} for input validation
+     * Calls {@Link signInWithPassword} to sign in
      * <br>
      * On success Navigates to Home page {@Link Recapped}, else denies access and displays message
      */
@@ -27,7 +28,8 @@ function Login () {
         let responseMsg = document.getElementById('userResponse') as HTMLInputElement;
 
         if (responseMsg != null) {
-            if (await validateLogin(email, password)){
+            // Sign the user in using filled username and password. Generate a cookie and session
+            if (await signInWithPassword(email, password)){
                 responseMsg.innerText = "";
 
                 const {data: {session}} = await supabase.auth.getSession();
@@ -64,6 +66,7 @@ function Login () {
                            onSubmit}>Log In
                        </button>
                    </div>
+                   {/*Call Supabase Login to check for existing session and if google button should be displayed*/}
                    <SupabaseLogin/>
 
                    <strong id="userResponse"></strong>

@@ -1,4 +1,4 @@
-import { createClient, SupabaseClient} from '@supabase/supabase-js';
+import { createClient} from '@supabase/supabase-js';
 
 // Load Supabase URL and API Key from environment variables
 const SUPABASE_URL = "https://bplqbfrbhimqbsvqyrhw.supabase.co"

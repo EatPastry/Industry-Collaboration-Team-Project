@@ -1,13 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {Navigate, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-import DataString from '../components/DataString';
+import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+// import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
-import {clearCookie, parseToken} from "../controller/Authentication";
+import {clearCookie, parseToken} from "../services/Authentication";
+import { ShareFileButton } from "../components/ShareButton";
+import Savings from "./recappedSubPages/Savings";
+import Brand from "./recappedSubPages/Brand";
+import ComparativeStats from "./recappedSubPages/ComparativeStats";
+import FunFacts from "./recappedSubPages/FunFacts";
+import Categories from "./recappedSubPages/Categories";
+import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import Button from "../components/Button";
 
 
 
+/**
+ * Checks every 3 seconds that the session is still active <br>
+ * if the session is stale it logs the user out by clearing cookies
+ *
+ * @param navigation of useNavigate() to navigate to Log in (/) page
+ */
 export function checkSession(navigation : NavigateFunction){
   return setInterval(async () => {
     let { error} = await supabase.auth.getUser();
@@ -18,37 +31,72 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
+/**
+ * Handles user sign out. <br>
+ * Closes Session and Clears User cookies
+ *
+ * @param navigation of useNavigate() to navigate to Log in (/) page
+ */
 async function signOut(navigation : NavigateFunction){
   clearCookie(parseToken());
   await supabase.auth.signOut();
   navigation(`/`);
 }
 
+/**
+ * Generates Recapped page for logged in user
+ * @constructor
+ */
 function Recapped() {
   const navigation = useNavigate();
   const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
-  const [email, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   let [firstName, setFirstName] = useState('');
-  // checks that url is user specific
   const location = useLocation();
 
+  //Recapped SubPage state Handling
+  const [savings, setSavings] = useState(false);
+  const [categories, setCategories] = useState(false);
+  const [brand, setBrand] = useState(false);
+  const [comparativeStats, setComparativeStats] = useState(false);
+  const [timeBasedInsights, setTimeBasedInsights] = useState(false);
+  const [funFacts, setFunFacts] = useState(false);
+
+
+  /**
+   * When one subpage is returned when its corresponding button is pressed
+   * the other subpage states should be set to false
+   */
+   function toggleSubPages(subpage : string){
+    setSavings(subpage == "savings")
+    setCategories(subpage == "categories")
+    setBrand(subpage == "brands")
+    setComparativeStats(subpage == "comparativeStats")
+    setTimeBasedInsights(subpage == "timeBasedInsights")
+    setFunFacts(subpage == "funFacts")
+  }
+
+
   useEffect(() => {
+    // Log user out if without session
     const hasSession = checkSession(navigation)
 
     async function fetchUserData() {
       try {
-        const {data : {session}} = await supabase.auth.getSession();
-        if (!session || !session.user){
+        const {data: {session}} = await supabase.auth.getSession();
+        if (!session || !session.user) {
           return;
         }
 
-        const {data : usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+
+        // fetch current users firstname from the User table
+        const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
         if (usersName) {
           setFirstName(usersName.firstName?.toString());
         }
 
-        const { data, error } = await supabase
+        // Fetch an instance of a transaction the current user has made from the Transaction table
+        const {data, error} = await supabase
             .from("Transactions")
             .select("amountSpent")
             .eq("userID", session.user.id)
@@ -71,65 +119,62 @@ function Recapped() {
 
     fetchUserData();
 
-    return ()=> {
+
+    return () => {
       clearInterval(hasSession)
     };
   }, [location.pathname, navigation]);
 
-
+  // Check that the current user has http cookie necessary for Recapped access
   const protectionError = ProtectUserRoutes(location.pathname);
-  console.log(location.pathname)
-  console.log(protectionError)
   if (protectionError != null) {
     return protectionError;
   }
 
-  function function1() {
-    return "Value 1";
-  }
-
-  function function2() {
-    return "Value 2";
-  }
-
-  function function3() {
+  function getStats() {
     return transactionAmount !== null
-        ? `You spent £${transactionAmount} this year`
-        : "Loading...";
+        ? `£${transactionAmount}`
+        : "";
   }
 
-  function function4() {
-    return "Value 4";
+  function Stats() {
+    let value = getStats();
+    return (
+        <div>{value}</div>
+    );
   }
 
-  function function5() {
-    return "Value 5";
+  function App() {
+    return (
+        <ShareFileButton/>
+    );
   }
 
-  const addTransaction = async () => {
-    const {data : {session}} = await supabase.auth.getSession();
-    if (!session || !session.user){
-      return;
-    }
+    const addTransaction = async () => {
+        const {data : {session}} = await supabase.auth.getSession();
+        if (!session || !session.user){
+            return;
+        }
 
-    const {data, error} = await supabase.from("Transactions")
-        .insert([{
-          userID : session.user.id,
-          partnerID : 'd97cd214-f42c-4029-af54-6ada8f680bb6',
-          amountSpent : 20,
-          discountPercentage : 10,
-          transactionTimestamp : new Date().toISOString()
-        }])
-    if (error) {
-      console.error("Error adding transaction.");
-    } else {
-      console.log("Transaction added.");
-    }
-  };
+        const {data, error} = await supabase.from("Transactions")
+            .insert([{
+                userID : session.user.id,
+                partnerID : 'd97cd214-f42c-4029-af54-6ada8f680bb6',
+                amountSpent : 20,
+                discountPercentage : 10,
+                transactionTimestamp : new Date().toISOString()
+            }])
+        if (error) {
+            console.error("Error adding transaction.");
+        } else {
+            console.log("Transaction added.");
+        }
+    };
 
   return (
+
       <div className="Recapped">
-        <button id = "signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
+        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">
             {loading ? (
@@ -139,34 +184,37 @@ function Recapped() {
             )}
           </div>
 
-          {/* ***************************************************** */}
-          {/* Top-left button using Button.tsx prop*/}
-          <Button text="Add Starbucks Transaction" onClick={addTransaction} className="transaction-button"/>
-          {/* ***************************************************** */}
+          <br/>
+            <Button text="Add Starbucks Transaction" onClick={addTransaction} className="transaction-button"/>
+          <br/>
 
+          {/*Add Recapped Sub page buttons*/}
+          <button onClick={() => toggleSubPages("savings")}>Savings</button>
+          <button onClick={() => toggleSubPages("categories")}>Categories</button>
+          <button onClick={() => toggleSubPages("brands")}>Brands</button>
+          <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
+          <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
+          <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
 
-          <div className="test1">
-            <DataString functions={function1}/>
+          <br/>
+
+          {/*Compare subpage state && return subpage if true*/}
+          {savings && <Savings/>}
+          {categories && <Categories/>}
+          {brand && <Brand/>}
+          {comparativeStats && <ComparativeStats/>}
+          {timeBasedInsights && <TimeBasedInsights/>}
+          {funFacts && <FunFacts/>}
+
+          <div className="share-container">
+            <App/>
           </div>
 
-          <div className="test2">
-            <DataString functions={function2}/>
-          </div>
-
-          <div className="test3">
-            <DataString functions={function3}/>
-          </div>
-
-          <div className="test4">
-            <DataString functions={function4}/>
-          </div>
-
-          <div className="test5">
-            <DataString functions={function5}/>
-          </div>
+          <canvas id="img-container" width="300" height="300"><Stats/></canvas>
         </div>
       </div>
   );
 }
+
 
 export default Recapped;

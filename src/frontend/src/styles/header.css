@@ -1,8 +1,12 @@
+/*Styling for the UNiDAYS RECAPPED header*/
+
 @import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap');
+
 
 /** {
     cursor : none ; 
 }*/
+
 
 header {
     background-color:  rgb(255, 255, 255);
@@ -15,7 +19,6 @@ header {
 
 
 h1 {
-    /* not the right font but perhaps looks better for main title */
     font-family: "Gabarito", sans-serif;
     font-optical-sizing: auto;
     font-weight: 800;
