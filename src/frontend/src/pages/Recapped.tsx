@@ -106,28 +106,26 @@ function Recapped() {
     return "Value 5";
   }
 
-  // Function to add transaction to Supabase ************************
   const addTransaction = async () => {
-    const fail = false;
-    /*const { data, error } = await supabase
-        .from("transactions") // Ensure this matches Supabase table name
-        .insert([
-          {
-            user: userName,
-            value: 10,
-            brand: "Starbucks",
-            timestamp: new Date().toISOString(),
-          },
-        ]);
-    */
-    if (fail) {
+    const {data : {session}} = await supabase.auth.getSession();
+    if (!session || !session.user){
+      return;
+    }
+
+    const {data, error} = await supabase.from("Transactions")
+        .insert([{
+          userID : session.user.id,
+          partnerID : 'd97cd214-f42c-4029-af54-6ada8f680bb6',
+          amountSpent : 20,
+          discountPercentage : 10,
+          transactionTimestamp : new Date().toISOString()
+        }])
+    if (error) {
       console.error("Error adding transaction.");
     } else {
       console.log("Transaction added.");
     }
   };
-  // *******************************************************************
-
 
   return (
       <div className="Recapped">
