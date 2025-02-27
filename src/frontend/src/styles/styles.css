@@ -37,6 +37,32 @@ a, button {
     animation: move 60s ease infinite;
 }
 
+.Story {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    /*Background colors are of UNiDAYS branding guidelines*/
+    background: color(srgb 0 0 0);
+}
+
+.Story {
+    
+    
+    .story-bar-element {
+        display: inline-block;
+        background-color: white;
+        border-radius: 5px;
+        height: 5px;
+    }
+    .story-bar {
+        
+    }
+}
+
 /*Cursor properties for our custom cursor, currently disabled*/
 .cursor {
     position: fixed;
@@ -251,7 +277,7 @@ a, button {
     }
 }
 
-.Story {
-    background-color: #ffffff;
-}
+
+
+
 

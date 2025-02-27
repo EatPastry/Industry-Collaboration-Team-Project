@@ -95,10 +95,32 @@ function Story() {
         if (protectionError != null) {
           return protectionError;
         }
-        console.log("page visited")
+    
+        function StoryBars() {
+            let numReps = 5;
+            let result : React.ReactElement[] = [];
+            const marginConst = 5;
+            let elementWidth : Number = (window.screen.width - (marginConst * numReps)) / numReps;
+            
+            console.log(elementWidth);
+            for(let i = 0; i < numReps - 1; i++) {
+                result.push((
+                    <div className='story-bar-element' style={{width:`${elementWidth}px`, marginRight:`${marginConst}px`}}></div>
+                ));
+            }
+            result.push((
+                <div className='story-bar-element' style={{width:`${elementWidth}px`}}></div>
+            ));
+
+            return <>{result}</>
+        }
+
     return (
         <div className="Story">
-            <p>HELLo</p>
+            <title>My Recapped</title>
+            <div className="story-bar">
+                <StoryBars/>
+            </div>
         </div>
     );
 }
