@@ -43,6 +43,17 @@ async function signOut(navigation : NavigateFunction){
   navigation(`/`);
 }
 
+async function viewStory(navigation : NavigateFunction) {
+  try {
+    const {data: {session}} = await supabase.auth.getSession();
+    if (!session || !session.user) {
+      return;
+    }
+    navigation(`/pages/Story/${session.user.id}`);
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
+}
 /**
  * Generates Recapped page for logged in user
  * @constructor
@@ -76,17 +87,6 @@ function Recapped() {
     setGptFacts(subpage == "gptFacts")
   }
 
-  async function viewStory() {
-    try {
-      const {data: {session}} = await supabase.auth.getSession();
-      if (!session || !session.user) {
-        return;
-      }
-      navigation(`/pages/Story/${session.user.id}`);
-    } catch (err) {
-      console.error("Unexpected error:", err);
-    }
-  }
 
   useEffect(() => {
     // Log user out if without session
@@ -190,7 +190,7 @@ function Recapped() {
           <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
           <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
           <button onClick={() => toggleSubPages("gptFacts")}>Random Fun Facts (Chat-GPT)</button>
-          <button onClick={() => viewStory()}>View story</button>
+          <button onClick={() => viewStory(navigation)}>View story</button>
 
           <br/>
 

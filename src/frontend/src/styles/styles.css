@@ -23,7 +23,7 @@ a, button {
 }
 
 
-.color_background {
+.Recapped, .LoginPage, .signupPage {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -249,5 +249,9 @@ a, button {
     canvas {
         display:none;
     }
+}
+
+.Story {
+    background-color: #ffffff;
 }
 

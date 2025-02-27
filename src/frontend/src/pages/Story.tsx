@@ -91,8 +91,15 @@ function Story() {
         };
       }, [location.pathname, navigation]);
 
+      const protectionError = ProtectUserRoutes(location.pathname);
+        if (protectionError != null) {
+          return protectionError;
+        }
+        console.log("page visited")
     return (
-        <div>HELLO</div>
+        <div className="Story">
+            <p>HELLo</p>
+        </div>
     );
 }
 
