@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 // import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
@@ -31,6 +31,10 @@ export function checkSession(navigation : NavigateFunction){
 
 function Story() {
     const navigation = useNavigate();
+    const ref = useRef();
+    let numReps = 5;
+    const [fill, setFill] = useState(Array(numReps).fill(0));
+
     const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
       const [loading, setLoading] = useState(true);
       let [firstName, setFirstName] = useState('');
@@ -95,31 +99,51 @@ function Story() {
         if (protectionError != null) {
           return protectionError;
         }
+
+        function runStory() {
+          let i = 0;
+
+          for(i = 0; i < numReps; i++) {
+            document.getElementById(i.toString())!.style.width = '10px';
+          }
+          //setFill(100);
+          /*setInterval(async () => {
+            fill[i] = 52
+            console.log("A")
+          }, 1000);*/
+          
+          
+          
+          //console.log(document.getElementsByClassName("story-bar-element"))
+        }
     
         function StoryBars() {
-            let numReps = 5;
             let result : React.ReactElement[] = [];
-            const marginConst = 5;
-            let elementWidth : Number = (window.screen.width - (marginConst * numReps)) / numReps;
-            
+            let idString : string;
+            let marginConst = 1;
+            let elementWidth : Number = (100 - (marginConst * numReps-1)) / numReps;
             console.log(elementWidth);
-            for(let i = 0; i < numReps - 1; i++) {
+            for(let i = 0; i < numReps; i++) {
+              idString = i.toString()
+              if(i == numReps - 1)
+                marginConst = 0;
                 result.push((
-                    <div className='story-bar-element' style={{width:`${elementWidth}px`, marginRight:`${marginConst}px`}}></div>
+                  <div className='story-bar-element-container' style={{width:`${elementWidth}%`, marginRight:`${marginConst}%`}}>
+                    <div className='story-bar-element' id={idString} style={{width:`${fill[i]}%`}}></div>
+                  </div>
                 ));
             }
-            result.push((
-                <div className='story-bar-element' style={{width:`${elementWidth}px`}}></div>
-            ));
-
+            
+            
             return <>{result}</>
+            
         }
 
     return (
         <div className="Story">
-            <title>My Recapped</title>
             <div className="story-bar">
                 <StoryBars/>
+                
             </div>
         </div>
     );

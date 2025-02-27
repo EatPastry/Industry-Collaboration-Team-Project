@@ -53,13 +53,25 @@ a, button {
     
     
     .story-bar-element {
-        display: inline-block;
+        float: left;
         background-color: white;
-        border-radius: 5px;
+        border-radius: 16px;
+        height: 5px;
+        transition:width 5s;
+        -webkit-transition:width 5s;
+        -moz-transition: width 5s;
+    }
+
+    .story-bar-element-container {
+        display: inline-block;
+        background-color: gray;
+        border-radius: 16px;
         height: 5px;
     }
+
     .story-bar {
-        
+        padding-left: 2px;
+        padding-right: 2px;
     }
 }
 
