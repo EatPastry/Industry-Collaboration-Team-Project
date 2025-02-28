@@ -42,6 +42,27 @@ async function signOut(navigation : NavigateFunction){
   navigation(`/`);
 }
 
+async function viewOverview(navigation : NavigateFunction) {
+  try {
+    const {data: {session}} = await supabase.auth.getSession();
+    if (!session || !session.user) {
+      return;
+    }
+    navigation(`/pages/Overview/${session.user.id}`);
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
+}
+
+
+
+
+
+
+
+
+
+
 /**
  * Generates Recapped page for logged in user
  * @constructor
@@ -170,6 +191,7 @@ function Recapped() {
           <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
           <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
           <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
+          <button onClick={() => viewOverview(navigation)}>View Overview</button>
 
           <br/>
 

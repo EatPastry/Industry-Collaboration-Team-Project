@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDom from 'react-dom/client'; 
 import Login from './pages/Login';
 import Recapped from './pages/Recapped';
+import Overview from './pages/Overview';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './styles/styles.css';
 import ProtectRoutes from './components/ProtectRoutes';
@@ -21,7 +22,7 @@ if (element === null) { //Check that the root of the DOM exists, else throw an e
 // Defines the landing page and other potential routes so that pages don't need to be loaded on navigation
 root.render(
     <React.StrictMode>
-        <div className='color_background'>
+     <div className='color_background'>
             <Router>
                 <Routes>
                     <Route path='/' element={<Login/>}/>
@@ -32,8 +33,15 @@ root.render(
                         </ProtectRoutes>
                     }
                     />
+
+                    <Route path='/pages/Overview/:username' element={
+                        <ProtectRoutes>
+                            <Overview/>
+                        </ProtectRoutes>
+                    }
+                    />
                 </Routes>
             </Router>
-        </div>
+            </div>
     </React.StrictMode>
 );
