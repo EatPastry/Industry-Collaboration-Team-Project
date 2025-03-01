@@ -94,3 +94,37 @@ export async function getEveryUsersTransactions(){
 
     return allTransactions
 }
+
+
+/**
+ * Adds a transaction for the current logged-in user
+ *
+ * @param partnerID The partnerID of the transaction
+ * @param amountSpent The amount spent for the transaction
+ * @param discountAmount the discount added to the transaction
+ */
+export async function addTransaction(partnerID : string, amountSpent : number, discountPercentage : number){
+    // Get the current signed-in user from the session
+    const session = await getSession();
+    if (!session){
+        console.error("No current signed in User");
+        return null;
+    }
+
+    // Add the data to the transaction table
+    const {data, error} = await supabase.from("Transactions")
+        .insert([{
+            userID : session.user.id,
+            partnerID : partnerID,
+            amountSpent : amountSpent,
+            discountPercentage : discountPercentage,
+            transactionTimestamp : new Date().toISOString()
+        }])
+    if (error) {
+        console.error("Error adding transaction.");
+        return null;
+    } else {
+        console.log("Transaction added.");
+        return true;
+    }
+}

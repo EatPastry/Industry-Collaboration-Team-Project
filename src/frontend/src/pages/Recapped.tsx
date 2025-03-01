@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-// import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
@@ -11,6 +10,8 @@ import ComparativeStats from "./recappedSubPages/ComparativeStats";
 import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
+import Button from "../components/Button";
+import {getSession, addTransaction} from "../services/API";
 
 
 
@@ -82,20 +83,20 @@ function Recapped() {
 
     async function fetchUserData() {
       try {
-        const {data: {session}} = await supabase.auth.getSession();
-        if (!session || !session.user) {
-          return;
-        }
+          // Get the session for the current logged-in user
+          const session = await getSession();
+          if (!session){
+              return;
+          }
 
+          // fetch current users firstname from the User table
+          const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+          if (usersName) {
+            setFirstName(usersName.firstName?.toString());
+          }
 
-        // fetch current users firstname from the User table
-        const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
-        if (usersName) {
-          setFirstName(usersName.firstName?.toString());
-        }
-
-        // Fetch an instance of a transaction the current user has made from the Transaction table
-        const {data, error} = await supabase
+          // Fetch an instance of a transaction the current user has made from the Transaction table
+          const {data, error} = await supabase
             .from("Transactions")
             .select("amountSpent")
             .eq("userID", session.user.id)
@@ -149,6 +150,11 @@ function Recapped() {
     );
   }
 
+  // Adds a transaction to the Transaction Table for Starbucks for the current logged-in User
+  const transaction = async () =>  await addTransaction('d97cd214-f42c-4029-af54-6ada8f680bb6', 20, 10);
+
+
+
   return (
 
       <div className="Recapped">
@@ -161,6 +167,9 @@ function Recapped() {
                 <header><h1>Hello, {firstName}!</h1></header>
             )}
           </div>
+
+          <br/>
+            <Button text="Add Starbucks Transaction" onClick={transaction} className="transaction-button"/>
           <br/>
 
           {/*Add Recapped Sub page buttons*/}
