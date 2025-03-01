@@ -51,7 +51,18 @@ a, button {
 
 .Story {
     
-    
+    .slide-in-left {
+        animation: slide-in-left 5s linear;
+      }
+      @keyframes slide-in-left {
+        from {
+          width: 0%;
+        }
+        to {
+          width: 100%;
+        }
+      }
+
     .story-bar-element {
         float: left;
         background-color: white;

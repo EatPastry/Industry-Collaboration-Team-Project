@@ -4,6 +4,8 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
+import { Reveal } from "react-awesome-reveal";
+import { keyframes } from "@emotion/react";
 import { ShareFileButton } from "../components/ShareButton";
 import Savings from "./recappedSubPages/Savings";
 import Brand from "./recappedSubPages/Brand";
@@ -104,7 +106,7 @@ function Story() {
           let i = 0;
 
           for(i = 0; i < numReps; i++) {
-            document.getElementById(i.toString())!.style.width = '10px';
+            console.log(document.getElementById(i.toString()))
           }
           //setFill(100);
           /*setInterval(async () => {
@@ -122,21 +124,34 @@ function Story() {
             let idString : string;
             let marginConst = 1;
             let elementWidth : Number = (100 - (marginConst * numReps-1)) / numReps;
+            let delayVal = 0;
+            const customAnimation = keyframes`
+                from {
+                  animation-timing-function: linear;
+                  width: 0%;
+                }
+
+                to {
+                  animation-timing-function: linear;
+                  width: 100%;
+                }`;
             console.log(elementWidth);
             for(let i = 0; i < numReps; i++) {
               idString = i.toString()
               if(i == numReps - 1)
                 marginConst = 0;
                 result.push((
+                  
                   <div className='story-bar-element-container' style={{width:`${elementWidth}%`, marginRight:`${marginConst}%`}}>
-                    <div className='story-bar-element' id={idString} style={{width:`${fill[i]}%`}}></div>
+                    <Reveal keyframes={customAnimation} duration={5000} delay={delayVal}>
+                    <div className='story-bar-element' id={idString} style={{width:`100%`}}></div>
+                    </Reveal>
                   </div>
                 ));
+              delayVal += 5000;
             }
-            
-            
+
             return <>{result}</>
-            
         }
 
     return (
