@@ -49,6 +49,13 @@ a, button {
     background: color(srgb 0 0 0);
 }
 
+.paused{
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    -o-animation-play-state:paused; 
+    animation-play-state:paused;
+}
+
 .Story {
     
     .slide-in-left {
@@ -84,6 +91,18 @@ a, button {
         padding-left: 2px;
         padding-right: 2px;
     }
+
+    .button-container {
+        float: right;
+    }
+
+    .story-button {
+        background-color: rgba(0, 0, 0, 100);
+        border: none;
+        border-radius: 100%;
+        margin: 5px;
+    }
+
 }
 
 /*Cursor properties for our custom cursor, currently disabled*/
