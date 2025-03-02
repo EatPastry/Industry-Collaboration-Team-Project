@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, ReactElement} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 // import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
@@ -43,6 +43,8 @@ function Story() {
     let playButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
     let unmuteButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
     let muteButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    const storyLength = 5000;
+    
     const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
       const [loading, setLoading] = useState(true);
       let [firstName, setFirstName] = useState('');
@@ -108,9 +110,6 @@ function Story() {
           return protectionError;
         }
 
-
-        
-
         function runStory() {
           let i = 0;
 
@@ -129,13 +128,14 @@ function Story() {
         }
 
         //const [pAnimation, setPlay] = useState({animationPlayState: playing ? "running" : "paused"})
+        
         function StoryBars() {
             let result : React.ReactElement[] = [];
             let idString : string;
             let marginConst = 1;
             let elementWidth : Number = (100 - (marginConst * numReps-1)) / numReps;
             let delayVal = 0;
-            const storyLength = 5000;
+            
             const customAnimation = keyframes`
                 from {
                   animation-timing-function: linear;
@@ -153,7 +153,7 @@ function Story() {
                 result.push((
                   
                   <div className='story-bar-element-container' style={{width:`${elementWidth}%`, marginRight:`${marginConst}%`}}>
-                    <Reveal keyframes={customAnimation} duration={storyLength} delay={delayVal}>
+                    <Reveal className='' keyframes={customAnimation} duration={storyLength} delay={delayVal}>
                       <div className='story-bar-element' id={idString} style={{width : "100%"}}></div>
                     </Reveal>
                   </div>
@@ -167,16 +167,21 @@ function Story() {
         
         function PButton() {
           const [fill, setFill] = useState(pauseButton);
-
           function play() {
             if(playing == true) {
               playing = false;
               setFill(playButton);
-              document.body.className = 'paused';
+              let revArr = document.getElementsByClassName("css-wtz79b")
+              for(let i = 0; i<revArr.length; i++) {
+                revArr[i].className += ' paused'
+              }
             } else {
               setFill(pauseButton);
               playing = true;
-              document.body.className = '';
+              let revArr = document.getElementsByClassName("css-wtz79b")
+              for(let i = 0; i<revArr.length; i++) {
+                revArr[i].className = 'css-wtz79b'
+              }
             }
           }
           
@@ -210,7 +215,7 @@ function Story() {
 
     return (
         <div className="Story">
-            <div className="story-bar">
+            <div id="test" className="story-bar">
                 <StoryBars/>
             </div>
             <div className="button-container">

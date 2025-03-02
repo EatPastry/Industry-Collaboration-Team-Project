@@ -101,6 +101,10 @@ a, button {
         border: none;
         border-radius: 100%;
         margin: 5px;
+        width: 35px;
+        height: 35px;
+        text-align: center;
+        padding: 5px;
     }
 
 }
