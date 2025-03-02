@@ -7,11 +7,11 @@ import { ShareFileButton } from "../components/ShareButton";
 import Savings from "./recappedSubPages/Savings";
 import Brand from "./recappedSubPages/Brand";
 import ComparativeStats from "./recappedSubPages/ComparativeStats";
-import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import Button from "../components/Button";
 import {getSession, addTransaction} from "../services/API";
+import GPTFacts from "./recappedSubPages/GPTFacts";
 
 
 
@@ -60,7 +60,7 @@ function Recapped() {
   const [brand, setBrand] = useState(false);
   const [comparativeStats, setComparativeStats] = useState(false);
   const [timeBasedInsights, setTimeBasedInsights] = useState(false);
-  const [funFacts, setFunFacts] = useState(false);
+  const [gptFacts, setGptFacts] = useState(false);
 
 
   /**
@@ -73,7 +73,7 @@ function Recapped() {
     setBrand(subpage == "brands")
     setComparativeStats(subpage == "comparativeStats")
     setTimeBasedInsights(subpage == "timeBasedInsights")
-    setFunFacts(subpage == "funFacts")
+    setGptFacts(subpage == "gptFacts")
   }
 
 
@@ -178,7 +178,7 @@ function Recapped() {
           <button onClick={() => toggleSubPages("brands")}>Brands</button>
           <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
           <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
-          <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
+          <button onClick={() => toggleSubPages("gptFacts")}>Random Fun Facts (Chat-GPT)</button>
 
           <br/>
 
@@ -188,7 +188,7 @@ function Recapped() {
           {brand && <Brand/>}
           {comparativeStats && <ComparativeStats/>}
           {timeBasedInsights && <TimeBasedInsights/>}
-          {funFacts && <FunFacts/>}
+          {gptFacts && <GPTFacts/>}
 
           <div className="share-container">
             <App/>
