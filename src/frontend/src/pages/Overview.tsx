@@ -3,10 +3,9 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
+import Board from "../components/Board";
 
-/**
- * Returns fun facts for the current signed-in User
- */
+
 
 export function checkSession(navigation : NavigateFunction){
     return setInterval(async () => {
@@ -18,18 +17,13 @@ export function checkSession(navigation : NavigateFunction){
     }, 3000)
   }
 
-
-
-
-
-
 function Overview(){
     const navigation = useNavigate();
     return (
-        <div>
+        <div className="overview">
+<Board/>
+           
 
-            <h1>Overview</h1>
-            
         </div>
     );
 }
