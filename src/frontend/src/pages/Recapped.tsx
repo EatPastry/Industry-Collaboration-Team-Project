@@ -12,8 +12,7 @@ import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import Button from "../components/Button";
 import {getSession, addTransaction} from "../services/API";
 import GPTFacts from "./recappedSubPages/GPTFacts";
-import MenuBar from "../components/HeaderBar";
-
+import MenuBar from "../components/MenuBar";
 
 
 /**
@@ -32,17 +31,6 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
-/**
- * Handles user sign out. <br>
- * Closes Session and Clears User cookies
- *
- * @param navigation of useNavigate() to navigate to Log in (/) page
- */
-async function signOut(navigation : NavigateFunction){
-  clearCookie(parseToken());
-  await supabase.auth.signOut();
-  navigation(`/`);
-}
 
 async function viewOverview(navigation : NavigateFunction) {
   try {
@@ -55,14 +43,6 @@ async function viewOverview(navigation : NavigateFunction) {
     console.error("Unexpected error:", err);
   }
 }
-
-
-
-
-
-
-
-
 
 
 /**
@@ -181,7 +161,6 @@ function Recapped() {
       <div className="Recapped">
         <MenuBar />
 
-        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">
             {loading ? (
