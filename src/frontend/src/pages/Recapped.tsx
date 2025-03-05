@@ -11,6 +11,7 @@ import ComparativeStats from "./recappedSubPages/ComparativeStats";
 import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
+import MenuBar from "../components/HeaderBar";
 
 
 
@@ -171,8 +172,9 @@ function Recapped() {
   }
 
   return (
-
       <div className="Recapped">
+        <MenuBar />
+
         <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">

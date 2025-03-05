@@ -1,0 +1,32 @@
+
+.navigationBar {
+    position : fixed;
+    top: 60px;
+    left: -300px;
+    width: 300px;
+
+    background: white;
+    transition: left 0.1s ease-in-out;
+    z-index: 1001;
+    overflow-y : auto;
+
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.navigationBar.open {
+    left: 0;
+}
+
+.navigationBar.closed {
+    left: -300px ;
+}
+
+.navigationContent {
+    display : flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+
+
