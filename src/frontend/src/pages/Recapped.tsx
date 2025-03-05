@@ -12,6 +12,7 @@ import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import Button from "../components/Button";
 import {getSession, addTransaction} from "../services/API";
 import GPTFacts from "./recappedSubPages/GPTFacts";
+import MenuBar from "../components/HeaderBar";
 
 
 
@@ -177,8 +178,9 @@ function Recapped() {
 
 
   return (
-
       <div className="Recapped">
+        <MenuBar />
+
         <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">
