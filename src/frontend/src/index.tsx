@@ -27,19 +27,21 @@ root.render(
                 <Routes>
                     <Route path='/' element={<Login/>}/>
                     <Route path='/SignUp' element={<SignUp/>}/>
-                    <Route path='/pages/Recapped/:username' element={
-                        <ProtectRoutes>
-                            <Recapped/>
-                        </ProtectRoutes>
-                    }
-                    />
 
-                    <Route path='/pages/Overview/:username' element={
-                        <ProtectRoutes>
-                            <Overview/>
-                        </ProtectRoutes>
-                    }
-                    />
+                        <Route path='/pages/Recapped/:username' element={
+                            <ProtectRoutes>
+                                <Recapped/>
+                            </ProtectRoutes>
+                        }
+                        />
+
+                        <Route path='/pages/Overview/:username' element={
+                            <ProtectRoutes>
+                                <Overview/>
+                            </ProtectRoutes>
+                        }
+                        />
+
                 </Routes>
             </Router>
             </div>

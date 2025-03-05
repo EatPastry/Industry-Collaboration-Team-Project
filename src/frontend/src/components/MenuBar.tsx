@@ -1,7 +1,7 @@
 import hamburgerIcon from '../assets/hamburgerIcon.svg';
 import React from 'react'
 import {useState} from 'react';
-import '../styles/headerBar.css'
+import '../styles/menuBar.css'
 import NavigationBar from "./NavigationBar";
 
 
@@ -9,7 +9,7 @@ import NavigationBar from "./NavigationBar";
  *
  * @constructor
  */
-function HeaderBar(){
+function MenuBar(){
     // Use state for closed menu = false, closed menu = true
     let [isOpen, setIsOpen] = useState(false)
 
@@ -21,11 +21,11 @@ function HeaderBar(){
 
             <h1>UNiDAYS RECAPPED</h1>
 
-            <NavigationBar isOpen={isOpen} onClose={() => setIsOpen(false)}/>
+            <NavigationBar isOpen={isOpen}/>
         </div>
 
     );
 }
 
 
-export default HeaderBar
+export default MenuBar

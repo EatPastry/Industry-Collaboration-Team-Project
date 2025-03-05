@@ -11,7 +11,8 @@ import ComparativeStats from "./recappedSubPages/ComparativeStats";
 import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
-import MenuBar from "../components/HeaderBar";
+import MenuBar from "../components/MenuBar";
+import {getFirstName} from "../services/API";
 
 
 
@@ -31,17 +32,6 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
-/**
- * Handles user sign out. <br>
- * Closes Session and Clears User cookies
- *
- * @param navigation of useNavigate() to navigate to Log in (/) page
- */
-async function signOut(navigation : NavigateFunction){
-  clearCookie(parseToken());
-  await supabase.auth.signOut();
-  navigation(`/`);
-}
 
 async function viewOverview(navigation : NavigateFunction) {
   try {
@@ -54,14 +44,6 @@ async function viewOverview(navigation : NavigateFunction) {
     console.error("Unexpected error:", err);
   }
 }
-
-
-
-
-
-
-
-
 
 
 /**
@@ -110,10 +92,9 @@ function Recapped() {
         }
 
 
-        // fetch current users firstname from the User table
-        const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
-        if (usersName) {
-          setFirstName(usersName.firstName?.toString());
+        const name  = await getFirstName()
+        if (name){
+          setFirstName(name);
         }
 
         // Fetch an instance of a transaction the current user has made from the Transaction table
@@ -175,7 +156,6 @@ function Recapped() {
       <div className="Recapped">
         <MenuBar />
 
-        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">
             {loading ? (
