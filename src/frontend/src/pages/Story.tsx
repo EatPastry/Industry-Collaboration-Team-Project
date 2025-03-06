@@ -37,8 +37,8 @@ function Story() {
     let muted = false;
 
     const navigation = useNavigate();
-    const ref = useRef();
     let numReps = 5;
+    let recent = 0;
     let pauseButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>;
     let playButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
     let unmuteButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
@@ -131,7 +131,6 @@ function Story() {
         
         function StoryBars() {
             let result : React.ReactElement[] = [];
-            let idString : string;
             let marginConst = 1;
             let elementWidth : Number = (100 - (marginConst * numReps-1)) / numReps;
             let delayVal = 0;
@@ -147,40 +146,71 @@ function Story() {
                   width: 100%;
                 }`;
             for(let i = 0; i < numReps; i++) {
-              idString = i.toString()
               if(i == numReps - 1)
                 marginConst = 0;
                 result.push((
                   
                   <div className='story-bar-element-container' style={{width:`${elementWidth}%`, marginRight:`${marginConst}%`}}>
-                    <Reveal className='' keyframes={customAnimation} duration={storyLength} delay={delayVal}>
-                      <div className='story-bar-element' id={idString} style={{width : "100%"}}></div>
+                    <Reveal className='test' keyframes={customAnimation} duration={storyLength} delay={delayVal}>
+                      <div className='story-bar-element' style={{width : "100%"}}></div>
                     </Reveal>
                   </div>
                 ));
               delayVal += storyLength;
             }
+           
 
             return <>{result}</>
+        }
+
+        function Left() {
+          const revArr = document.getElementsByClassName("test");
+          const revStoryArr = document.getElementsByClassName("story-bar-element-container");
+
+            function slideLeft() {
+              let contArr = document.getElementsByClassName("story-bar-element-container");
+                  for(let i = 0; i<revArr.length; i++) {
+                    if(window.getComputedStyle(revArr[i]).getPropertyValue("width") == window.getComputedStyle(contArr[i]).getPropertyValue("width")) {
+                      if(i > recent)
+                        recent = i;
+                    }
+                  }
+                  console.log(revArr)
+                 //revArr[0].className = "zero-width"
+                 revArr[recent].innerHTML = "<div className='story-bar-element' style='width: 100%;'></div>"
+                  console.log(revArr[recent].getRootNode())
+                  //revArr[recent].className = 'test zero-width'
+                  //revArr[recent].className = 'test full-width'
+                  //revArr[recent].className = 'test css-wtz79b'
+                  //revStoryArr[0].className += " zero-width"
+                  
+            }
+
+          return (
+            <>
+              <div id ="left" onClick={slideLeft}></div>
+            </>
+          )
         }
 
         
         function PButton() {
           const [fill, setFill] = useState(pauseButton);
           function play() {
-            if(playing == true) {
+            if(playing) {
               playing = false;
               setFill(playButton);
-              let revArr = document.getElementsByClassName("css-wtz79b")
-              for(let i = 0; i<revArr.length; i++) {
-                revArr[i].className += ' paused'
+              let barArr = document.getElementsByClassName("test")
+              console.log(document.getElementsByClassName("css-wtz79b"))
+              for(let i = 0; i<barArr.length; i++) {
+                barArr[i].className += ' paused'
               }
             } else {
               setFill(pauseButton);
               playing = true;
-              let revArr = document.getElementsByClassName("css-wtz79b")
-              for(let i = 0; i<revArr.length; i++) {
-                revArr[i].className = 'css-wtz79b'
+              let barArr = document.getElementsByClassName("test")
+              for(let i = 0; i<barArr.length; i++) {
+                barArr[i].className = 'test css-wtz79b'
               }
             }
           }
@@ -196,7 +226,7 @@ function Story() {
           const [fill, setFill] = useState(unmuteButton);
 
           function mute() {
-            if(muted == false) {
+            if(!muted) {
               muted = true;
               setFill(muteButton);
               
@@ -213,14 +243,24 @@ function Story() {
           )
         }
 
+        
+
+        function slideRight() {
+          
+        }
+
     return (
         <div className="Story">
-            <div id="test" className="story-bar">
+            <div className="story-bar">
                 <StoryBars/>
             </div>
             <div className="button-container">
                   <PButton/>
                   <MButton/>
+            </div>
+            <div className="left-right-container">
+              <Left/>
+              <div id ="right"></div>
             </div>
         </div>
     );
