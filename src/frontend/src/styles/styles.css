@@ -24,7 +24,7 @@ a, button {
 .overview {
     display: flex;
     flex-direction: column;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     width: 100%;
     height: 100vh; 

@@ -7,9 +7,10 @@ import MenuBar from "../components/MenuBar";
 function Overview(){
     return (
         <>
-        <MenuBar/>
-        <div className="overview">
-            <Board/>
+        <div className = "navBarWrapper">
+            <div className="overview">
+                <Board/>
+            </div>
         </div>
         </>
     );

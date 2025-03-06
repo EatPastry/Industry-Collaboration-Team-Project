@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import './styles/styles.css';
 import ProtectRoutes from './components/ProtectRoutes';
 import SignUp from "./pages/SignUp";
+import MenuBar from "./components/MenuBar";
 
 
 let root : ReactDom.Root;
@@ -28,19 +29,12 @@ root.render(
                     <Route path='/' element={<Login/>}/>
                     <Route path='/SignUp' element={<SignUp/>}/>
 
-                        <Route path='/pages/Recapped/:username' element={
-                            <ProtectRoutes>
-                                <Recapped/>
-                            </ProtectRoutes>
-                        }
-                        />
+                    <Route element={<ProtectRoutes><MenuBar/></ProtectRoutes>}>
+                        <Route path='/pages/Recapped/:username' element={<Recapped/>}></Route>
+                        <Route path='/pages/Overview/:username' element={<Overview/>}></Route>
+                    </Route>
 
-                        <Route path='/pages/Overview/:username' element={
-                            <ProtectRoutes>
-                                <Overview/>
-                            </ProtectRoutes>
-                        }
-                        />
+
 
                 </Routes>
             </Router>

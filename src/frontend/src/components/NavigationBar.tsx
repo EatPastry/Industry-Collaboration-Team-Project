@@ -8,9 +8,10 @@ import {NavigateFunction, useNavigate} from "react-router-dom";
 
 interface barProps {
     isOpen: boolean;
+    onClose?: () => void;
 }
 
-function NavigationBar({isOpen}: barProps) {
+function NavigationBar({isOpen, onClose}: barProps) {
     const navigation = useNavigate();
     const [fullName, setFullName] = useState("")
     const [profilePicture, setProfilePicture] = useState(blankProfile);
@@ -85,9 +86,11 @@ function NavigationBar({isOpen}: barProps) {
                         </div>
 
                         <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
+
                     </div>
                 }
             </div>
+            {isOpen && <div id="mobileBackground" onClick = {onClose}></div>}
         </>
     );
 }
