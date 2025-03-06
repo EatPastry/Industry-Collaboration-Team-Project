@@ -82,7 +82,7 @@ function SignUp () {
         <div className='signUpPage'>
             <Header/>
             <div className='login'>
-                <div id="title">Sign Up</div>
+                <div id="title">Create Account</div>
                 <form ref={formReference}>
                     {
                         // Display firstname and lastname input fields for 'page' 1

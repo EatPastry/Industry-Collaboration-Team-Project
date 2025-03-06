@@ -154,8 +154,6 @@ function Recapped() {
 
   return (
       <div className="Recapped">
-        <MenuBar />
-
         <div className="container">
           <div className="user-greeting">
             {loading ? (
