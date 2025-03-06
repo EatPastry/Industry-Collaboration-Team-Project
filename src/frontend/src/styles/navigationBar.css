@@ -49,6 +49,7 @@ body.filler .navBarWrapper{
 }
 
 
+/*Change the layout of the navigation Bar for screens below a 600px width*/
 @media screen and (max-width : 600px){
     .navigationBar {
         left: 0;
@@ -78,6 +79,7 @@ body.filler .navBarWrapper{
     }
 
 
+    /*Sets the background such that it is above all content except for the menu and navigation bars*/
     #mobileBackground{
         position: fixed;
         top: 0;
