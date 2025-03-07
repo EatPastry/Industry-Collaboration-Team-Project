@@ -171,7 +171,6 @@ function Recapped() {
           <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
           <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
           <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
-          <button onClick={() => viewOverview(navigation)}>View Overview</button>
 
           <br/>
 

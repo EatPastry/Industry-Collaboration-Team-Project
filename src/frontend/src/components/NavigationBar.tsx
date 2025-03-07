@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import '../styles/navigationBar.css'
 import blankProfile from '../assets/blankProfile.jpg'
-import {getFullName, getProfilePicture} from "../services/API";
+import {getFullName, getProfilePicture, getSession} from "../services/API";
 import {clearCookie, parseToken} from "../services/Authentication";
 import {supabase} from "../utils/supabase";
 import {NavigateFunction, useNavigate} from "react-router-dom";
@@ -23,7 +23,24 @@ function NavigationBar({isOpen, onClose}: barProps) {
     // Set the initial profile picture src to blankProfile.jpg
     const [profilePicture, setProfilePicture] = useState(blankProfile);
 
-    // User credentials fetched on the initial render only
+
+    async function navigateToPage(page : string){
+        // fetch the session for the current user
+        const session = await getSession();
+
+        if (!session){
+            return;
+        }
+
+        if (window.innerWidth <= 600 && onClose){
+            onClose();
+        }
+
+        navigation(`pages/${page}/${session.user.id}`);
+    }
+
+
+    // data to be fetched on the initial render only
     useEffect(() => {
         // Fetches the full Name of the current logged-in user using API.ts
         async function fetchFullName(){
@@ -100,8 +117,16 @@ function NavigationBar({isOpen, onClose}: barProps) {
                             <h2 id="fullName">{fullName}</h2>
                         </div>
 
+                        <br/>
+                        <button onClick={() => navigateToPage("Recapped")}>Recapped</button>
+                        <br/>
+                        <button onClick={() => navigateToPage("Overview")}>Overview</button>
+                        <br/>
+                        <button onClick={() => navigateToPage("TransactionHub")}>Transaction Hub</button>
+                        <br/>
+
                         {/*Call signOut when the sign-out button is pressed */}
-                        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
+                        <button id="signOutBtn" onClick={() => signOut(navigation)}>Sign Out</button>
                     </div>
                 }
             </div>

@@ -8,6 +8,7 @@ import './styles/styles.css';
 import ProtectRoutes from './components/ProtectRoutes';
 import SignUp from "./pages/SignUp";
 import MenuBar from "./components/MenuBar";
+import TransactionHub from "./pages/TransactionHub";
 
 
 let root : ReactDom.Root;
@@ -32,9 +33,8 @@ root.render(
                     <Route element={<ProtectRoutes><MenuBar/></ProtectRoutes>}>
                         <Route path='/pages/Recapped/:username' element={<Recapped/>}></Route>
                         <Route path='/pages/Overview/:username' element={<Overview/>}></Route>
+                        <Route path='/pages/TransactionHub/:username' element={<TransactionHub/>}></Route>
                     </Route>
-
-
 
                 </Routes>
             </Router>
