@@ -170,6 +170,7 @@ function Recapped() {
 
           <br/>
             <Button text="Add Starbucks Transaction" onClick={transaction} className="transaction-button"/>
+
           <br/>
 
           {/*Add Recapped Sub page buttons*/}

@@ -6,7 +6,7 @@ import ImageBox from './ImageBox';
 function Board() {
   return (
     <div className="boardContainer">
-      <h1>Top Brands</h1>
+      <h1>Top Brands</h1>s
       <div>
         <ImageBox brand="currys" /> {/* replace "currys" with 1st brand */}
       </div>
