@@ -155,13 +155,13 @@ function Recapped() {
   return (
       <div className="Recapped">
         <div className="container">
-          <div className="user-greeting">
-            {loading ? (
-                <p>Loading user data...</p>
-            ) : (
-                <header><h1>Hello, {firstName}!</h1></header>
-            )}
-          </div>
+          {/*<div className="user-greeting">*/}
+          {/*  {loading ? (*/}
+          {/*      <p>Loading user data...</p>*/}
+          {/*  ) : (*/}
+          {/*      <header><h1>Hello, {firstName}!</h1></header>*/}
+          {/*  )}*/}
+          {/*</div>*/}
           <br/>
 
           {/*Add Recapped Sub page buttons*/}

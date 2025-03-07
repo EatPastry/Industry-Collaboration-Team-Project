@@ -48,6 +48,10 @@ body.filler .navBarWrapper{
     margin-left: 300px;
 }
 
+#profileDetails{
+    justify-content: center;
+}
+
 
 /*Change the layout of the navigation Bar for screens below a 600px width*/
 @media screen and (max-width : 600px){
@@ -73,11 +77,6 @@ body.filler .navBarWrapper{
     body.filler .navBarWrapper{
         margin-left: 0;
     }
-
-    #profileDetails{
-        justify-content: center;
-    }
-
 
     /*Sets the background such that it is above all content except for the menu and navigation bars*/
     #mobileBackground{
