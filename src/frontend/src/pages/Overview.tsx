@@ -22,7 +22,6 @@ function Overview(){
     return (
         <div className="overview">
 <Board/>
-           
 
         </div>
     );
