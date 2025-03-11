@@ -94,3 +94,74 @@ export async function getEveryUsersTransactions(){
 
     return allTransactions
 }
+
+/**
+ * Returns the first name of the current logged-in user
+ */
+export async function getFirstName(){
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+    // fetch the username using the userid for the current logged-in user
+    const {data: firstname} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+    if (firstname){
+        return firstname.firstName?.toString()
+    }
+    return null
+}
+
+/**
+ * Returns the last name of the current logged-in user
+ */
+export async function getLastName(){
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+    // fetch the username using the userid for the current logged-in user
+    const {data: lastName} = await supabase.from('User').select('lastName').eq('userID', session.user.id).single();
+    if (lastName){
+        return lastName.lastName?.toString()
+    }
+    return null
+}
+
+
+/**
+ * Returns the full name the current logged-in user
+ */
+export async function getFullName(){
+    let firstName = await getFirstName();
+    let lastName = await getLastName();
+    if (!lastName){
+        lastName = ""
+    }
+
+    if (firstName){
+        return firstName.concat(" ", lastName);
+    }
+    return null;
+}
+
+
+
+/**
+ * returns the profile picture of the current logged-in user
+ */
+export async function getProfilePicture(){
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+
+
+   const userMetaData = session.user.user_metadata;
+
+    if (userMetaData){
+        return userMetaData.avatar_url || userMetaData.user_avatar || userMetaData.picture;
+    }
+
+    return null;
+
+}

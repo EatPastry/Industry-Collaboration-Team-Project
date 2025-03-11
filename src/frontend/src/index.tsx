@@ -8,6 +8,7 @@ import "./styles/styles.css";
 import ProtectRoutes from "./components/ProtectRoutes";
 import SignUp from "./pages/SignUp";
 import { Gradient } from "./assets/gradient";
+import MenuBar from "./components/MenuBar";
 
 let root: ReactDom.Root;
 const element = document.getElementById("root");
@@ -23,7 +24,7 @@ const Background = () => {
     gradient.initGradient("#gradient-canvas"); // attach to canvas
 
     return () => {
-      
+
     };
   }, []);
 
@@ -49,24 +50,14 @@ root.render(
       <Background />
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route
-            path="/pages/Recapped/:username"
-            element={
-              <ProtectRoutes>
-                <Recapped />
-              </ProtectRoutes>
-            }
-          />
-          <Route
-            path="/pages/Overview/:username"
-            element={
-              <ProtectRoutes>
-                <Overview />
-              </ProtectRoutes>
-            }
-          />
+            <Route path='/' element={<Login/>}/>
+            <Route path='/SignUp' element={<SignUp/>}/>
+
+            <Route element={<ProtectRoutes><MenuBar/></ProtectRoutes>}>
+                <Route path='/pages/Recapped/:username' element={<Recapped/>}></Route>
+                <Route path='/pages/Overview/:username' element={<Overview/>}></Route>
+            </Route>
+
         </Routes>
       </Router>
     </div>

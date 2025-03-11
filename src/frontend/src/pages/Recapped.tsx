@@ -11,6 +11,8 @@ import ComparativeStats from "./recappedSubPages/ComparativeStats";
 import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
+import MenuBar from "../components/MenuBar";
+import {getFirstName} from "../services/API";
 
 
 
@@ -30,17 +32,6 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
-/**
- * Handles user sign out. <br>
- * Closes Session and Clears User cookies
- *
- * @param navigation of useNavigate() to navigate to Log in (/) page
- */
-async function signOut(navigation : NavigateFunction){
-  clearCookie(parseToken());
-  await supabase.auth.signOut();
-  navigation(`/`);
-}
 
 async function viewOverview(navigation : NavigateFunction) {
   try {
@@ -101,10 +92,9 @@ function Recapped() {
         }
 
 
-        // fetch current users firstname from the User table
-        const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
-        if (usersName) {
-          setFirstName(usersName.firstName?.toString());
+        const name  = await getFirstName()
+        if (name){
+          setFirstName(name);
         }
 
         // Fetch an instance of a transaction the current user has made from the Transaction table
@@ -163,9 +153,7 @@ function Recapped() {
   }
 
   return (
-
       <div className="Recapped">
-        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">
             {loading ? (
@@ -177,14 +165,15 @@ function Recapped() {
           <br/>
 
           {/*Add Recapped Sub page buttons*/}
-          <button onClick={() => toggleSubPages("savings")}>Savings</button>
-          <button onClick={() => toggleSubPages("categories")}>Categories</button>
-          <button onClick={() => toggleSubPages("brands")}>Brands</button>
-          <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
-          <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
-          <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
-          <button onClick={() => viewOverview(navigation)}>View Overview</button>
-
+          <div id = 'recappedButtons'>
+            <button onClick={() => toggleSubPages("savings")}>Savings</button>
+            <button onClick={() => toggleSubPages("categories")}>Categories</button>
+            <button onClick={() => toggleSubPages("brands")}>Brands</button>
+            <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
+            <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
+            <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
+            <button onClick={() => viewOverview(navigation)}>View Overview</button>
+          </div>
           <br/>
 
           {/*Compare subpage state && return subpage if true*/}
