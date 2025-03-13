@@ -58,12 +58,21 @@ a, button {
 
 .zero-width {
     width: 0%;
-    transition: all 2s;
 }
 
-.zero-width.full-width {
+.full-width {
+    animation: full-width 5s linear;
     width: 100%;
 }
+
+@keyframes full-width {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
 
 .Story {
     

@@ -13,6 +13,7 @@ import ComparativeStats from "./recappedSubPages/ComparativeStats";
 import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
+import ReactDOM from 'react-dom';
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -164,8 +165,9 @@ function Story() {
         }
 
         function Left() {
+          
           const revArr = document.getElementsByClassName("test");
-          const revStoryArr = document.getElementsByClassName("story-bar-element-container");
+          const revStoryArr = document.getElementsByClassName("story-bar-element");
 
             function slideLeft() {
               let contArr = document.getElementsByClassName("story-bar-element-container");
@@ -173,12 +175,15 @@ function Story() {
                     if(window.getComputedStyle(revArr[i]).getPropertyValue("width") == window.getComputedStyle(contArr[i]).getPropertyValue("width")) {
                       if(i > recent)
                         recent = i;
+                        
                     }
                   }
                   console.log(revArr)
                  //revArr[0].className = "zero-width"
-                 revArr[recent].innerHTML = "<div className='story-bar-element' style='width: 100%;'></div>"
-                  console.log(revArr[recent].getRootNode())
+                  revArr[recent].className = "test zero-width"
+                  console.log(revArr)
+                  revArr[recent].className = "test full-width"
+                  console.log(revArr)
                   //revArr[recent].className = 'test zero-width'
                   //revArr[recent].className = 'test full-width'
                   //revArr[recent].className = 'test css-wtz79b'
