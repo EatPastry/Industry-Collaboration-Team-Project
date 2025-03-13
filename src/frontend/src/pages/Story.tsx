@@ -34,9 +34,13 @@ export function checkSession(navigation : NavigateFunction){
 const barAnimation = keyframes`
 from {
   width: 0%;
+  animation-timing-function: linear;
+  border-radius: 16px;
 }
 to {
   width: 100%;
+  animation-timing-function: linear;
+  border-radius: 16px;
 }
 `;
 
