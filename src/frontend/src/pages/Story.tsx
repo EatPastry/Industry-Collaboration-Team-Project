@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, ReactElement} from 'react';
+import React, {useEffect, useState, useRef, ReactElement, useSyncExternalStore} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 // import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
@@ -14,6 +14,7 @@ import FunFacts from "./recappedSubPages/FunFacts";
 import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import ReactDOM from 'react-dom';
+import { start } from 'repl';
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -43,6 +44,8 @@ to {
   border-radius: 16px;
 }
 `;
+let playing = true;
+let currStoryTime = 0;
 
 function Story() {
 
@@ -50,10 +53,10 @@ function Story() {
   //const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
   //const [loading, setLoading] = useState(true);
   //const [firstName, setFirstName] = useState('');
-
-    let playing = true;
+    
     let muted = false;
-
+    let pauseTime = 0;
+    let time = new Date()
       // slides for story
   const pages = [
     <Savings />,
@@ -77,6 +80,64 @@ function Story() {
     };
   }, [navigation]);
 
+  useEffect(() => {
+    
+    let incr = true;
+
+    waitPlay();
+
+    /**
+     * Recursively calls itself depending on the result from checkState()
+     */
+    async function waitPlay() {
+      const result = await checkState();
+      if(result == 2) {
+        waitPlay();
+      } else if(result == 1){
+        waitPlay();
+      } else {
+        while(true) {
+          const waitResult = await checkState();
+          if(result == 2) {
+            waitPlay();
+            break;
+          } else if(result == 1){
+            goRight();
+            waitPlay();
+            break;
+          }
+       }
+        
+      }
+      
+    }
+
+    /**
+    * Checks every 250ms the state of the story (playing, paused, total time until next slide)
+    *@returns an integer result which corresponds to the story state.
+    */
+    function checkState() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          if(incr) currStoryTime+=0.25;
+          if(playing && currStoryTime == storyLength / 1000) {
+            currStoryTime = 0;
+            resolve(1);
+            goRight();
+          } else if(playing) {
+            resolve(2);
+            incr = true;
+          } else {
+            resolve(3);
+            incr = false;
+          }
+        }, 250);
+      });
+
+    }
+    
+  }, []);
+
   // For arrow-key navigation on desktop
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -95,21 +156,16 @@ function Story() {
       return protectionError;
     }
 
+    
     let pauseButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>;
     let playButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
     let unmuteButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
     let muteButton = <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-        function runStory() {
-          let i = 0;
-
-          for(i = 0; i < numReps; i++) {
-            
-          }
+    runStory();
+    
+    function runStory() {
           //setFill(100);
-          /*setInterval(async () => {
-            fill[i] = 52
-            console.log("A")
-          }, 1000);*/
+          
           
           
       
@@ -119,6 +175,7 @@ function Story() {
         //const [pAnimation, setPlay] = useState({animationPlayState: playing ? "running" : "paused"})
         
         function StoryBars() {
+
           return (
             <>
               {Array.from({ length: numReps }, (_, i) => {
@@ -196,10 +253,12 @@ function Story() {
 
   function goLeft() {
     setCurrentPage((prev) => Math.max(prev - 1, 0));
+    currStoryTime = 0;
   }
 
   function goRight() {
     setCurrentPage((prev) => Math.min(prev + 1, numReps - 1));
+    currStoryTime = 0;
   }
 
   // Left half of screen for taps
@@ -228,7 +287,7 @@ function Story() {
               playing = true;
               let barArr = document.getElementsByClassName("test")
               for(let i = 0; i<barArr.length; i++) {
-                barArr[i].className = 'test css-wtz79b'
+                barArr[i].className = 'css-1y8zshr'
               }
             }
           }
