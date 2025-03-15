@@ -58,13 +58,31 @@ export async function getSinglePartnerName(partnerID : string){
             .select("partnerName")
             .eq("partnerID", partnerID).single()
 
-    // If the partnerID exists return it, else return null
+    // If the partnerID exists return their partner Name, else return null
     if (latestPartner){
         return latestPartner.partnerName
     }
     return null;
 }
 
+
+/**
+ * Returns the partner ID for a given partner Name
+ * @param partnerName
+ */
+export async function pNameToID(partnerName : string){
+    const {data : partner} =
+        await supabase.from("Partner")
+            .select("partnerID")
+            .eq("partnerName", partnerName).single()
+
+    // If the partnerID exists return it, else return null
+    if (partner){
+        return partner.partnerID
+    }
+    return null;
+
+}
 
 /**
  * returns the session for the current logged-in user
