@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles/transactionHub.css';
 import Calendar from "../components/Calendar";
 import categories from "./recappedSubPages/Categories";
+import {getSession, pNameToID} from "../services/API";
 
 type priceRange = {
     min : number,
@@ -80,7 +81,9 @@ const brand = [
 
 
 function TransactionHub() {
-    let [currentCat, setCurrentCat] = useState("Learning & Earning");
+    const [currentCat, setCurrentCat] = useState("Learning & Earning");
+    const [basketItems, setBasketItems] = useState([])
+    const [dateSelected, setDateSelected] = useState(new Date('2025-01-01'));
 
     // Returns corresponding colour for given category
     function getCategoryColour(category : string){
@@ -106,14 +109,14 @@ function TransactionHub() {
     function getCategoryPrice(category: string){
         // maps the brand category to the possible price of items within that category
         const catToPrice : Record<string, priceRange> = {
-            'Learning & Earning': { min: 10, max: 500 },
-            'Fashion': { min: 20, max: 2000 },
-            'Food & Drink': { min: 5, max: 200 },
+            'Learning & Earning': { min: 10, max: 50 },
+            'Fashion': { min: 20, max: 400 },
+            'Food & Drink': { min: 5, max: 50 },
             'Technology': { min: 50, max: 3000 },
             'Beauty': { min: 15, max: 300 },
             'Travel & Lifestyle': { min: 50, max: 5000 },
             'Wellbeing': { min: 10, max: 200 },
-            'Health & Fitness': { min: 20, max: 1000 }
+            'Health & Fitness': { min: 20, max: 500 }
         };
 
         // If no category is found return default price range
@@ -150,43 +153,94 @@ function TransactionHub() {
     }, {})
 
 
+    function createRandomPrice(){
+        let priceRange : priceRange = getCategoryPrice(currentCat)
+        return ((Math.random() * (priceRange.max - priceRange.min)) + priceRange.min).toFixed(2)
+    }
+
+    function changeDate(date : Date){
+        setDateSelected(date)
+
+    }
+
+    async function fillBasket(partnerName : string, price : number){
+        const discountRange = getCategoryDiscount(partnerName)
+        const discountPercent : number =   ((Math.random() * (discountRange.max - discountRange.min)) + discountRange.min)
+        const finalPrice : number = parseFloat((price * ( 1 - (discountPercent/100))).toFixed(2))
+
+        const parnerID = await pNameToID(partnerName)
+        const session = await getSession()
+
+        if (!session){
+            throw new Error("Session for current user not found")
+        }
+        const userID = session.user.id;
+
+        if (parnerID == null){
+            throw new Error("No Corresponding Partner ID for given partner Name");
+        }
+
+
+        const item = {
+
+
+        }
+
+        // setBasketItems([...basketItems, item])
+    }
+
     return (
         <div className='TransactionHub'>
-            <h1>Transaction Hub</h1>
-            <p>Add transactions to view your Recapped!</p>
-
-            <h3>1. Choose a Date</h3>
-            <div id='Calendar'>
-                <Calendar />
+            <div id='title'>
+                <h1>Transaction Hub</h1>
+                <p>Add transactions to view your Recapped!</p>
             </div>
 
-            <h3>2. Choose a Product</h3>
+            <div id="randomTransaction">
 
-            <div>
-
-                {Object.keys(objBrands).map(category => (
-                    <button onClick={() => setCurrentCat(category)}
-                            style={{color: getCategoryColour(category)}}>{category}</button>
-                ))}
-
-
-                {objBrands[currentCat].map(partnerName => (
-                    <div>
-                        {partnerName}
-                    </div>
-                ))}
-
-
-
+                <button>Add a random transaction</button>
             </div>
-
 
             <h2>or</h2>
-            <button>Add a random transaction</button>
 
-            <div id='totalSpent'>
+            <div id="chooseDate">
+                <h3>1. Choose a Date</h3>
+                <div id='Calendar'>
+                    <Calendar onChange={changeDate}/>
+                </div>
+            </div>
+            <div id="chooseProduct">
+                <h3>2. Choose a Product</h3>
 
 
+                <div id="themeContainer">
+                    {Object.keys(objBrands).map(category => (
+                        <button id="themeButton" onClick={() => setCurrentCat(category)}
+                                style={{color: getCategoryColour(category)}}>{category}</button>
+                    ))}
+                </div>
+
+                {objBrands[currentCat].map(partnerName => {
+                    const priceOptions = Array.from({length: 3}, () => createRandomPrice())
+                    return (
+                        <div id='partnerCard'>
+                            {partnerName}
+                            <div id='partnerPrices'>
+
+                                {priceOptions.map((price, current) => (
+                                    <button onClick={() => fillBasket(partnerName, parseFloat(price))}>{price}</button>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
+            <div id = 'basket'>
+            <h2>Your Basket</h2>
+
+
+            <button>Buy All</button>
             </div>
         </div>
     )
