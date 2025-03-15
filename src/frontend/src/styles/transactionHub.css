@@ -1,4 +1,4 @@
-.transactionHub {
+.TransactionHub {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -14,6 +14,15 @@
     margin: 0;
 
     border-radius: 5px;
+    transition: margin-left 0.28s ease-in-out, width 0.5s ease-in-out;
+    overflow-y: auto;
+}
+
+
+/*for desktop media size*/
+/*to keep absolute positioning when the navigation bar is open*/
+body.filler .TransactionHub{
+    width: calc(92% - 300px);
 }
 
 
