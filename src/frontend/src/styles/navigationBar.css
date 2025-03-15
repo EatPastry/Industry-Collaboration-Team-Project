@@ -38,13 +38,14 @@
 
 
 /*Adds animation to margin addition */
-.Recapped, .navBarWrapper{
+.Recapped, .navBarWrapper, .TransactionHub{
     transition: margin-left 0.28s ease-in-out;
 }
 
 /*Adds a margin to the left of the page when the side bar is opened (hamburger button is pressed)*/
 body.filler .Recapped,
-body.filler .navBarWrapper{
+body.filler .navBarWrapper,
+body.filler .TransactionHub{
     margin-left: 300px;
 }
 

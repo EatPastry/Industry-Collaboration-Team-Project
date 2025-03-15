@@ -1,6 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../styles/transactionHub.css';
 import Calendar from "../components/Calendar";
+import categories from "./recappedSubPages/Categories";
+
+type priceRange = {
+    min : number,
+    max : number
+}
 
 // The brands available for a user to add to the db and their corresponding category
 const brand = [
@@ -70,10 +76,16 @@ const brand = [
 
 
 
-function TransactionHub() {
 
+
+
+function TransactionHub() {
+    let [currentCat, setCurrentCat] = useState("Learning & Earning");
+
+    // Returns corresponding colour for given category
     function getCategoryColour(category : string){
-        let catToCol : Record<string, string>  = {
+        // maps the brand category to colour for that category
+        const catToCol : Record<string, string>  = {
             "Learning & Earning": "#4285F4",
             "Fashion": "#EA4335",
             "Food & Drink": "#FBBC05",
@@ -84,19 +96,98 @@ function TransactionHub() {
             "Health & Fitness": "#FF9800"
         }
 
+        // If no category is found return default colour white
         return catToCol[category] || "FFFFFF";
     }
 
 
 
+    // Returns corresponding price range for given category
+    function getCategoryPrice(category: string){
+        // maps the brand category to the possible price of items within that category
+        const catToPrice : Record<string, priceRange> = {
+            'Learning & Earning': { min: 10, max: 500 },
+            'Fashion': { min: 20, max: 2000 },
+            'Food & Drink': { min: 5, max: 200 },
+            'Technology': { min: 50, max: 3000 },
+            'Beauty': { min: 15, max: 300 },
+            'Travel & Lifestyle': { min: 50, max: 5000 },
+            'Wellbeing': { min: 10, max: 200 },
+            'Health & Fitness': { min: 20, max: 1000 }
+        };
+
+        // If no category is found return default price range
+        return catToPrice[category] || {min: 0, max: 10};
+    }
+
+    // Returns corresponding discount range for given category
+    function getCategoryDiscount(category : string){
+        // maps the brand category to the possible discounts for items within that category
+        const catToDiscount: Record<string, priceRange> = {
+            'Learning & Earning': { min: 5, max: 80 },
+            'Fashion': { min: 10, max: 70 },
+            'Food & Drink': { min: 5, max: 40 },
+            'Technology': { min: 5, max: 30 },
+            'Beauty': { min: 10, max: 50 },
+            'Travel & Lifestyle': { min: 10, max: 60 },
+            'Wellbeing': { min: 10, max: 50 },
+            'Health & Fitness': { min: 10, max: 40 }
+        };
+
+        // If no category is found return default discount range
+        return catToDiscount[category] || {min: 0, max: 10};
+    }
+
+
+    const objBrands = brand.reduce<{[key:string]: string[]}>((sum, current ) =>
+    {
+        if (!sum[current.shopCategory]){
+            sum[current.shopCategory] = []
+        }
+
+        sum[current.shopCategory].push(current.partnerName)
+        return sum;
+    }, {})
+
+
     return (
-        <div className='transactionHub'>
-            <h2>Choose a Date</h2>
+        <div className='TransactionHub'>
+            <h1>Transaction Hub</h1>
+            <p>Add transactions to view your Recapped!</p>
+
+            <h3>1. Choose a Date</h3>
             <div id='Calendar'>
                 <Calendar />
             </div>
 
-            <h2>Choose a Company</h2>
+            <h3>2. Choose a Product</h3>
+
+            <div>
+
+                {Object.keys(objBrands).map(category => (
+                    <button onClick={() => setCurrentCat(category)}
+                            style={{color: getCategoryColour(category)}}>{category}</button>
+                ))}
+
+
+                {objBrands[currentCat].map(partnerName => (
+                    <div>
+                        {partnerName}
+                    </div>
+                ))}
+
+
+
+            </div>
+
+
+            <h2>or</h2>
+            <button>Add a random transaction</button>
+
+            <div id='totalSpent'>
+
+
+            </div>
         </div>
     )
 }
