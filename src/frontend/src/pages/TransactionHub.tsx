@@ -9,6 +9,15 @@ type priceRange = {
     max : number
 }
 
+interface BasketItem {
+    partnerID : string;
+    partnerName : string;
+    price: number;
+    amountSpent: number;
+    discountPercentage: number;
+    transactionTimestamp: string;
+}
+
 // The brands available for a user to add to the db and their corresponding category
 const brand = [
     // Learning & Earning
@@ -82,7 +91,7 @@ const brand = [
 
 function TransactionHub() {
     const [currentCat, setCurrentCat] = useState("Learning & Earning");
-    const [basketItems, setBasketItems] = useState([])
+    const [basketItems, setBasketItems] = useState<BasketItem[]>([])
     const [dateSelected, setDateSelected] = useState(new Date('2025-01-01'));
 
     // Returns corresponding colour for given category
@@ -174,7 +183,7 @@ function TransactionHub() {
         if (!session){
             throw new Error("Session for current user not found")
         }
-        const userID = session.user.id;
+        // const userID = session.user.id;
 
         if (parnerID == null){
             throw new Error("No Corresponding Partner ID for given partner Name");
@@ -182,11 +191,22 @@ function TransactionHub() {
 
 
         const item = {
-
-
+            partnerID : parnerID,
+            partnerName: partnerName,
+            price: price,
+            amountSpent : finalPrice,
+            discountPercentage : discountPercent,
+            transactionTimestamp : dateSelected.toTimeString()
         }
 
-        // setBasketItems([...basketItems, item])
+        setBasketItems([...basketItems, item])
+    }
+
+    function addRandomTransaction(){
+
+
+
+
     }
 
     return (
@@ -198,7 +218,7 @@ function TransactionHub() {
 
             <div id="randomTransaction">
 
-                <button>Add a random transaction</button>
+                <button onClick = {() => addRandomTransaction()}>Add a random transaction</button>
             </div>
 
             <h2>or</h2>
@@ -238,6 +258,12 @@ function TransactionHub() {
 
             <div id = 'basket'>
             <h2>Your Basket</h2>
+                <span>Items : {basketItems.length}</span>
+                {basketItems.map((item, index) => (
+                    <div id='basketCard'>
+                            <div>Partner : {item.partnerName}, price {item.price}, but spent {item.amountSpent}</div>
+                    </div>
+                    ))}
 
 
             <button>Buy All</button>
