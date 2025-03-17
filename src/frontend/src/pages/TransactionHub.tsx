@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import '../styles/transactionHub.css';
 import Calendar from "../components/Calendar";
-import categories from "./recappedSubPages/Categories";
 import {getSession, pNameToID} from "../services/API";
+import {supabase} from "../utils/supabase";
 
 type priceRange = {
     min : number,
@@ -83,9 +83,6 @@ const brand = [
     { partnerName: "Under Armour", shopCategory: "Health & Fitness" },
     { partnerName: "Garmin", shopCategory: "Health & Fitness" }
 ];
-
-
-
 
 
 
@@ -173,41 +170,87 @@ function TransactionHub() {
     }
 
     async function fillBasket(partnerName : string, price : number){
-        const discountRange = getCategoryDiscount(partnerName)
+        const discountRange = getCategoryDiscount(currentCat)
         const discountPercent : number =   ((Math.random() * (discountRange.max - discountRange.min)) + discountRange.min)
         const finalPrice : number = parseFloat((price * ( 1 - (discountPercent/100))).toFixed(2))
 
-        const parnerID = await pNameToID(partnerName)
-        const session = await getSession()
+        const partnerID = await pNameToID(partnerName)
 
-        if (!session){
-            throw new Error("Session for current user not found")
-        }
-        // const userID = session.user.id;
-
-        if (parnerID == null){
+        if (partnerID == null){
             throw new Error("No Corresponding Partner ID for given partner Name");
         }
 
 
         const item = {
-            partnerID : parnerID,
+            partnerID : partnerID,
             partnerName: partnerName,
             price: price,
             amountSpent : finalPrice,
             discountPercentage : discountPercent,
-            transactionTimestamp : dateSelected.toTimeString()
+            transactionTimestamp : dateSelected.toISOString()
         }
 
         setBasketItems([...basketItems, item])
     }
 
-    function addRandomTransaction(){
+    async function addRandomTransaction(){
+
+        const randBrand = brand[Math.floor(Math.random() * brand.length)];
 
 
+        const randPartner = randBrand.partnerName
+        const randCat = randBrand.shopCategory;
 
+        const tempCat = currentCat;
 
+        setCurrentCat(randCat)
+
+        const randPrice = createRandomPrice()
+
+        const currentDate = dateSelected;
+
+        const startDate = new Date('2025-01-01T00:00:00Z').getTime();
+        const endDate = new Date('2025-12-31T23:59:59Z').getTime();
+        const randDate = new Date(Math.floor(Math.random() * (endDate - startDate + 1)) + startDate)
+
+        setDateSelected(randDate)
+
+        await fillBasket(randPartner, parseFloat(randPrice))
+
+        setDateSelected(currentDate)
+        setCurrentCat(tempCat)
     }
+
+    async function buyAllHandler(){
+        const session = await getSession()
+
+        if (!session){
+            throw new Error("Session for current user not found")
+        }
+        const userID = session.user.id;
+
+        const allTransactions = basketItems.map(item => ({
+            userID : userID,
+            partnerID : item.partnerID,
+            amountSpent : item.amountSpent,
+            discountPercentage : item.discountPercentage,
+            transactionTimestamp : item.transactionTimestamp,
+        }));
+
+        const {error} = await supabase.from('Transactions').insert(allTransactions)
+        if (error){
+            console.error(error)
+            return;
+        }
+
+        clearBasket()
+    }
+
+    function clearBasket(){
+        setBasketItems([])
+    }
+
+
 
     return (
         <div className='TransactionHub'>
@@ -247,7 +290,7 @@ function TransactionHub() {
                             {partnerName}
                             <div id='partnerPrices'>
 
-                                {priceOptions.map((price, current) => (
+                                {priceOptions.map((price) => (
                                     <button onClick={() => fillBasket(partnerName, parseFloat(price))}>{price}</button>
                                 ))}
                             </div>
@@ -256,17 +299,19 @@ function TransactionHub() {
                 })}
             </div>
 
-            <div id = 'basket'>
-            <h2>Your Basket</h2>
+            <div id='basket'>
+                <h2>Your Basket</h2>
                 <span>Items : {basketItems.length}</span>
-                {basketItems.map((item, index) => (
+                {basketItems.map((item) => (
                     <div id='basketCard'>
-                            <div>Partner : {item.partnerName}, price {item.price}, but spent {item.amountSpent}</div>
+                        <div>Partner : {item.partnerName}, price {item.price}, but spent {item.amountSpent},
+                            on {item.transactionTimestamp }</div>
                     </div>
-                    ))}
+                ))}
 
 
-            <button>Buy All</button>
+                <button onClick={buyAllHandler}>Buy All</button>
+                <button onClick={clearBasket}>Clear All</button>
             </div>
         </div>
     )
