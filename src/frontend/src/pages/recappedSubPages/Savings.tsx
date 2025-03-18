@@ -1,16 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {getCurrentUserTransactions} from "../../services/API";
-
-
+import { AnimatedCounter } from 'react-animated-counter';
+import SlotCounter from 'react-slot-counter';
 /**
  * Returns Savings based metrics for the current signed-in User
  */
 function Savings(){
+    const [finalSaved, setFinalSaved] = useState(0);
     const [totalSaved, setTotalSaved] = useState<number | null>(null);
     const [numMonthsNetflix, setNumMonthsNetflix] = useState<number | null>(null);
     const [bestDay, setBestDay] = useState<string | null>(null);
     const [bestDayAmount, setBestDayAmount] = useState<number | null>(null);
     const [numGroceryWeeks, setGroceryWeeks] = useState<number | null>(null);
+    let savedVal = 0;
 
     async function calculateSavings(): Promise<void> {
         const userTransactions = await getCurrentUserTransactions();
@@ -22,6 +24,7 @@ function Savings(){
         const savings = userTransactions.map(t => ((t.amountSpent * t.discountPercentage) / 100))
         const calculateTotalSaved = Math.floor(savings.reduce((sum, val) => sum + val, 0)) || 0
         setTotalSaved(calculateTotalSaved);
+        
 
         // Taking the price of netflix to be 5.99 per month
         setNumMonthsNetflix(Math.floor(calculateTotalSaved / 5.99));
@@ -56,6 +59,11 @@ function Savings(){
 
         // Get the Price of the highest saving from index 1 of bestDay
         setBestDayAmount(bestDay[1]);
+
+        setTimeout(() => {
+            setFinalSaved(totalSaved!);
+        }, 2000);
+
     }
 
     // So that it only runs when a change occurs and not every rerender
@@ -63,20 +71,31 @@ function Savings(){
         calculateSavings()
     },[]);
 
+    function getFormattedString() {
+        let x = totalSaved!.toString();
+        var pattern = /(-?\d+)(\d{3})/;
+        while (pattern.test(x))
+            x = x.replace(pattern, "$1,$2");
+        return x + ".00";
+    }
+
     return (
         <div className="fullscreen">
-                <ul>
-                    <li>You saved £{totalSaved} this year with student discounts! That's like {numMonthsNetflix} months
-                        of Netflix!
-                    </li>
-                    <li>Your best shopping day was {bestDay} when you saved £{bestDayAmount} in a single purchase</li>
-                    <li>Your discounts could buy {numGroceryWeeks} weeks of groceries!</li>
-                </ul>
+            <div style={{marginTop: "35vh", fontSize: "28px"}}>
+                You saved 
+                <br></br>
+                <div style={{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "72px"}}>
+                    £{totalSaved !== null && <SlotCounter value={getFormattedString()} duration={4} />}
+                </div>
+                <br></br>this year with student discounts! That's like {numMonthsNetflix} months of Netflix!
+            </div>
+            
         </div>
     );
 }
 
-
+//<li>Your best shopping day was {bestDay} when you saved £{bestDayAmount} in a single purchase</li>
+//<li>Your discounts could buy {numGroceryWeeks} weeks of groceries!</li>
 export default Savings;
 
 

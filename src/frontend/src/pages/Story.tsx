@@ -69,7 +69,7 @@ function Story() {
   ];
 
     const numReps = pages.length;
-    const storyLength = 5000;
+    const storyLength = 7000;
 
     const navigation = useNavigate();
     const location = useLocation();
