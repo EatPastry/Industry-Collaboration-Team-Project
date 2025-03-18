@@ -64,9 +64,7 @@ function Savings(){
     },[]);
 
     return (
-        <div className={"container"}>
-            <br/>
-            <header>
+        <div className="fullscreen">
                 <ul>
                     <li>You saved £{totalSaved} this year with student discounts! That's like {numMonthsNetflix} months
                         of Netflix!
@@ -74,7 +72,6 @@ function Savings(){
                     <li>Your best shopping day was {bestDay} when you saved £{bestDayAmount} in a single purchase</li>
                     <li>Your discounts could buy {numGroceryWeeks} weeks of groceries!</li>
                 </ul>
-            </header>
         </div>
     );
 }

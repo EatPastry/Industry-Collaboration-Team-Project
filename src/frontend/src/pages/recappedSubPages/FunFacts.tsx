@@ -6,11 +6,9 @@ import React from 'react';
  */
 function FunFacts(){
     return (
-        <div>
+        <div className="fullscreen">
             <br/>
-            <header>
                 no fun facts
-            </header>
         </div>
     );
 }

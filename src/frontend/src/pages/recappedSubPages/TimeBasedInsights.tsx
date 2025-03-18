@@ -97,9 +97,8 @@ function TimeBasedInsights(){
 
 
     return (
-        <div>
+        <div className="fullscreen">
             <br/>
-            <header>
                 <ul>
                     <li>Your Summer Shopping Spree saved you £{summerSaving}</li>
                     <li>You've come a long way!
@@ -113,7 +112,6 @@ function TimeBasedInsights(){
                         Latest purchase: {latestPurchaseName} on {latestPurchaseDate} at £{latestPurchasePrice}
                     </li>
                 </ul>
-            </header>
         </div>
     );
 }

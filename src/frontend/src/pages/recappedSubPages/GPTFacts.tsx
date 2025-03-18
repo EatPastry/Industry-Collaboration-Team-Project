@@ -89,8 +89,8 @@ function GPTFacts () {
     useEffect(() => {generateAiMessage().then()}, []);
 
     return (
-        <div>
-            <header>{aiMessage}</header>
+        <div className="fullscreen">
+            {aiMessage}
         </div>
     );
 }

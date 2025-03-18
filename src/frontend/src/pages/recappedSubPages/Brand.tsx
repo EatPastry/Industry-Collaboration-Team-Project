@@ -53,11 +53,9 @@ function Brand() {
 
 
     return (
-        <div>
+        <div className="fullscreen">
             <br/>
-            <header>
                 Your favorite brand was {modeBrand}!
-            </header>
         </div>
     );
 }

@@ -60,6 +60,7 @@ function Story() {
       // slides for story
   const pages = [
     <Savings />,
+    <div>hello</div>,
     <Categories />,
     <Brand />,
     <ComparativeStats />,
@@ -193,12 +194,12 @@ function Story() {
                         marginRight: i < numReps - 1 ? '1%' : '0',
                         backgroundColor: 'gray',
                         borderRadius: '16px',
-                        height: '5px'
+                        height: '4px'
                       }}
                     >
                       <div
                         className="story-bar-element"
-                        style={{ width: '100%', backgroundColor: 'white', height: '5px' }}
+                        style={{ width: '100%', backgroundColor: 'white', height: '4px' }}
                       />
                     </div>
                   );
@@ -212,7 +213,7 @@ function Story() {
                         marginRight: i < numReps - 1 ? '1%' : '0',
                         backgroundColor: 'gray',
                         borderRadius: '16px',
-                        height: '5px'
+                        height: '4px'
                       }}
                     >
                       <Reveal
@@ -220,7 +221,7 @@ function Story() {
                         duration={storyLength}
                         triggerOnce={false}
                         className="test"
-                        style={{ backgroundColor: 'white', height: '5px' }}
+                        style={{ backgroundColor: 'white', height: '4px' }}
                       >
                         <div className="story-bar-element" style={{ width: '100%' }} />
                       </Reveal>
@@ -236,12 +237,12 @@ function Story() {
                         marginRight: i < numReps - 1 ? '1%' : '0',
                         backgroundColor: 'gray',
                         borderRadius: '16px',
-                        height: '5px'
+                        height: '4px'
                       }}
                     >
                       <div
                         className="story-bar-element"
-                        style={{ width: '0%', backgroundColor: 'white', height: '5px' }}
+                        style={{ width: '0%', backgroundColor: 'white', height: '4px' }}
                       />
                     </div>
                   );
@@ -322,23 +323,30 @@ function Story() {
 
     return (
       <div className="Story">
-      <div className="story-bar">
-        <StoryBars />
-      </div>
-
-      <div className="button-container">
-        <PButton />
-        <MButton />
-      </div>
-
-      <div className="left-right-container">
-        <div id="left" onClick={handleLeftClick}></div>
-        <div id="right" onClick={handleRightClick}></div>
-      </div>
-
-      <div style={{ marginTop: '60px', color: 'white' }}>
+        <div className="story-container">
         {pages[currentPage]}
+        </div>
+      <div className="above">
+        <div className="story-bar">
+         <StoryBars />
+        </div>
+
+        <div className="button-container">
+         <PButton />
+         <MButton />
+        </div>
+
+        <div className="left-right-container">
+          <div id="left" onClick={handleLeftClick}></div>
+          <div id="right" onClick={handleRightClick}></div>
+        </div>
+
+        <div className="story-share-container">
+          Share
+        </div>
       </div>
+
+      
     </div>
   );
 }

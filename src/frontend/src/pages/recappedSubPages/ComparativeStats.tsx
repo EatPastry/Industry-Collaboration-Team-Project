@@ -115,16 +115,14 @@ function ComparativeStats(){
     calculateComparativeStats()
 
     return (
-        <div>
+        <div className="fullscreen">
             <br/>
-            <header>
                 <ul>
                     <li>You're in the top {percentRank}% of shoppers</li>
                     <li>Your shopping game is strong - you explored {percentExplored}% more brands than average</li>
                     <li>You are a Level {userLevel} saver of {' '}
                     <span style={{color: rarityColour}}>{userRarity}</span> status</li>
                 </ul>
-            </header>
         </div>
     );
 }

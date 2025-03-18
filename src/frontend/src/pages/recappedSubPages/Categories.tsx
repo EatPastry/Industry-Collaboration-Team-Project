@@ -54,11 +54,9 @@ function Categories(){
 
     // Return message
     return (
-        <div>
+        <div className="fullscreen">
             <br/>
-            <header>
              You love to shop in {modeCategory}!
-            </header>
         </div>
     );
 }
