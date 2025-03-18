@@ -80,8 +80,8 @@ function Savings(){
     }
 
     return (
-        <div className="fullscreen">
-            <div style={{marginTop: "35vh", fontSize: "28px"}}>
+        <div className="fullscreen savings-screen">
+            <div style={{paddingTop: "35vh", fontSize: "28px", color: "white"}}>
                 You saved 
                 <br></br>
                 <div style={{display: "flex", justifyContent: "center", alignItems: "center", fontSize: "72px"}}>
