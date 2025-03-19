@@ -7,6 +7,7 @@
 *   https://kevinhufnagl.com
 */
 
+/* eslint-disable no-unused-expressions */
 
 //Converting colors to proper format
 function normalizeColor(hexCode) {
