@@ -1,36 +1,35 @@
-import React from 'react';
+import React from "react";
 import Board from "../components/Board";
-import Header from "../components/Header"
-import { ShareFileButton } from '../components/ShareButton';
-import MenuBar from "../components/MenuBar";
+import { ShareFileButton } from "../components/ShareButton";
+import ViewButton from "../components/ViewButton";
 
+const Overview: React.FC = () => {
+  const handleViewClick = () => {
+    console.log("View button clicked!");
+  };
 
-function Overview() {
-    return (
-        <>
-            <div className="navBarWrapper">
-
-                <div className="overview">
-                    <br/>
-
-                    <h1 style={{fontSize: "4rem", fontWeight: "bold", textAlign: "center"}}>
-                        Your 2025 Recapped</h1>
-
-                    <div className="overview">
-                        <Board/>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-}
-
-
-
-function App() {
   return (
-      <ShareFileButton/>
+    <div className="navBarWrapper">
+      <div className="overview">
+        <h1 style={{ fontSize: "4rem", fontWeight: "bold", textAlign: "center", color: "white"}}>
+          Your 2025 Recapped
+        </h1>
+
+        {/* View Button */}
+        <ViewButton label="View" onClick={handleViewClick} />
+
+        {/* Main Content */}
+        <div className="overview">
+          <Board />
+        </div>
+
+        {/* Share Button */}
+        <div className="share-container">
+          <ShareFileButton />
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
 export default Overview;
