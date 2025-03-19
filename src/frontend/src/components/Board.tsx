@@ -83,7 +83,7 @@ function Board() {
     );
 
     const sortedBrandNames = sortedBrands.map(
-      ([partnerID]) => partnerMapping[partnerID] || partnerID
+      ([partnerID]) => partnerMapping[partnerID]
     );
     const sortedAmounts = sortedBrands.map(([_, amount]) => Math.round(amount * 100) / 100);
     const sortedSavings = sortedBrands.map(([partnerID]) => Math.round(brandSavings[partnerID] * 100) / 100);
@@ -93,21 +93,31 @@ function Board() {
     setTotalSavingsArray(sortedSavings);
   }
  //Update the variables 
-  useEffect(() => {
-    fetchRowCount();
-    fetchPartnerMapping();
+ useEffect(() => {
+  const fetchData = async () => {
+    await fetchRowCount();
+    await fetchPartnerMapping();
+  };
+  fetchData();
+}, []);
+
+useEffect(() => {
+  if (Object.keys(partnerMapping).length > 0) {
     highestsBrand();
-  }, []);
+  }
+}, [partnerMapping]);
 
   return (
     <div className="boardContainer">
-    <h1>Top Brands</h1>
+    <h1 style={{ marginLeft:"60px", }}>Top Brands</h1>
     {[0, 1, 2, 3].map((index) => (
       <div key={index} className="brandRow">
+         <div className= "brandNumber">{index + 1}.</div>
         <ImageBox brand={brandArray[index]} />
         <div className="brandDetails">
-          <p className="brandText">Total spent: £{totalAmountArray[index]}</p>
-          <p className="brandText">Savings: £{totalSavingsArray[index]}</p>
+          <div className="brandBrand">{brandArray[index]}</div>
+          <div className="brandText">Total spent: £{totalAmountArray[index]}</div>
+          <div className="brandText">Savings: £{totalSavingsArray[index]}</div>
         </div>
       </div>
     ))}

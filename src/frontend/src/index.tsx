@@ -45,7 +45,7 @@ const Background = () => {
 };
 
 root.render(
-  <React.StrictMode>
+
     <div className="app-container">
       <Background />
       <Router>
@@ -61,5 +61,5 @@ root.render(
         </Routes>
       </Router>
     </div>
-  </React.StrictMode>
+  
 );

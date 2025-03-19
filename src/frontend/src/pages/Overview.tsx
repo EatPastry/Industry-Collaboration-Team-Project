@@ -13,7 +13,7 @@ function Overview() {
                 <div className="overview">
                     <br/>
 
-                    <h1 style={{fontSize: "4rem", fontWeight: "bold", textAlign: "center"}}>
+                    <h1 style={{fontSize: "4rem", fontWeight: "bold", textAlign: "center", fontFamily: "istokweb",color: "white"}}>
                         Your 2025 Recapped</h1>
 
                     <div className="overview">

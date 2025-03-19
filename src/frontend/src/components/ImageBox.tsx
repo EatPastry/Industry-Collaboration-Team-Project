@@ -9,7 +9,7 @@ function ImageBox({ brand }: ImageBoxProps) {
 
   useEffect(() => {
     if (brand) {
-      const imageUrl = `https://cdn.brandfetch.io/${brand}.com/w/75/h/75?c=1iduEc3aSox-3FW56Uc`;
+      const imageUrl = `https://cdn.brandfetch.io/${brand}.com/w/256/h/256?c=1iduEc3aSox-3FW56Uc`;
       setLogoUrl(imageUrl);
       
     }
