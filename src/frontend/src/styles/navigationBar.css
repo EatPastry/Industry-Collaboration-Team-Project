@@ -75,7 +75,8 @@ body.filler .TransactionHub{
 
     /*remove margin for mobile*/
     body.filler .Recapped,
-    body.filler .navBarWrapper{
+    body.filler .navBarWrapper,
+    body.filler .TransactionHub{
         margin-left: 0;
     }
 

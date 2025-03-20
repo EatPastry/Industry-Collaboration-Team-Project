@@ -310,8 +310,8 @@ function TransactionHub() {
                 ))}
 
 
-                <button onClick={buyAllHandler}>Buy All</button>
-                <button onClick={clearBasket}>Clear All</button>
+                <button id = 'buyAllButton' onClick={buyAllHandler}>Buy All</button>
+                <button id = 'clearAllButton' onClick={clearBasket}>Clear All</button>
             </div>
         </div>
     )

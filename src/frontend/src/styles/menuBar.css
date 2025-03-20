@@ -28,7 +28,10 @@
 
 /*Sets the bar title to the centre of the bar*/
 #barTitle{
-    transform: translateY(2px);
+    display : flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(0);
 }
 
 

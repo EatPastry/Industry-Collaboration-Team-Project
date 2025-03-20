@@ -1,3 +1,11 @@
+
+/*for desktop media size*/
+/*to keep absolute positioning when the navigation bar is open*/
+body.filler .TransactionHub{
+    width: calc(92% - 300px);
+}
+
+
 .TransactionHub {
     position: absolute;
     display: flex;
@@ -15,14 +23,18 @@
     transition: margin-left 0.28s ease-in-out, width 0.5s ease-in-out;
     overflow-y: auto;
 
+    /* Disable scrollbars for Firefox and Edge */
+    /*overflow: scroll;*/
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
 }
 
 
-/*for desktop media size*/
-/*to keep absolute positioning when the navigation bar is open*/
-/*body.filler .TransactionHub{*/
-/*    width: calc(92% - 300px);*/
-/*}*/
+/* disable scrollbars for Chrome and Safari */
+.TransactionHub::-webkit-scrollbar {
+    display: none;
+}
 
 
 #title{
@@ -75,7 +87,7 @@
 
 
 
-#themeContainer{
+#themeContainer {
     width: 92%;
     overflow-x: auto;
     white-space: nowrap;
@@ -83,9 +95,40 @@
     flex-wrap: nowrap;
 }
 
-#themeButton {
+#partnerCard {
+    background-color: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#partnerPrices button  {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    margin: 5px;
+}
+#partnerPrices button:hover {
+    background-color: #5a67d8;
+    color: white;
+}
+
+
+
+
+
+
+
+/*Change the layout of the navigation Bar for screens below a 600px width*/
+@media screen and (max-width : 600px){
+    body.filler .TransactionHub{
+        width: 92%;
+        left: 4%;
+    }
+
 
 
 }
-
 
