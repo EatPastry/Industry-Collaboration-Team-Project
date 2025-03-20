@@ -33,6 +33,8 @@ export function checkSession(navigation : NavigateFunction){
     }, 3000)
   }
 
+  
+
 const barAnimation = keyframes`
 from {
   width: 0%;
@@ -49,7 +51,7 @@ let playing = true;
 let currStoryTime = 0;
 
 function Story() {
-
+  const elementRef = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   //const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
   //const [loading, setLoading] = useState(true);
@@ -326,7 +328,7 @@ function Story() {
     return (
       
       <div className="Story">
-        <div className="story-container">
+        <div className="story-container" id="story-container" ref={elementRef}>
         {pages[currentPage]}
         </div>
       <div className="above">
@@ -346,7 +348,7 @@ function Story() {
         
         <div className="story-share-container">
           <div className="share-container">
-            <ShareFileButton/>
+            <ShareFileButton elementRef={elementRef}/>
           </div>
         </div>
       </div>
