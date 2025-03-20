@@ -352,8 +352,6 @@ function Story() {
           </div>
         </div>
       </div>
-
-      <canvas id="img-container"></canvas>
     </div>
   );
 }
