@@ -93,6 +93,10 @@ a, button {
     }
   }
 
+  #img-container {
+    display: none;
+  }
+
 .Story {
     
     .slide-in-left {
@@ -131,6 +135,24 @@ a, button {
         background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 100%);
         height: 50px;
         margin-bottom: -30px;
+    }
+
+    .share-container {
+        border-radius: 5px;
+        border: none;
+        background: rgba(0,0,0,0);
+    }
+
+    .share-button {
+        border-radius: 5px;
+        border: none;
+        background: rgba(0,0,0,0);
+        color: white;
+        font-size: 24px;
+    }
+
+    .share-button:hover {
+        background-color: rgba(100, 100, 100, 0.7);
     }
 
     .above {
@@ -376,22 +398,6 @@ a, button {
     .test5 {
         top: 80vh;
         left: 20vw;
-    }
-
-    .share-container {
-        position:absolute;
-        bottom: 5vh;
-        right: 5vw;
-    }
-
-    .share-button {
-        border-radius: 5px;
-        border: none;
-        background-color: rgba(100, 100, 100, 0.5);
-    }
-
-    .share-button:hover {
-        background-color: rgba(100, 100, 100, 0.7);
     }
 
     canvas {

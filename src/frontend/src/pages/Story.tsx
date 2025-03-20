@@ -15,6 +15,7 @@ import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import ReactDOM from 'react-dom';
 import { start } from 'repl';
+import GPTFacts from './recappedSubPages/GPTFacts';
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -65,7 +66,8 @@ function Story() {
     <Brand />,
     <ComparativeStats />,
     <TimeBasedInsights />,
-    <FunFacts />
+    <FunFacts />,
+    <GPTFacts/>
   ];
 
     const numReps = pages.length;
@@ -322,6 +324,7 @@ function Story() {
         }
 
     return (
+      
       <div className="Story">
         <div className="story-container">
         {pages[currentPage]}
@@ -340,13 +343,15 @@ function Story() {
           <div id="left" onClick={handleLeftClick}></div>
           <div id="right" onClick={handleRightClick}></div>
         </div>
-
+        
         <div className="story-share-container">
-          Share
+          <div className="share-container">
+            <ShareFileButton/>
+          </div>
         </div>
       </div>
 
-      
+      <canvas id="img-container"></canvas>
     </div>
   );
 }
