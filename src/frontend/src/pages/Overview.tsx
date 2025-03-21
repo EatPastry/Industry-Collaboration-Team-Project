@@ -12,7 +12,7 @@ const Overview: React.FC = () => {
     <div className="navBarWrapper">
       <div className="overview">
         <h1 style={{ fontSize: "4rem", fontWeight: "bold", textAlign: "center", color: "white", marginTop: "100px"}}>
-          Your 2025 Recapped
+          Your 2025 Recapped 
         </h1>
 
         {/* View Button */}

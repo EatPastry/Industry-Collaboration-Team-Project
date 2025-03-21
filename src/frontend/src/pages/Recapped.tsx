@@ -13,6 +13,9 @@ import Categories from "./recappedSubPages/Categories";
 import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import MenuBar from "../components/MenuBar";
 import {getFirstName} from "../services/API";
+import Board from "../components/Board";
+import ViewButton from "../components/ViewButton";
+import Overview from "./Overview";
 
 
 
@@ -154,41 +157,16 @@ function Recapped() {
 
   return (
       <div className="Recapped">
+         <Overview/>
         <div className="container">
-          <div className="user-greeting">
-            {loading ? (
-                <p>Loading user data...</p>
-            ) : (
-                <header><h1>Hello, {firstName}!</h1></header>
-            )}
-          </div>
+         
           <br/>
-
-          {/*Add Recapped Sub page buttons*/}
-          <div id = 'recappedButtons'>
-            <button onClick={() => toggleSubPages("savings")}>Savings</button>
-            <button onClick={() => toggleSubPages("categories")}>Categories</button>
-            <button onClick={() => toggleSubPages("brands")}>Brands</button>
-            <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
-            <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
-            <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
-            <button onClick={() => viewOverview(navigation)}>View Overview</button>
-          </div>
-          <br/>
-
-          {/*Compare subpage state && return subpage if true*/}
-          {savings && <Savings/>}
-          {categories && <Categories/>}
-          {brand && <Brand/>}
-          {comparativeStats && <ComparativeStats/>}
-          {timeBasedInsights && <TimeBasedInsights/>}
-          {funFacts && <FunFacts/>}
 
           <div className="share-container">
             <App/>
           </div>
 
-          <canvas id="img-container" width="300" height="300"><Stats/></canvas>
+       
         </div>
       </div>
   );
