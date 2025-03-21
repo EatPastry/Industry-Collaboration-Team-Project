@@ -261,7 +261,8 @@ function TransactionHub() {
 
             <div id="randomTransaction">
 
-                <button onClick = {() => addRandomTransaction()}>Add a random transaction</button>
+                <button onClick={() => addRandomTransaction()}>Add a random transaction</button>
+                <span id="itemsData">Items : {basketItems.length}</span>
             </div>
 
             <h2>or</h2>
