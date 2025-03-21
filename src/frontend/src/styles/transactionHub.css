@@ -7,6 +7,7 @@ body.filler .TransactionHub{
 
 
 .TransactionHub {
+    background-color: white;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -24,11 +25,21 @@ body.filler .TransactionHub{
     overflow-y: auto;
 
     /* Disable scrollbars for Firefox and Edge */
-    /*overflow: scroll;*/
     scrollbar-width: none;
     -ms-overflow-style: none;
 
 }
+
+#randomTransaction,
+#chooseDate,
+#chooseProduct,
+#basket {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.5rem;
+    margin-top: 1rem;
+}
+
+
 
 
 /* disable scrollbars for Chrome and Safari */
@@ -38,9 +49,8 @@ body.filler .TransactionHub{
 
 
 #title{
-    margin-top: 5%;
+    margin-top: 10px;
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     p{
         padding: 0;
@@ -51,21 +61,25 @@ body.filler .TransactionHub{
 
 #chooseDate{
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-top: 5%;
+}
+
+#randomTransaction button{
+    margin-top: 20px;
+    padding: 12px 16px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
 }
 
 #chooseProduct{
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-top: 5%;
     padding-bottom: 5%;
 }
 
 #randomTransaction{
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-top: 5%
 }
 
 
@@ -78,38 +92,90 @@ body.filler .TransactionHub{
 
 #basket{
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-top: 5%;
     margin-bottom: 5%;
     padding-bottom: 5%;
 }
 
+#basketCardWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
 
 
+#basketCard {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 0 2px;
+    margin: 1px;
+
+    width: calc(33.33% - 16px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
 
 #themeContainer {
+    justify-content: center;
     width: 92%;
     overflow-x: auto;
     white-space: nowrap;
     display: flex;
     flex-wrap: nowrap;
+
+
 }
+
+#themeButton {
+    padding: 8px 16px;
+    margin: 2px 4px;
+    background-color: white;
+    border-radius: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+#themeButton:hover{
+    transform: translateY(-2px);
+}
+
+.partnerWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
 
 #partnerCard {
     background-color: white;
-    border-radius: 8px;
-    padding: 15px;
-    margin: 15px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: calc(33% - 16px);
+    transition: transform 0.2s ease;
+}
+
+
+#partnerPrices{
+    display: flex;
+    flex-wrap: wrap;
 }
 
 #partnerPrices button  {
+    flex: 1;
     padding: 8px 15px;
     border: none;
     border-radius: 8px;
     font-weight: 500;
     margin: 5px;
 }
+
+
+
 #partnerPrices button:hover {
     background-color: #5a67d8;
     color: white;
@@ -117,7 +183,39 @@ body.filler .TransactionHub{
 
 
 
+#buyAllButton {
+    padding: 8px 20px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+    margin: 15px
+}
 
+#clearAllButton {
+    padding: 8px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+
+
+@media screen and (max-width: 900px) {
+    #partnerCard {
+        width: calc(50% - 16px);
+    }
+}
+
+
+@media (max-width: 1100px) {
+    #themeContainer {
+        justify-content: left;
+    }
+}
 
 
 
@@ -129,6 +227,10 @@ body.filler .TransactionHub{
     }
 
 
+    #partnerCard, #basketCard {
+        width: 100%;
+        margin: 10px;
+    }
 
 }
 

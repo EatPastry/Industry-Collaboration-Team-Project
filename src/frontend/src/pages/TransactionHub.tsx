@@ -169,7 +169,7 @@ function TransactionHub() {
 
     }
 
-    async function fillBasket(partnerName : string, price : number){
+    async function fillBasket(partnerName : string, price : number, date : Date){
         const discountRange = getCategoryDiscount(currentCat)
         const discountPercent : number =   ((Math.random() * (discountRange.max - discountRange.min)) + discountRange.min)
         const finalPrice : number = parseFloat((price * ( 1 - (discountPercent/100))).toFixed(2))
@@ -187,7 +187,7 @@ function TransactionHub() {
             price: price,
             amountSpent : finalPrice,
             discountPercentage : discountPercent,
-            transactionTimestamp : dateSelected.toISOString()
+            transactionTimestamp : date.toISOString()
         }
 
         setBasketItems([...basketItems, item])
@@ -215,7 +215,7 @@ function TransactionHub() {
 
         setDateSelected(randDate)
 
-        await fillBasket(randPartner, parseFloat(randPrice))
+        await fillBasket(randPartner, parseFloat(randPrice), randDate)
 
         setDateSelected(currentDate)
         setCurrentCat(tempCat)
@@ -282,7 +282,7 @@ function TransactionHub() {
                                 style={{color: getCategoryColour(category)}}>{category}</button>
                     ))}
                 </div>
-
+                <div className={ "partnerWrapper"}>
                 {objBrands[currentCat].map(partnerName => {
                     const priceOptions = Array.from({length: 3}, () => createRandomPrice())
                     return (
@@ -291,27 +291,38 @@ function TransactionHub() {
                             <div id='partnerPrices'>
 
                                 {priceOptions.map((price) => (
-                                    <button onClick={() => fillBasket(partnerName, parseFloat(price))}>{price}</button>
+                                    <button onClick={() => fillBasket(partnerName, parseFloat(price), dateSelected)}>{price}</button>
                                 ))}
                             </div>
                         </div>
                     )
                 })}
             </div>
+            </div>
 
             <div id='basket'>
                 <h2>Your Basket</h2>
-                <span>Items : {basketItems.length}</span>
-                {basketItems.map((item) => (
-                    <div id='basketCard'>
-                        <div>Partner : {item.partnerName}, price {item.price}, but spent {item.amountSpent},
-                            on {item.transactionTimestamp }</div>
-                    </div>
-                ))}
+
+                <div id='basketCardWrapper'>
+                    {basketItems.map((item) => (
+                        <div id='basketCard'>
+                            <h3>{item.partnerName}</h3>
+                            <p><strong>Original Price:</strong> £{item.price.toFixed(2)}</p>
+                            <p><strong>Amount
+                                Spent:</strong> £{item.amountSpent.toFixed(2)} ({item.discountPercentage.toFixed(1)}%
+                                off)
+                            </p>
+                            <p><strong>Date:</strong> {new Date(item.transactionTimestamp).toLocaleDateString()}</p>
+                        </div>
+                    ))}
+                </div>
+                <br/>
+                <span id="itemsData">Items : {basketItems.length}</span>
+                <br/>
 
 
-                <button id = 'buyAllButton' onClick={buyAllHandler}>Buy All</button>
-                <button id = 'clearAllButton' onClick={clearBasket}>Clear All</button>
+                <button id='buyAllButton' onClick={buyAllHandler}>Buy All</button>
+                <button id='clearAllButton' onClick={clearBasket}>Clear All</button>
             </div>
         </div>
     )
