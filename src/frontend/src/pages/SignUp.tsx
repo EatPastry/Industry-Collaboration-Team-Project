@@ -9,7 +9,7 @@ import {supabase} from "../utils/supabase";
 
 /**
  * Creates the elements for the SignUp page
- *@returns HTML elements of the SignUp page
+ * @returns HTML elements of the SignUp page
  */
 function SignUp () {
     const navigation = useNavigate();
@@ -72,7 +72,8 @@ function SignUp () {
             await supabase.from('User').insert([{
                 userID : session.user.id, firstName : firstName, lastName : lastName, email : email}]);
 
-            navigation(`/pages/Recapped/${session.user.id}`);
+            // navigation(`/pages/Recapped/${session.user.id}`);
+            navigation(`/pages/transactionHub/${session.user.id}`);
         }
 
     }

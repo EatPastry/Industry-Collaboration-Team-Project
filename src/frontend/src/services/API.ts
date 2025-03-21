@@ -81,8 +81,8 @@ export async function pNameToID(partnerName : string){
         return partner.partnerID
     }
     return null;
-
 }
+
 
 /**
  * returns the session for the current logged-in user
@@ -215,4 +215,25 @@ export async function getProfilePicture(){
     }
 
     return null;
+}
+
+/**
+ * returns true/false if the current logged-in user has made transactions
+ */
+export async function hasTransaction(){
+    // Get the session for the current logged-in user
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+
+    // Gets a single transaction from the current logged-in user
+    const {data} = await supabase
+        .from('Transactions')
+        .select('userID')
+        .eq('userID', session.user.id)
+        .limit(1);
+
+    // returns true if there exists a transaction
+    return !!(data && data.length > 0);
 }

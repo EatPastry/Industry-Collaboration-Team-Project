@@ -47,7 +47,6 @@ async function viewOverview(navigation : NavigateFunction) {
 
 /**
  * Generates Recapped page for logged in user
- * @constructor
  */
 function Recapped() {
   const navigation = useNavigate();
