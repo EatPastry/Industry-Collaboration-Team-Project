@@ -11,7 +11,7 @@ const Overview: React.FC = () => {
   return (
     <div className="navBarWrapper">
       <div className="overview">
-        <h1 style={{ fontSize: "4rem", fontWeight: "bold", textAlign: "center", color: "white", marginTop: "100px"}}>
+        <h1 style={{ fontSize: "4rem", fontWeight: "bold", textAlign: "center", color: "white", marginTop: "10px",maxWidth: "100%" }}>
           Your 2025 Recapped 
         </h1>
 

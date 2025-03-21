@@ -21,6 +21,7 @@
 a, button {
     cursor: pointer;
 }
+
 .overview {
     display: flex;
     flex-direction: column;
@@ -281,7 +282,7 @@ a, button {
 
 .Recapped {
     .share-container {
-        position:absolute;
+        position:ret;
         bottom: 5vh;
         right: 5vw;
     }
