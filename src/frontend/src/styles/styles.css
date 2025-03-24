@@ -21,8 +21,42 @@
 a, button {
     cursor: pointer;
 }
+.overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh; 
+}
+.boardContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 450px;
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    margin-top:2%;
+    max-width: 100%;
+    border-radius:5%;
+    
+    
+}
+
+.imagesInBoard{
+    border-radius: 10px;
+}
 
 
+.boardContainer div{
+width: 75px;
+aspect-ratio: 1 / 1;
+
+border-radius: 15%;
+margin: 2%;
+
+}
 .color_background {
     position: absolute;
     top: 0;
@@ -182,54 +216,6 @@ a, button {
 }
 
 .Recapped {
-    height: 100vh;
-
-    /*Each test function div is given an animation and the same attributes*/
-    [class^="test"]{
-        position: absolute;
-        animation: FadeIn 0.6s ease-out forwards;
-        button {
-            all: unset;
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            border-radius: 4px;
-            margin: 20px;
-            padding: 20px;
-            transition: transform 0.5s ease;
-        }
-
-        button:hover{
-            transform: scale(1.1);
-        }
-    }
-
-    /*Used to scatter the test functions about the Recapped page such that they resize appropiately with smaller screens*/
-
-    .test1 {
-        top: 70vh;
-        left: 70vw;
-    }
-
-    .test2 {
-        top: 60vh;
-        left: 25vw;
-    }
-
-    .test3 {
-        top: 40vh;
-        left: 46vw;
-    }
-
-    .test4 {
-        top: 25vh;
-        left: 70vw;
-    }
-
-    .test5 {
-        top: 80vh;
-        left: 20vw;
-    }
-
     .share-container {
         position:absolute;
         bottom: 5vh;

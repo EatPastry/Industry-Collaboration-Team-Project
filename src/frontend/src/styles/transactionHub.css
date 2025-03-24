@@ -1,0 +1,237 @@
+
+/*for desktop media size*/
+/*to keep absolute positioning when the navigation bar is open*/
+body.filler .TransactionHub{
+    width: calc(92% - 300px);
+}
+
+/*Styles the Transaction Hub page*/
+.TransactionHub {
+    background-color: white;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    height: 94%;
+    width: 92%;
+    top: 6%;
+    left: 4%;
+
+    padding: 0;
+    margin: 0;
+
+    border-radius: 5px;
+    transition: margin-left 0.28s ease-in-out, width 0.5s ease-in-out;
+    overflow-y: auto;
+
+    /* Disable scrollbars for Firefox and Edge */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+}
+
+
+/*Add divider lines between sections*/
+#randomTransaction,
+#chooseDate,
+#chooseProduct,
+#basket {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 0.5rem;
+    margin-top: 1rem;
+}
+
+
+/* disable scrollbars for Chrome and Safari */
+.TransactionHub::-webkit-scrollbar {
+    display: none;
+}
+
+/*transactionHub title styling*/
+#title{
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    p{
+        padding: 0;
+        margin: 0 0 4px;
+    }
+}
+
+/*styling for button to add a random transaction*/
+#randomTransaction button{
+    margin-top: 20px;
+    padding: 12px 16px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+/*Add padding to separate 'chose a product and Basket sections'*/
+#chooseProduct{
+    padding-bottom: 5%;
+}
+
+/*Add padding to separate basket buttons from the end of page*/
+#basket{
+    padding-bottom: 5%;
+}
+
+/*Style the basket cards such that stack horizontally before vertically*/
+#basketCardWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+/*Styles each item that is added to the basket*/
+#basketCard {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 0 2px;
+    margin: 1px;
+
+    width: calc(33.33% - 16px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+
+/*style list of buttons for each brand category*/
+#themeContainer {
+    justify-content: center;
+    width: 92%;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: nowrap;
+}
+
+/*style each brand category button*/
+#themeButton {
+    padding: 8px 16px;
+    margin: 2px 4px;
+    background-color: white;
+    border-radius: 15px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+/*add hover translation effect for brand category buttons*/
+#themeButton:hover{
+    transform: translateY(-2px);
+}
+
+/*Such that partner Cards stack horizontally if there is space*/
+.partnerWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+/*Style each brand that falls within the currently selected partner category*/
+#partnerCard {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    width: calc(33% - 16px);
+    transition: transform 0.2s ease;
+}
+
+/*the 3 prices for each brand stack horizontally*/
+#partnerPrices{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*styles the buttons for each price attached to a brand*/
+#partnerPrices button  {
+    flex: 1;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    margin: 5px;
+}
+
+
+/*Add purple background and white text upon clicking price button*/
+#partnerPrices button:hover {
+    background-color: #5a67d8;
+    color: white;
+}
+
+/*Styles button that pushes all items in the basket to the database*/
+#buyAllButton {
+    padding: 8px 20px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+    margin: 15px
+}
+
+/*Styles button that clears all items in the basket*/
+#clearAllButton {
+    padding: 8px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+/*to push apart the 'add a random transaction' button from the basket item count*/
+#itemsData{
+    margin-left: 20px;
+}
+
+
+/*Widens the cards for each partner when the display width < 900px*/
+@media screen and (max-width: 900px) {
+    #partnerCard {
+        width: calc(50% - 16px);
+    }
+}
+
+/*List of category themes no longer center when display width < 1100px*/
+@media (max-width: 1100px) {
+    #themeContainer {
+        justify-content: left;
+    }
+}
+
+
+/*Change the layout of the navigation Bar for screens below a 600px width*/
+@media screen and (max-width : 600px){
+    body.filler .TransactionHub{
+        width: 92%;
+        left: 4%;
+    }
+
+    #partnerCard, #basketCard {
+        width: 100%;
+        margin: 10px;
+    }
+
+    #buyAllButton, #clearAllButton {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+    }
+
+    #basket {
+        padding-bottom: 200px;
+    }
+}
+
