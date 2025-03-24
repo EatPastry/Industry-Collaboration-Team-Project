@@ -2,7 +2,7 @@ import React from "react";
 
 interface ViewButtonProps {
   label?: string;
-  onClick?: () => void;
+  onClick?: () => Promise<void>;
 }
 
 const ViewButton: React.FC<ViewButtonProps> = ({ label = "View", onClick }) => {

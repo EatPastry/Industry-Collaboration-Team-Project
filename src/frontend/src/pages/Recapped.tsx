@@ -149,25 +149,9 @@ function Recapped() {
     );
   }
 
-  function App() {
-    return (
-        <ShareFileButton/>
-    );
-  }
-
   return (
       <div className="Recapped">
          <Overview/>
-        <div className="container">
-         
-          <br/>
-
-          <div className="share-container">
-            <App/>
-          </div>
-
-       
-        </div>
       </div>
   );
 }

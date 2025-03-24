@@ -2,11 +2,29 @@ import React from "react";
 import Board from "../components/Board";
 import { ShareFileButton } from "../components/ShareButton";
 import ViewButton from "../components/ViewButton";
+import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+import {ProtectUserRoutes} from '../components/ProtectRoutes';
+import {supabase} from '../utils/supabase'
+
+
+
+
 
 const Overview: React.FC = () => {
-  const handleViewClick = () => {
-    console.log("View button clicked!");
-  };
+  const navigation = useNavigate(); 
+
+  async function handleViewClick() { 
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session || !session.user) return;
+      navigation(`/pages/Recapped.tsx/${session.user.id}`);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
+  }
+  
+  
+  
 
   return (
     <div className="navBarWrapper">
