@@ -16,6 +16,7 @@ import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import ReactDOM from 'react-dom';
 import { start } from 'repl';
 import GPTFacts from './recappedSubPages/GPTFacts';
+import Intro from './recappedSubPages/Intro';
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -62,6 +63,7 @@ function Story() {
     let time = new Date()
       // slides for story
   const pages = [
+    <Intro />,
     <Savings />,
     <div>hello</div>,
     <Categories />,
