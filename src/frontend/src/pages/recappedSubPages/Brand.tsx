@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 // import {supabase} from "../../utils/supabase";
 import {getCurrentUserTransactions, getPartnerIds} from "../../services/API";
+import BrandsTorusDisplay from "../../components/BrandTorusDisplay";
 
 
 /**
@@ -50,15 +51,33 @@ function Brand() {
     useEffect(() => {
         calculateBrands()
     },[]);
-
-
+    
     return (
-        <div className="fullscreen">
-            <br/>
-                Your favorite brand was {modeBrand}!
+        <div className="fullscreen brand-screen">
+            <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white" }}>
+                Your most commonly shopped brand was
+                <br />
+                <div style={{ 
+                    display: "flex", 
+                    justifyContent: "center", 
+                    alignItems: "center", 
+                    fontSize: "50px",
+                    fontWeight: "bold",
+                    marginTop: "10px"
+                }}>
+                    {modeBrand}
+                </div>
+                <br />
+                Here's a look at how much you saved with your top brands:
+            </div>
+    
+            <div style={{ paddingTop: "4px" }}>
+                <BrandsTorusDisplay />
+            </div>
         </div>
     );
 }
+    
 
 export default Brand;
 

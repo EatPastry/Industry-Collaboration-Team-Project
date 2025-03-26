@@ -55,7 +55,48 @@ a, button {
         50%  { background-size: 120px 120px, 100px 100px; }
         to   { background-size:  24px  24px, 140px 140px; }
       }
-      
+
+      .brand-screen {
+        background-size: 60px 60px;
+        background-color: #0f0f0f;
+        background-image: repeating-radial-gradient(
+            rgba(159, 159, 159, 0.2) 0px, 
+            rgba(0, 255, 255, 0) 60%
+        ),
+        repeating-radial-gradient(
+            rgba(3, 56, 6, 0.3) 12%, 
+            rgba(89, 89, 89, 0.3) 24px
+        );
+        animation: brand-jelly 3s cubic-bezier(.1, .4, .9, .6) infinite;
+    }
+    
+    @keyframes brand-jelly {
+        from { background-size: 60px 60px, 24px 24px; }
+        50%  { background-size: 120px 120px, 100px 100px; }
+        to   { background-size: 24px 24px, 140px 140px; }
+    }
+    
+    .categories-screen {
+        background-size: 60px 60px;
+        background-color: #e3dede;
+        background-image: repeating-radial-gradient(
+            rgba(156, 6, 6, 0.2) 0px, 
+            rgba(0, 255, 255, 0) 60%
+        ),
+        repeating-radial-gradient(
+            rgba(3, 56, 6, 0.3) 12%, 
+            rgba(89, 89, 89, 0.3) 24px
+        );
+        animation: brand-jelly 3s cubic-bezier(.1, .4, .9, .6) infinite;
+    }
+    
+    @keyframes brand-jelly {
+        from { background-size: 60px 60px, 24px 24px; }
+        50%  { background-size: 120px 120px, 100px 100px; }
+        to   { background-size: 24px 24px, 140px 140px; }
+    }
+    
+
 .Story {
     position: absolute;
     top: 0;
