@@ -115,6 +115,38 @@ a, button {
         to   { background-size:  24px  24px, 140px 140px; }
       }
     
+    .square-container{
+        height: 500px;
+        width: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -250px 0 0 -250px;
+      }
+      
+      .square{
+        height: 94%;
+        width: 94%;
+        background-size: 60px 60px;
+        background-color: hsl(110, 82%, 47%);
+        background-image: repeating-radial-gradient( hsla(251, 100%, 50%, 0.6) 0px, hsl(0, 100%, 52%) 60%),
+          repeating-radial-gradient( rgb(187, 0, 204) 12%, rgb(71, 123, 235) 24px);
+        animation: jelly 3s cubic-bezier(.1,.4,.9,.6) infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: -47% 0 0 -47%;
+      }
+      
+      .black{ 
+        background: black;  
+        animation: rotate 10s infinite linear; 
+      }
+      
+      @keyframes rotate{
+        0%{ transform: rotate(0deg); }
+          100%{ transform: rotate(360deg); }	
+      }
 
 .Story {
     position: absolute;
