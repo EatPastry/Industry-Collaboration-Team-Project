@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import { motion } from 'framer-motion';
 import {getCurrentUserTransactions, getSession, getEveryUsersTransactions} from "../../services/API";
+import '../../styles/ComparativeStats.css';
 
 /**
  * Returns comparative statistics between the current signed-in user and other users
@@ -10,6 +12,7 @@ function ComparativeStats(){
     const [userLevel, setUserLevel] = useState(0);
     const [userRarity, setUserRarity] = useState("");
     const [rarityColour, setRarityColour] = useState("Black");
+    const [xpProgress, setXpProgress] = useState(0); // For XP bar
 
 
     // Map levels to the rarity of the level and the css colour that should be displayed
@@ -106,6 +109,7 @@ function ComparativeStats(){
             if (levelMap[i][0] > (userLevel)){
                 setUserRarity(levelMap[i][1].toString());
                 setRarityColour(levelMap[i][2].toString())
+                setXpProgress((((userLevel) % 15) / 15) * 100);
                 break;
             }
         }
@@ -117,12 +121,75 @@ function ComparativeStats(){
     return (
         <div className="fullscreen">
             <br/>
-                <ul>
-                    <li>You're in the top {percentRank}% of shoppers</li>
-                    <li>Your shopping game is strong - you explored {percentExplored}% more brands than average</li>
-                    <li>You are a Level {userLevel} saver of {' '}
-                    <span style={{color: rarityColour}}>{userRarity}</span> status</li>
-                </ul>
+            <motion.div
+                className="stats-container"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+            >
+                <h1>Your UNiDAYS Recapped Story</h1>
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5, duration: 1 }}
+                >
+                    Here's how you stack up against other UNiDAYS shoppers:
+                </motion.p>
+
+                <motion.ul>
+                    <motion.li
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 0.8, duration: 0.8 }}
+                    >
+                        🏆 You're in the top <strong>{percentRank}%</strong> of shoppers!
+                    </motion.li>
+                    <motion.li
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 1, duration: 0.8 }}
+                    >
+                        🌟 Your shopping game is strong - you explored{' '}
+                        <strong>{percentExplored}%</strong> more brands than average!
+                    </motion.li>
+                    <motion.li
+                        initial={{ x: -100, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ delay: 1.2, duration: 0.8 }}
+                    >
+                        🎯 You are a Level <strong>{userLevel}</strong> saver of{' '}
+                        <span style={{ color: rarityColour }}>{userRarity}</span> status!
+                    </motion.li>
+                </motion.ul>
+
+                {/* XP Bar */}
+                <motion.div
+                    className="xp-bar-container"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 1 }}
+                >
+                    <div className="xp-bar">
+                        <motion.div
+                            className="xp-progress"
+                            style={{ width: `${xpProgress}%`, backgroundColor: rarityColour }}
+                            initial={{ width: 0 }}
+                            animate={{ width: `${xpProgress}%` }}
+                            transition={{ delay: 1.8, duration: 1.5 }}
+                        />
+                    </div>
+                    <p>Progress to next level: {xpProgress.toFixed(0)}%</p>
+                </motion.div>
+
+                <motion.p
+                    className="share-message"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2, duration: 1 }}
+                >
+                    Share your stats with friends and show off your shopping skills! 🚀
+                </motion.p>
+            </motion.div>
         </div>
     );
 }
