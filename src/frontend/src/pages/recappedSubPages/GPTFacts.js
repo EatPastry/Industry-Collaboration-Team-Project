@@ -35,6 +35,54 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importStar(require("react"));
 const API_1 = require("../../services/API");
 const openai_1 = require("../../utils/openai");
+
+// Typewriter logic
+const TypewriterEffect = ({ text, speed = 50 }) => {
+    const [displayText, setDisplayText] = (0, react_1.useState)('');
+    const [isComplete, setIsComplete] = (0, react_1.useState)(false);
+
+    (0, react_1.useEffect)(() => {
+        setDisplayText('');
+        setIsComplete(false);
+
+        if (!text) {
+            setIsComplete(true);
+            return;
+        }
+
+        // Ensure text is a string and clean it
+        let safeText = String(text).trim();
+        if (safeText.endsWith("undefined")) {
+            safeText = safeText.slice(0, -9); // remove trailing "undefined"
+        }
+
+        let currentIndex = 0;
+        setDisplayText(safeText[0] || ''); // set first character
+
+        const typeNextCharacter = () => {
+            currentIndex++;
+            if (currentIndex < safeText.length) {
+                setDisplayText(prev => prev + safeText[currentIndex]);
+                setTimeout(typeNextCharacter, speed);
+            } else {
+                setIsComplete(true);
+            }
+        };
+
+        setTimeout(typeNextCharacter, speed); // start with delay
+
+        return () => { currentIndex = safeText.length; };
+    }, [text, speed]);
+
+    return (
+        react_1.default.createElement("span", null,
+            displayText,
+            !isComplete && react_1.default.createElement("span", { className: "cursor" }, "|")
+        )
+    );
+};
+
+
 /**
  * Returns a fun summary about the user's spending to the user
  * @constructor
@@ -81,11 +129,11 @@ function GPTFacts() {
             const completion = yield openai_1.openai.chat.completions.create({
                 model: "gpt-4o-mini",
                 messages: [
-                    { role: "system", content: // "system" message is passed with every request, instructing the agent on how to act/respond
+                    { role: "system", content: 
                         "You are writing a creative response to a user that summarizes their spending habits. " +
-                            "Try to come up with quirky names for the user such as techy-trendsetter etc. " +
-                            "Incorporate stats about their spending into your response e.g. \`You saved £850, thats enough to buy a new iPhone!\'" +
-                            "Limit your response to 150 words." },
+                        "Try to come up with quirky names for the user such as techy-trendsetter etc. " +
+                        "Incorporate stats about their spending into your response e.g. \`You saved £850, thats enough to buy a new iPhone!\'" +
+                        "Limit your response to 150 words." },
                     {
                         role: "user",
                         content: prompt,
@@ -102,7 +150,8 @@ function GPTFacts() {
             }
             else {
                 // @ts-ignore
-                setAiMessage(response.content.trim());
+                const cleanedMessage = response.content.trim().replace(/undefined$/, '');
+                setAiMessage(cleanedMessage);
             }
         }
         catch (error) {
@@ -112,6 +161,12 @@ function GPTFacts() {
     });
     (0, react_1.useEffect)(() => { generateAiMessage().then(); }, []);
     return (react_1.default.createElement("div", null,
-        react_1.default.createElement("header", null, aiMessage)));
+        react_1.default.createElement("header", null, 
+            react_1.default.createElement(TypewriterEffect, { 
+                text: aiMessage, 
+                speed: 12
+            })
+        )
+    ));
 }
 exports.default = GPTFacts;

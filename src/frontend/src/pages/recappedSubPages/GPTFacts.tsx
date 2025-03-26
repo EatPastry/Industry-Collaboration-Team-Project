@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {getCurrentUserTransactions, getPartnerIds} from '../../services/API'
 import { openai } from "../../utils/openai";
-
+import TypeIt from 'typeit-react';
 
 /**
  * Returns a fun summary about the user's spending to the user
@@ -90,7 +90,7 @@ function GPTFacts () {
 
     return (
         <div>
-            <header>{aiMessage}</header>
+            <header> <TypeIt key={aiMessage} options={{ cursor: true, speed: 50 }}></TypeIt></header>
         </div>
     );
 }
