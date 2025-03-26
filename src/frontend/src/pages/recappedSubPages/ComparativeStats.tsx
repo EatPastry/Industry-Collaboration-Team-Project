@@ -119,7 +119,7 @@ function ComparativeStats(){
     calculateComparativeStats()
 
     return (
-        <div className="fullscreen">
+        <div className="fullscreen comparativestats-screen" >
             <br/>
             <motion.div
                 className="stats-container"
