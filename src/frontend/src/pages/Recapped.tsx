@@ -150,7 +150,7 @@ function Recapped() {
   }
 
   return (
-      <div className="Recapped">
+      <div className = "recapped">
          <Overview/>
       </div>
   );

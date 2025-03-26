@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ImageBox from './ImageBox';
 import { supabase } from '../utils/supabase';
 import { getCurrentUserTransactions } from "../services/API";
+import { ShareFileButton } from "../components/ShareButton";
 
 interface Transaction {
   partnerID: string;
@@ -110,6 +111,7 @@ useEffect(() => {
   return (
     <div className="boardContainer">
     <h1 style={{ marginLeft:"60px", }}>Top Brands</h1>
+    
     {[0, 1, 2, 3].map((index) => (
       <div key={index} className="brandRow">
          <div className= "brandNumber">{index + 1}.</div>
@@ -121,6 +123,9 @@ useEffect(() => {
         </div>
       </div>
     ))}
+    <div className="shareContainerOverview">
+              
+            </div>
   </div>
 );
 }

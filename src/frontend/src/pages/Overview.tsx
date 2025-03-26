@@ -17,7 +17,7 @@ const Overview: React.FC = () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session || !session.user) return;
-      navigation(`/pages/Recapped.tsx/${session.user.id}`);
+      navigation(`/pages/Story/${session.user.id}`);
     } catch (err) {
       console.error("Unexpected error:", err);
     }
@@ -29,8 +29,8 @@ const Overview: React.FC = () => {
   return (
     <div className="navBarWrapper">
       <div className="overview">
-        <h1 style={{ fontSize: "4rem", fontWeight: "bold", textAlign: "center", color: "white", marginTop: "10px",maxWidth: "100%" }}>
-          Your 2025 Recapped 
+        <h1 className ="yourRecapped">
+          Your 2025 Recapped
         </h1>
 
         {/* View Button */}
@@ -42,9 +42,9 @@ const Overview: React.FC = () => {
         </div>
 
         {/* Share Button */}
-        <div className="share-container">
-          <ShareFileButton />
-        </div>
+        <div>
+        
+         </div>
       </div>
     </div>
   );

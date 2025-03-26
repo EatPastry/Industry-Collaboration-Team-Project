@@ -348,7 +348,7 @@ function Story() {
         
         <div className="story-share-container">
           <div className="share-container">
-            <ShareFileButton elementRef={elementRef}/>
+        
           </div>
         </div>
       </div>
