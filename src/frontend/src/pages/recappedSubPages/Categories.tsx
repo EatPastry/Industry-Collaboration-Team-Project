@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 // import {supabase} from "../../utils/supabase";
 import {getCurrentUserTransactions, getPartnerIds} from '../../services/API'
-
+import CategoriesTorusDisplay from "../../components/CategoriesTorusDisplay";
 
 /**
  * Returns category statistics for the current signed-in user
@@ -54,9 +54,11 @@ function Categories(){
 
     // Return message
     return (
-        <div className="fullscreen">
-            <br/>
-             You love to shop in {modeCategory}!
+        <div className="fullscreen categories-screen" style={{ padding: '20px', color: 'white' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
+          Your Savings by Category
+        </h2>
+        <CategoriesTorusDisplay />
         </div>
     );
 }

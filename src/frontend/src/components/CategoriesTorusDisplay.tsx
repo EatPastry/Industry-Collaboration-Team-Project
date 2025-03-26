@@ -1,40 +1,35 @@
-// BrandsTorusDisplay.tsx
 import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls } from '@react-three/drei';
 import { getCurrentUserTransactions, getPartnerIds } from '../services/API';
 import * as THREE from 'three';
 
-interface Brand {
-  name: string;
+interface Category {
+  category: string;
   count: number;
   savings: number;
 }
 
-//colours for each slice
+// Colors for each of the top 5 categories (matching your brand palette)
 const colors = ['#FF1744', '#FF9100', '#FFEA00', '#00E676', '#2979FF'];
 const textColors = ['#C51162', '#DD6C00', '#C0B900', '#00A152', '#004FC4'];
 
-
-function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
+function RotatingTorus({ topCategories }: { topCategories: Category[] }) {
   const torusRef = useRef<any>();
 
-  // Use dynamic savings to determine slice angles
-  const totalSavings = topBrands.reduce((sum, brand) => sum + brand.savings, 0);
+  // Total savings for calculating slice angles
+  const totalSavings = topCategories.reduce((sum, cat) => sum + cat.savings, 0);
 
-  // Pre-calculate angles for each brand's slice using savings
+  // Pre-calculate slice angles for each category
   const angles: { start: number; end: number }[] = [];
   let currentAngle = 0;
-  topBrands.forEach((brand) => {
-    const sliceAngle = totalSavings > 0 ? (brand.savings / totalSavings) * Math.PI * 2 : 0;
-    angles.push({
-      start: currentAngle,
-      end: currentAngle + sliceAngle
-    });
+  topCategories.forEach((cat) => {
+    const sliceAngle = totalSavings > 0 ? (cat.savings / totalSavings) * Math.PI * 2 : 0;
+    angles.push({ start: currentAngle, end: currentAngle + sliceAngle });
     currentAngle += sliceAngle;
   });
 
-  // Create torus segment geometry remains unchanged
+  // Create a torus segment geometry for the given angle range
   const createTorusSegment = (startAngle: number, endAngle: number) => {
     const segments = 32;
     const radius = 5;
@@ -74,6 +69,7 @@ function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
     return geometry;
   };
 
+  // Rotate the torus continuously
   useFrame(() => {
     if (torusRef.current) {
       torusRef.current.rotation.y += 0.01;
@@ -82,31 +78,28 @@ function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
 
   return (
     <group ref={torusRef}>
-      {topBrands.map((brand, index) => {
+      {topCategories.map((cat, index) => {
         const { start, end } = angles[index];
         const color = colors[index % colors.length];
         const geometry = createTorusSegment(start, end);
         return (
-          <mesh key={brand.name} geometry={geometry}>
-            <meshStandardMaterial 
-              color={color}
-              side={THREE.DoubleSide}
-            />
+          <mesh key={cat.category} geometry={geometry}>
+            <meshStandardMaterial color={color} side={THREE.DoubleSide} />
           </mesh>
         );
       })}
-      {topBrands.map((brand, index) => {
-        const midAngle = (angles[index].start + angles[index].end) / 2;
-        const radius = 5; 
-        const x = radius * Math.cos(midAngle);
-        const z = radius * Math.sin(midAngle);
-        const y = 2; 
-        const labelRotation: [number, number, number] = [0, -midAngle, 0];
+      {topCategories.map((cat, index) => {
+       const midAngle = (angles[index].start + angles[index].end) / 2;
+       const labelRadius = 7;
+       const x = labelRadius * Math.cos(midAngle);
+       const z = labelRadius * Math.sin(midAngle);
+       const y = 2.7;
+       const labelRotation: [number, number, number] = [0, -midAngle, 0];
         return (
-          <group key={brand.name} position={[x, y, z]} rotation={labelRotation}>
+          <group key={cat.category} position={[x, y, z]} rotation={labelRotation}>
             <Text
               position={[0, 0, 0]}
-              fontSize={1.1}
+              fontSize={0.9}
               color="transparent"
               anchorX="center"
               anchorY="middle"
@@ -117,7 +110,7 @@ function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
               letterSpacing={0.02}
               textAlign="center"
             >
-              {brand.name}
+              {cat.category}
             </Text>
           </group>
         );
@@ -126,72 +119,54 @@ function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
   );
 }
 
-// The main component that fetches data and renders the 3D Canvas
-function BrandsTorusDisplay() {
-  const [topBrands, setTopBrands] = useState<Brand[]>([]);
+function CategoriesTorusDisplay() {
+  const [topCategories, setTopCategories] = useState<Category[]>([]);
   const [totalSavings, setTotalSavings] = useState<number>(0);
 
   useEffect(() => {
     async function fetchData() {
-      // Fetch current user transactions
+      // Fetch transactions and partner data
       const transactions = await getCurrentUserTransactions();
       if (!transactions) return;
-  
-      // Get partner data based on the transactions' partnerIDs
       const partnerIDs = transactions.map((t: any) => t.partnerID);
       const partnerData = await getPartnerIds(partnerIDs);
       if (!partnerData) return;
-  
-      // partnerID => partnerName
-      const partnerMap = new Map<string, string>();
-      partnerData.forEach((partner: any) => {
-        if (partner.partnerID && partner.partnerName) {
-          partnerMap.set(partner.partnerID, partner.partnerName);
-        }
-      });
-  
-      // Initialise counts and dynamic savings for each brand
-      const brandCounts: Record<string, number> = {};
-      const brandSavings: Record<string, number> = {};
-  
+
+      // Aggregate counts and savings by shopCategory
+      const categoryCounts: Record<string, number> = {};
+      const categorySavings: Record<string, number> = {};
+
       transactions.forEach((transaction: any) => {
         const partnerID = transaction.partnerID;
-        const brand = partnerMap.get(partnerID);
-        if (brand) {
-          // Increment count for the brand
-          brandCounts[brand] = (brandCounts[brand] || 0) + 1;
-          // Calculate dynamic savings: amountSpent * (discountPercentage / 100)
+        const partner = partnerData.find((p: any) => p.partnerID === partnerID);
+        if (partner && partner.shopCategory) {
+          const category = partner.shopCategory;
+          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
           const amountSpent = parseFloat(transaction.amountSpent) || 0;
           const discountPercentage = parseFloat(transaction.discountPercentage) || 0;
           const savings = amountSpent * (discountPercentage / 100);
-          brandSavings[brand] = (brandSavings[brand] || 0) + savings;
+          categorySavings[category] = (categorySavings[category] || 0) + savings;
         }
       });
-  
-      // Create an array of brands with their counts and dynamic savings,
-      // sorting them by savings (highest first)
-      const sortedBrands = Object.entries(brandSavings)
-        .map(([name, savings]) => ({
-          name,
-          count: brandCounts[name] || 0,
+
+      // Build and sort category data based on savings
+      const sortedCategories = Object.entries(categorySavings)
+        .map(([category, savings]) => ({
+          category,
+          count: categoryCounts[category] || 0,
           savings
         }))
         .sort((a, b) => b.savings - a.savings);
-  
-      // Calculate the total savings across all brands
-      const total = Object.values(brandSavings).reduce((sum, val) => sum + val, 0);
+
+      const total = Object.values(categorySavings).reduce((sum, val) => sum + val, 0);
       setTotalSavings(total);
-  
-      // Pick the top five brands
-      const topFive = sortedBrands.slice(0, 5);
-      setTopBrands(topFive);
+
+      // Select the top 5 categories
+      const topFive = sortedCategories.slice(0, 5);
+      setTopCategories(topFive);
     }
     fetchData();
   }, []);
-  
-
-  // Calculate total for percentage
-  const total = topBrands.reduce((sum, brand) => sum + brand.count, 0);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
@@ -199,17 +174,11 @@ function BrandsTorusDisplay() {
         <Canvas style={{ height: '400px' }} camera={{ position: [5, 8, 10], fov: 75 }}>
           <ambientLight intensity={1.25} />
           <pointLight position={[10, 10, 10]} />
-          <RotatingTorus topBrands={topBrands} />
-          <OrbitControls 
-            minDistance={8}
-            maxDistance={20}
-            enablePan={false}
-            enableZoom={true}
-            enableRotate={true}
-          />
+          <RotatingTorus topCategories={topCategories} />
+          <OrbitControls minDistance={8} maxDistance={20} enablePan={false} enableZoom={true} enableRotate={true} />
         </Canvas>
       </div>
-      
+
       {/* Legend Box */}
       <div style={{
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -220,24 +189,21 @@ function BrandsTorusDisplay() {
         flexDirection: 'column',
         gap: '4px',
         minWidth: '300px',
-        margin: '0 auto',
-        marginTop: -50
+        margin: '0 auto'
       }}>
-        {/* Header */}
         <div style={{
           textAlign: 'center',
           fontSize: '18px',
           fontWeight: 'bold',
           marginBottom: '1px'
         }}>
-         Brands You Saved the Most With
+          Categories You Saved the Most With
         </div>
 
-        {/* List of Top Brands */}
-        {topBrands.map((brand, index) => {
-          const percentage = totalSavings > 0 ? ((brand.savings / totalSavings) * 100).toFixed(1) : "0";
+        {topCategories.map((cat, index) => {
+          const percentage = totalSavings > 0 ? ((cat.savings / totalSavings) * 100).toFixed(1) : "0";
           return (
-            <div key={brand.name} style={{
+            <div key={cat.category} style={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
@@ -252,17 +218,16 @@ function BrandsTorusDisplay() {
                   backgroundColor: colors[index % colors.length],
                   borderRadius: '2px'
                 }} />
-                <span style={{ fontSize: '14px' }}>{brand.name}</span>
+                <span style={{ fontSize: '14px' }}>{cat.category}</span>
               </div>
               <div style={{ display: 'flex', gap: '16px', fontSize: '16px' }}>
                 <span>{percentage}%</span>
-                <span>${brand.savings.toLocaleString()}</span>
+                <span>${cat.savings.toLocaleString()}</span>
               </div>
             </div>
           );
         })}
 
-        {/* Total Savings at the bottom */}
         <div style={{
           textAlign: 'center',
           fontSize: '14px',
@@ -276,4 +241,4 @@ function BrandsTorusDisplay() {
   );
 }
 
-export default BrandsTorusDisplay;
+export default CategoriesTorusDisplay;
