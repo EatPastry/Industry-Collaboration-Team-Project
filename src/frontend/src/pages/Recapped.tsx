@@ -12,7 +12,7 @@ import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
 import Button from "../components/Button";
 import {getSession, addTransaction} from "../services/API";
 import GPTFacts from "./recappedSubPages/GPTFacts";
-
+import MenuBar from "../components/MenuBar";
 
 
 /**
@@ -31,21 +31,22 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
-/**
- * Handles user sign out. <br>
- * Closes Session and Clears User cookies
- *
- * @param navigation of useNavigate() to navigate to Log in (/) page
- */
-async function signOut(navigation : NavigateFunction){
-  clearCookie(parseToken());
-  await supabase.auth.signOut();
-  navigation(`/`);
+
+async function viewOverview(navigation : NavigateFunction) {
+  try {
+    const {data: {session}} = await supabase.auth.getSession();
+    if (!session || !session.user) {
+      return;
+    }
+    navigation(`/pages/Overview/${session.user.id}`);
+  } catch (err) {
+    console.error("Unexpected error:", err);
+  }
 }
+
 
 /**
  * Generates Recapped page for logged in user
- * @constructor
  */
 function Recapped() {
   const navigation = useNavigate();
@@ -156,9 +157,7 @@ function Recapped() {
 
 
   return (
-
       <div className="Recapped">
-        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
         <div className="container">
           <div className="user-greeting">
             {loading ? (
@@ -170,6 +169,7 @@ function Recapped() {
 
           <br/>
             <Button text="Add Starbucks Transaction" onClick={transaction} className="transaction-button"/>
+
           <br/>
 
           {/*Add Recapped Sub page buttons*/}
@@ -179,6 +179,7 @@ function Recapped() {
           <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
           <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
           <button onClick={() => toggleSubPages("gptFacts")}>Random Fun Facts (Chat-GPT)</button>
+          <button onClick={() => viewOverview(navigation)}>View Overview</button>
 
           <br/>
 

@@ -58,9 +58,27 @@ export async function getSinglePartnerName(partnerID : string){
             .select("partnerName")
             .eq("partnerID", partnerID).single()
 
-    // If the partnerID exists return it, else return null
+    // If the partnerID exists return their partner Name, else return null
     if (latestPartner){
         return latestPartner.partnerName
+    }
+    return null;
+}
+
+
+/**
+ * Returns the partner ID for a given partner Name
+ * @param partnerName
+ */
+export async function pNameToID(partnerName : string){
+    const {data : partner} =
+        await supabase.from("Partner")
+            .select("partnerID")
+            .eq("partnerName", partnerName).single()
+
+    // If the partnerID exists return it, else return null
+    if (partner){
+        return partner.partnerID
     }
     return null;
 }
@@ -95,7 +113,6 @@ export async function getEveryUsersTransactions(){
     return allTransactions
 }
 
-
 /**
  * Adds a transaction for the current logged-in user
  *
@@ -103,10 +120,10 @@ export async function getEveryUsersTransactions(){
  * @param amountSpent The amount spent for the transaction
  * @param discountAmount the discount added to the transaction
  */
-export async function addTransaction(partnerID : string, amountSpent : number, discountPercentage : number){
+export async function addTransaction(partnerID : string, amountSpent : number, discountPercentage : number) {
     // Get the current signed-in user from the session
     const session = await getSession();
-    if (!session){
+    if (!session) {
         console.error("No current signed in User");
         return null;
     }
@@ -114,11 +131,11 @@ export async function addTransaction(partnerID : string, amountSpent : number, d
     // Add the data to the transaction table
     const {data, error} = await supabase.from("Transactions")
         .insert([{
-            userID : session.user.id,
-            partnerID : partnerID,
-            amountSpent : amountSpent,
-            discountPercentage : discountPercentage,
-            transactionTimestamp : new Date().toISOString()
+            userID: session.user.id,
+            partnerID: partnerID,
+            amountSpent: amountSpent,
+            discountPercentage: discountPercentage,
+            transactionTimestamp: new Date().toISOString()
         }])
     if (error) {
         console.error("Error adding transaction.");
@@ -127,4 +144,96 @@ export async function addTransaction(partnerID : string, amountSpent : number, d
         console.log("Transaction added.");
         return true;
     }
+}
+
+
+/**
+ * Returns the first name of the current logged-in user
+ */
+export async function getFirstName(){
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+    // fetch the username using the userid for the current logged-in user
+    const {data: firstname} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
+    if (firstname){
+        return firstname.firstName?.toString()
+    }
+    return null
+}
+
+/**
+ * Returns the last name of the current logged-in user
+ */
+export async function getLastName(){
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+    // fetch the username using the userid for the current logged-in user
+    const {data: lastName} = await supabase.from('User').select('lastName').eq('userID', session.user.id).single();
+    if (lastName){
+        return lastName.lastName?.toString()
+    }
+    return null
+}
+
+
+/**
+ * Returns the full name the current logged-in user
+ */
+export async function getFullName(){
+    let firstName = await getFirstName();
+    let lastName = await getLastName();
+    if (!lastName){
+        lastName = ""
+    }
+
+    if (firstName){
+        return firstName.concat(" ", lastName);
+    }
+    return null;
+}
+
+
+
+/**
+ * returns the profile picture of the current logged-in user
+ */
+export async function getProfilePicture(){
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+
+
+   const userMetaData = session.user.user_metadata;
+
+    if (userMetaData){
+        return userMetaData.avatar_url || userMetaData.user_avatar || userMetaData.picture;
+    }
+
+    return null;
+}
+
+/**
+ * returns true/false if the current logged-in user has made transactions
+ */
+export async function hasTransaction(){
+    // Get the session for the current logged-in user
+    let session = await getSession();
+    if (!session){
+        return null;
+    }
+
+    // Gets a single transaction from the current logged-in user
+    const {data} = await supabase
+        .from('Transactions')
+        .select('userID')
+        .eq('userID', session.user.id)
+        .limit(1);
+
+    // returns true if there exists a transaction
+    return !!(data && data.length > 0);
 }
