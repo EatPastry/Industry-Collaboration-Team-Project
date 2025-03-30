@@ -80,6 +80,7 @@ body.filler .TransactionHub{
         margin-left: 0;
     }
 
+
     /*Sets the background such that it is above all content except for the menu and navigation bars*/
     #mobileBackground{
         position: fixed;

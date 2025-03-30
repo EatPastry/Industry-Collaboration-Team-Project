@@ -12,6 +12,8 @@ body.filler .TransactionHub{
     display: flex;
     flex-direction: column;
 
+    text-align: center;
+
     height: 94%;
     width: 92%;
     top: 6%;
@@ -24,9 +26,7 @@ body.filler .TransactionHub{
     transition: margin-left 0.28s ease-in-out, width 0.5s ease-in-out;
     overflow-y: auto;
 
-    /* Disable scrollbars for Firefox and Edge */
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+
 
 }
 
@@ -41,20 +41,16 @@ body.filler .TransactionHub{
     margin-top: 1rem;
 }
 
-
-/* disable scrollbars for Chrome and Safari */
-.TransactionHub::-webkit-scrollbar {
-    display: none;
-}
-
 /*transactionHub title styling*/
 #title{
-    margin-top: 10px;
-    background-color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 0;
+    margin: 0 0 4px;
 
-    p{
-        padding: 0;
-        margin: 0 0 4px;
+    h1{
+        width: 100%;
+        margin-top: 10px;
+        text-align: center;
     }
 }
 

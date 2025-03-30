@@ -37,7 +37,7 @@ function MenuBar(){
     return (
         <>
         <div className="navBarWrapper">
-        <div className={"menuBar"}>
+        <div className="menuBar">
             {/*set is open to !isOpen when the hamburger Icon is pressed, css class is based off of this*/}
             <img id = "hamburgerIcon"
                  className = {isOpen? "rotateRight" : "rotateLeft"}
@@ -49,8 +49,8 @@ function MenuBar(){
                     alt="UNiDAYS"
                     src="https://assets1.unidays.world/v5/main/assets/images/logo_v003.svg"
                     />
-
             </div>
+
 
             {/*If we are not on mobile then NavigationBar exists as a child of MenuBar*/}
             {!isMobile && <NavigationBar isOpen={isOpen} onClose = {close}/>}

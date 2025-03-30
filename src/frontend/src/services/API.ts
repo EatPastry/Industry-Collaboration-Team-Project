@@ -113,12 +113,9 @@ export async function getEveryUsersTransactions(){
     return allTransactions
 }
 
+
 /**
- * Adds a transaction for the current logged-in user
- *
- * @param partnerID The partnerID of the transaction
- * @param amountSpent The amount spent for the transaction
- * @param discountAmount the discount added to the transaction
+ * Returns the last name of the current logged-in user
  */
 export async function addTransaction(partnerID : string, amountSpent : number, discountPercentage : number) {
     // Get the current signed-in user from the session
@@ -220,10 +217,10 @@ export async function getProfilePicture(){
 /**
  * returns true/false if the current logged-in user has made transactions
  */
-export async function hasTransaction(){
+export async function hasTransaction() {
     // Get the session for the current logged-in user
     let session = await getSession();
-    if (!session){
+    if (!session) {
         return null;
     }
 
@@ -236,4 +233,6 @@ export async function hasTransaction(){
 
     // returns true if there exists a transaction
     return !!(data && data.length > 0);
+
+
 }

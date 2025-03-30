@@ -23,7 +23,6 @@ function NavigationBar({isOpen, onClose}: barProps) {
     // Set the initial profile picture src to blankProfile.jpg
     const [profilePicture, setProfilePicture] = useState(blankProfile);
 
-
     async function navigateToPage(page : string){
         // fetch the session for the current user
         const session = await getSession();
@@ -40,7 +39,7 @@ function NavigationBar({isOpen, onClose}: barProps) {
     }
 
 
-    // data to be fetched on the initial render only
+    // User credentials fetched on the initial render only
     useEffect(() => {
         // Fetches the full Name of the current logged-in user using API.ts
         async function fetchFullName(){
@@ -120,13 +119,12 @@ function NavigationBar({isOpen, onClose}: barProps) {
                         <br/>
                         <button onClick={() => navigateToPage("Recapped")}>Recapped</button>
                         <br/>
-                        <button onClick={() => navigateToPage("Overview")}>Overview</button>
-                        <br/>
                         <button onClick={() => navigateToPage("TransactionHub")}>Transaction Hub</button>
                         <br/>
 
                         {/*Call signOut when the sign-out button is pressed */}
                         <button id="signOutBtn" onClick={() => signOut(navigation)}>Sign Out</button>
+
                     </div>
                 }
             </div>

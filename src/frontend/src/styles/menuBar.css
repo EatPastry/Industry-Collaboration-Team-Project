@@ -4,9 +4,9 @@
     background: #c1b3fe;
     display: flex;
     z-index: 1000;
-    position: relative;
     justify-content: center;
-
+    position: fixed;
+    top: 0;
     width: 100%;
     height: 40px;
 }
@@ -28,10 +28,20 @@
 
 /*Sets the bar title to the centre of the bar*/
 #barTitle{
-    display : flex;
-    align-items: center;
-    justify-content: center;
-    transform: translateY(0);
+    position: absolute;
+    transform: translateY(10px);
+    left: 38%;
+    transition: all 0.28s ease-in-out;
+}
+
+/*Menu Bar UNiDAYS title resizes to nav bar margin on desktop*/
+@media (width > 600px) {
+    #barTitle {
+        left: 45%
+    }
+    body.filler #barTitle {
+        left: calc(45% - 150px);
+    }
 }
 
 

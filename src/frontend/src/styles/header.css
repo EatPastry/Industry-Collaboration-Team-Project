@@ -11,10 +11,13 @@
 header {
     background-color:  rgb(255, 255, 255);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    display: inline-block;
+    display: flex;
     padding: 30px;
     margin-top: 10px;
     border-radius: 4px;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 h1 {
