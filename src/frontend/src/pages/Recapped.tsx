@@ -5,7 +5,7 @@ import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
 import {getFirstName} from "../services/API";
 import Overview from "./Overview";
-import GPTFacts from "./recappedSubPages/GPTFacts";
+import GPTFacts from "./storyPages/GPTFacts";
 
 
 

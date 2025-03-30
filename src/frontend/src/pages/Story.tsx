@@ -7,15 +7,14 @@ import {clearCookie, parseToken} from "../services/Authentication";
 import { Reveal } from "react-awesome-reveal";
 import { keyframes } from "@emotion/react";
 import { ShareFileButton } from "../components/ShareButton";
-import Savings from "./recappedSubPages/Savings";
-import Brand from "./recappedSubPages/Brand";
-import ComparativeStats from "./recappedSubPages/ComparativeStats";
-import FunFacts from "./recappedSubPages/FunFacts";
-import Categories from "./recappedSubPages/Categories";
-import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
-import ReactDOM from 'react-dom';
-import { start } from 'repl';
-import GPTFacts from './recappedSubPages/GPTFacts';
+import Savings from "./storyPages/Savings";
+import Brand from "./storyPages/Brand";
+import ComparativeStats from "./storyPages/ComparativeStats";
+import Categories from "./storyPages/Categories";
+import TimeBasedInsights from "./storyPages/TimeBasedInsights";
+import GPTFacts from './storyPages/GPTFacts';
+import Intro from './storyPages/Intro';
+import {getSession} from "../services/API";
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -62,13 +61,11 @@ function Story() {
     let time = new Date()
       // slides for story
   const pages = [
+    <Intro />,
     <Savings />,
-    <div>hello</div>,
     <Categories />,
     <Brand />,
     <ComparativeStats />,
-    <TimeBasedInsights />,
-    <FunFacts />,
     <GPTFacts/>
   ];
 
@@ -261,9 +258,19 @@ function Story() {
     currStoryTime = 0;
   }
 
-  function goRight() {
-    setCurrentPage((prev) => Math.min(prev + 1, numReps - 1));
-    currStoryTime = 0;
+  async function goRight() {
+      if (currentPage < numReps - 1) {
+        setCurrentPage((prev) => Math.min(prev + 1, numReps - 1));
+        currStoryTime = 0;
+      }else{
+        const session = await getSession()
+
+        if (!session){
+          return;
+        }
+
+        navigation(`/pages/recapped/${session.user.id}`)
+      }
   }
 
   // Left half of screen for taps
@@ -345,10 +352,10 @@ function Story() {
           <div id="left" onClick={handleLeftClick}></div>
           <div id="right" onClick={handleRightClick}></div>
         </div>
-        
+
         <div className="story-share-container">
           <div className="share-container">
-        
+            <ShareFileButton elementRef={elementRef}/>
           </div>
         </div>
       </div>

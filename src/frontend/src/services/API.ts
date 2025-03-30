@@ -176,7 +176,6 @@ export async function getLastName(){
     return null
 }
 
-
 /**
  * Returns the full name the current logged-in user
  */
