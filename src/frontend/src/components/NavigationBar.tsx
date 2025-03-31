@@ -117,14 +117,14 @@ function NavigationBar({isOpen, onClose}: barProps) {
                         </div>
 
                         <br/>
-                        <button onClick={() => navigateToPage("Recapped")}>Recapped</button>
-                        <br/>
-                        <button onClick={() => navigateToPage("Story")}>Recapped Story</button>
-                        <br/>
-                        <button onClick={() => navigateToPage("TransactionHub")}>Transaction Hub</button>
-                        <br/>
+                        <button className='navBarButton' onClick={() => navigateToPage("Recapped")}>Recapped</button>
+                        
+                        <button className='navBarButton' onClick={() => navigateToPage("Story")}>Recapped Story</button>
+                        
+                        <button className='navBarButton' onClick={() => navigateToPage("TransactionHub")}>Transaction Hub</button>
+                        
                         {/*Call signOut when the sign-out button is pressed */}
-                        <button id="signOutBtn" onClick={() => signOut(navigation)}>Sign Out</button>
+                        <button className='navBarButton' id="signOutBtn" onClick={() => signOut(navigation)}>Sign Out</button>
 
                     </div>
                 }

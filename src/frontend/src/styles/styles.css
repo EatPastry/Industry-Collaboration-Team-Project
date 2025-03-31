@@ -74,7 +74,7 @@ a, button {
 /*Styles 'Your 2025 Recapped' title*/
 .yourRecapped{
     padding-top: 60px;
-    font-size: 12vw;
+    font-size: 12vh;
     font-weight: bold;
     text-align: center;
     color: white;
@@ -82,7 +82,6 @@ a, button {
     max-width: 90%;
     max-height: 100%;
     box-sizing: border-box;
-    font-family: istokweb;
 }
 
 /*Adjust 'Your Recapped' title for smaller screens*/
@@ -97,7 +96,8 @@ a, button {
 /*Styles the button that allows students to view their recapped story*/
 .viewButton{
         /* background-color: #4169E1;*/
-        background: linear-gradient(to bottom, #b1d0fb, #456cdf);
+        /*linear-gradient(to bottom, #b1d0fb, #456cdf);*/
+        background: #4169E1;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 
 
@@ -109,6 +109,11 @@ a, button {
         font-weight: 400;
         cursor: pointer;
         margin-top: 4%;
+        transition: 0.3s;
+}
+
+.viewButton:hover {
+    background: #1a49d8;
 }
 
 /*Styles the Top brands container*/
@@ -452,7 +457,7 @@ a, button {
     }
 }
 
->>>>>>> origin/feature/recapped-story
+
 /*Cursor properties for our custom cursor, currently disabled*/
 .cursor {
     position: fixed;

@@ -53,7 +53,18 @@ body.filler .TransactionHub{
     justify-content: center;
 }
 
+.navBarButton {
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: none;
+    font-size: 20px;
+}
 
+.navBarButton:hover {
+    color: #1343de;
+    background-color: rgba(0,100,200,0.1);
+}
 /*Change the layout of the navigation Bar for screens below a 600px width*/
 @media screen and (max-width : 600px){
     .navigationBar {
