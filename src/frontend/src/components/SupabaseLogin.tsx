@@ -4,6 +4,7 @@ import { Session } from '@supabase/supabase-js';
 import GoogleButton from "./GoogleButton";
 import {useNavigate} from "react-router-dom";
 import {generateCookie} from "../services/Authentication";
+import {hasTransaction} from "../services/API";
 
 
 /**
@@ -49,11 +50,11 @@ function SupabaseLogin(){
 
         const {
             data: {subscription},
-        } = supabase.auth.onAuthStateChange((_event, session) => {
+        } = supabase.auth.onAuthStateChange(async (_event, session) => {
             setSession(session)
 
             // If the user is logged in we will add them to the table of new users (if they are new)
-            if (session){
+            if (session) {
                 const uuid = session.user.id;
                 generateCookie(uuid)
 
@@ -70,8 +71,15 @@ function SupabaseLogin(){
                     }
                 }
 
-                // navigate to the users recapped page
-                navigation(`/pages/Recapped/${uuid}`);
+                // Check if the current user has a transaction
+                const hasTransactions = await hasTransaction();
+                if (hasTransactions) {
+                    // navigate to the users recapped page if transaction exists
+                    navigation(`/pages/Recapped/${uuid}`);
+                } else {
+                    // navigate to the users transaction hub if no transaction exists
+                    navigation(`/pages/transactionHub/${uuid}`);
+                }
             }
         })
 

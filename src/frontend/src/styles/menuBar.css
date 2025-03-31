@@ -1,0 +1,51 @@
+
+/*Sets the style for the menuBar and the position of its contents*/
+.menuBar{
+    background: #c1b3fe;
+    display: flex;
+    z-index: 1000;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px;
+}
+
+/*sets the  position and transition for the hamburger icon*/
+#hamburgerIcon{
+    position: absolute;
+    left: 1%;
+    transition: transform 0.1s ease-in-out;
+}
+
+.rotateRight{
+    transform: rotate(90deg) translatey(10%);
+}
+
+.rotateLeft{
+    transform: rotate(0deg);
+}
+
+/*Sets the bar title to the centre of the bar*/
+#barTitle{
+    position: absolute;
+    transform: translateY(10px);
+    left: 38%;
+    transition: all 0.28s ease-in-out;
+}
+
+/*Menu Bar UNiDAYS title resizes to nav bar margin on desktop*/
+@media (width > 600px) {
+    #barTitle {
+        left: 45%
+    }
+    body.filler #barTitle {
+        left: calc(45% - 150px);
+    }
+}
+
+
+
+
+
+

@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-// import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
-import { ShareFileButton } from "../components/ShareButton";
-import Savings from "./recappedSubPages/Savings";
-import Brand from "./recappedSubPages/Brand";
-import ComparativeStats from "./recappedSubPages/ComparativeStats";
-import FunFacts from "./recappedSubPages/FunFacts";
-import Categories from "./recappedSubPages/Categories";
-import TimeBasedInsights from "./recappedSubPages/TimeBasedInsights";
+import {getFirstName} from "../services/API";
+import Overview from "./Overview";
+import GPTFacts from "./storyPages/GPTFacts";
 
 
 
@@ -30,36 +25,17 @@ export function checkSession(navigation : NavigateFunction){
   }, 3000)
 }
 
-/**
- * Handles user sign out. <br>
- * Closes Session and Clears User cookies
- *
- * @param navigation of useNavigate() to navigate to Log in (/) page
- */
-async function signOut(navigation : NavigateFunction){
-  clearCookie(parseToken());
-  await supabase.auth.signOut();
-  navigation(`/`);
-}
+
 
 /**
  * Generates Recapped page for logged in user
- * @constructor
  */
 function Recapped() {
   const navigation = useNavigate();
-  const [transactionAmount, setTransactionAmount] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  let [firstName, setFirstName] = useState('');
   const location = useLocation();
 
   //Recapped SubPage state Handling
-  const [savings, setSavings] = useState(false);
-  const [categories, setCategories] = useState(false);
-  const [brand, setBrand] = useState(false);
-  const [comparativeStats, setComparativeStats] = useState(false);
-  const [timeBasedInsights, setTimeBasedInsights] = useState(false);
-  const [funFacts, setFunFacts] = useState(false);
+  const [gptFacts, setGptFacts] = useState(false);
 
 
   /**
@@ -67,57 +43,13 @@ function Recapped() {
    * the other subpage states should be set to false
    */
    function toggleSubPages(subpage : string){
-    setSavings(subpage == "savings")
-    setCategories(subpage == "categories")
-    setBrand(subpage == "brands")
-    setComparativeStats(subpage == "comparativeStats")
-    setTimeBasedInsights(subpage == "timeBasedInsights")
-    setFunFacts(subpage == "funFacts")
+    setGptFacts(subpage == "gptFacts")
   }
 
 
   useEffect(() => {
     // Log user out if without session
     const hasSession = checkSession(navigation)
-
-    async function fetchUserData() {
-      try {
-        const {data: {session}} = await supabase.auth.getSession();
-        if (!session || !session.user) {
-          return;
-        }
-
-
-        // fetch current users firstname from the User table
-        const {data: usersName} = await supabase.from('User').select('firstName').eq('userID', session.user.id).single();
-        if (usersName) {
-          setFirstName(usersName.firstName?.toString());
-        }
-
-        // Fetch an instance of a transaction the current user has made from the Transaction table
-        const {data, error} = await supabase
-            .from("Transactions")
-            .select("amountSpent")
-            .eq("userID", session.user.id)
-        if (error) {
-          console.error("Error fetching transaction:", error);
-          setTransactionAmount("Error fetching transaction");
-        } else if (data) {
-          console.log("Transaction data fetched");
-          setTransactionAmount(data[0].amountSpent.toString());
-        } else {
-          setTransactionAmount("No transaction data found");
-        }
-      } catch (err) {
-        console.error("Unexpected error:", err);
-        setTransactionAmount("Unexpected error");
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchUserData();
-
 
     return () => {
       clearInterval(hasSession)
@@ -130,66 +62,13 @@ function Recapped() {
     return protectionError;
   }
 
-  function getStats() {
-    return transactionAmount !== null
-        ? `£${transactionAmount}`
-        : "";
-  }
-
-  function Stats() {
-    let value = getStats();
-    return (
-        <div>{value}</div>
-    );
-  }
-
-  function App() {
-    return (
-        <ShareFileButton/>
-    );
-  }
-
   return (
-
-      <div className="Recapped">
-        <button id="signOutBtn" onClick={() => signOut(navigation)}>sign out</button>
-        <div className="container">
-          <div className="user-greeting">
-            {loading ? (
-                <p>Loading user data...</p>
-            ) : (
-                <header><h1>Hello, {firstName}!</h1></header>
-            )}
-          </div>
-          <br/>
-
-          {/*Add Recapped Sub page buttons*/}
-          <button onClick={() => toggleSubPages("savings")}>Savings</button>
-          <button onClick={() => toggleSubPages("categories")}>Categories</button>
-          <button onClick={() => toggleSubPages("brands")}>Brands</button>
-          <button onClick={() => toggleSubPages("comparativeStats")}>Comparative Stats</button>
-          <button onClick={() => toggleSubPages("timeBasedInsights")}>Time-Based Insights</button>
-          <button onClick={() => toggleSubPages("funFacts")}>Random Fun Facts (LLM?)</button>
-
-          <br/>
-
-          {/*Compare subpage state && return subpage if true*/}
-          {savings && <Savings/>}
-          {categories && <Categories/>}
-          {brand && <Brand/>}
-          {comparativeStats && <ComparativeStats/>}
-          {timeBasedInsights && <TimeBasedInsights/>}
-          {funFacts && <FunFacts/>}
-
-          <div className="share-container">
-            <App/>
-          </div>
-
-          <canvas id="img-container" width="300" height="300"><Stats/></canvas>
-        </div>
+      <div className="recapped">
+          <Overview/>
+        {/*<button onClick={() => toggleSubPages("gptFacts")}>Random Fun Facts (Chat-GPT)</button>*/}
+        {/*{gptFacts && <GPTFacts/>}*/}
       </div>
-  );
-}
+);}
 
 
 export default Recapped;
