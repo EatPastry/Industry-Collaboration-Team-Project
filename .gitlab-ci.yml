@@ -19,7 +19,7 @@ deploy_preview:
 deploy_production:
   stage: deploy
   only:
-    - dev
+    - main
   script:
     - npm install --global vercel
     - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
