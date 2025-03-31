@@ -32,7 +32,6 @@
         "react-scripts": "^5.0.1",
         "react-slot-counter": "^3.3.0",
         "react-tsparticles": "^2.9.3",
-        "supabase": "^2.20.5",
         "swiper": "^11.2.5",
         "three": "^0.159.0",
         "tsparticles": "^2.9.3",
