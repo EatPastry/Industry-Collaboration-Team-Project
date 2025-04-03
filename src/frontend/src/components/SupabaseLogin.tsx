@@ -86,11 +86,9 @@ function SupabaseLogin(){
         return () => subscription.unsubscribe()
     }, [navigation])
 
-    // No logged in user returns Google button
-    if (!session) {
-        return <GoogleButton onClick={googleButtonHandler}></GoogleButton>
-    }
-    return null
+
+    // Return the Google button
+    return <GoogleButton onClick={googleButtonHandler}></GoogleButton>
 }
 
 export default SupabaseLogin;
