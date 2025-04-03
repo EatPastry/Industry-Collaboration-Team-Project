@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import '../styles/navigationBar.css'
 import blankProfile from '../assets/blankProfile.jpg'
-import {getFullName, getProfilePicture, getSession} from "../services/API";
+import {getFullName, getProfilePicture, getSession, isOfGoogle} from "../services/API";
 import {clearCookie, parseToken} from "../services/Authentication";
 import {supabase} from "../utils/supabase";
 import {NavigateFunction, useNavigate} from "react-router-dom";
@@ -41,27 +41,27 @@ function NavigationBar({isOpen, onClose}: barProps) {
 
     // User credentials fetched on the initial render only
     useEffect(() => {
-        // Fetches the full Name of the current logged-in user using API.ts
-        async function fetchFullName(){
+        // fetches the full name and profile picture URL of the current logged-in user using API.ts
+        async function fetchProfileData(){
             let name = await getFullName();
-            if (name){
+
+            // Checks if the account was created using google
+            if (await isOfGoogle()){
+                const image = await getProfilePicture();
+
+                // Google Profile image render together or fail together
+                if (image && name) {
+                    setProfilePicture(image);
+                    setFullName(name);
+                }
+            }else{
+                // If account is not of Google then no profile picture exists
                 setFullName(name);
             }
+
         }
 
-        fetchFullName()
-
-        // fetches the profile picture URL of the current logged-in user using API.ts
-        async function getProfileImage() {
-            const image = await getProfilePicture();
-
-            if (image) {
-                setProfilePicture(image);
-            }
-        }
-
-        getProfileImage()
-
+        fetchProfileData()
     }, []);
 
     // called for every update of isOpen
