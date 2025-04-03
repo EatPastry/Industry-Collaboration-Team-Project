@@ -7,7 +7,6 @@
     font-weight: 400;
     font-style: normal;
 
-
     /* Disable scrollbars for Firefox and Edge */
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -34,14 +33,17 @@ body::-webkit-scrollbar {
 a, button {
     cursor: pointer;
 }
+
 .overview {
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh; 
+    position: relative;
 }
+
 .boardContainer{
     display: flex;
     flex-direction: column;
@@ -50,35 +52,20 @@ a, button {
     width: 400px;
     background-color: rgba(255, 255, 255, 0.7);
     position: relative;
-    margin-top:2%;
     max-width: 100%;
     border-radius:5%;
-    
-    
 }
 
 .imagesInBoard{
     border-radius: 10px;
 }
 
-.overview {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh; 
-    margin-top: 40px;
-}
-
 /*Styles 'Your 2025 Recapped' title*/
 .yourRecapped{
-    padding-top: 60px;
     font-size: 12vh;
     font-weight: bold;
     text-align: center;
     color: white;
-    margin-top: 10%;
     max-width: 90%;
     max-height: 100%;
     box-sizing: border-box;
@@ -87,8 +74,6 @@ a, button {
 /*Adjust 'Your Recapped' title for smaller screens*/
 @media (width < 600px){
     .yourRecapped{
-        margin-top: 5vh;
-        padding-bottom: 5vh;
         font-size: 16vw;
     }
 }
@@ -108,7 +93,9 @@ a, button {
         font-size: 1.2rem;
         font-weight: 400;
         cursor: pointer;
-        margin-top: 4%;
+
+        margin-top: 5vh;
+
         transition: 0.3s;
 }
 
@@ -127,6 +114,7 @@ a, button {
     position: relative;
     max-width: 90%;
     border-radius:5%;
+    margin-top:0;
 }
 
 .brandRow {
@@ -581,6 +569,7 @@ a, button {
 
     /*User response upon login/signup error*/
     #userResponse{
+        text-align: center;
         display: block;
         min-height: 25px;
         color: red;
@@ -637,39 +626,6 @@ a, button {
     background-color: white;
   }
 
-.Recapped {
-    .share-container {
-        bottom: 5vh;
-        right: 5vw;
-    }
-
-    .share-button {
-        border-radius: 5px;
-        border: none;
-        background-color: rgba(100, 100, 100, 0.5);
-    }
-
-    .share-button:hover {
-        background-color: rgba(100, 100, 100, 0.7);
-    }
-
-    #recappedButtons{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    canvas {
-        display:none;
-    }
-
-    @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-    }
-
-}
 
 
 /* for whatamesh background */
@@ -680,5 +636,5 @@ a, button {
     --gradient-color-2: #24dfc6; 
     --gradient-color-3: #790d70;  
     --gradient-color-4: #c74444;
-  }
+}
 
