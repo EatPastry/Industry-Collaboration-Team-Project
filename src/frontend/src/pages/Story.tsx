@@ -1,8 +1,6 @@
-import React, {useEffect, useState, useRef, ReactElement, useSyncExternalStore} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-// import DataString from '../components/DataString';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
-import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
 import { Reveal } from "react-awesome-reveal";
 import { keyframes } from "@emotion/react";
@@ -11,10 +9,9 @@ import Savings from "./storyPages/Savings";
 import Brand from "./storyPages/Brand";
 import ComparativeStats from "./storyPages/ComparativeStats";
 import Categories from "./storyPages/Categories";
-import TimeBasedInsights from "./storyPages/TimeBasedInsights";
 import GPTFacts from './storyPages/GPTFacts';
 import Intro from './storyPages/Intro';
-import {getSession} from "../services/API";
+import {doesUserExist, getSession, getUUID} from "../services/API";
 
 /**
  * Checks every 3 seconds that the session is still active <br>
@@ -24,19 +21,18 @@ import {getSession} from "../services/API";
  */
 export function checkSession(navigation : NavigateFunction){
     return setInterval(async () => {
-      let { error} = await supabase.auth.getUser();
+      let error = await doesUserExist();
       if (error) {
         clearCookie(parseToken());
         navigation(`/`);
       }
     }, 3000)
-  }
+}
 
-  
 
 const barAnimation = keyframes`
 from {
-  width: 0%;
+  width: 0;
   animation-timing-function: linear;
   border-radius: 16px;
 }
@@ -263,13 +259,12 @@ function Story() {
         setCurrentPage((prev) => Math.min(prev + 1, numReps - 1));
         currStoryTime = 0;
       }else{
-        const session = await getSession()
+        const userID = await getUUID()
 
-        if (!session){
-          return;
+        if (userID){
+          navigation(`/pages/recapped/${userID}`)
         }
 
-        navigation(`/pages/recapped/${session.user.id}`)
       }
   }
 

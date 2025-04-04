@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../styles/transactionHub.css';
 import Calendar from "../components/Calendar";
-import {getSession, pNameToID} from "../services/API";
-import {supabase} from "../utils/supabase";
+import {addManyTransactions, doesUserExist, getUUID, pNameToID} from "../services/API";
 import {clearCookie, parseToken} from "../services/Authentication";
 import {NavigateFunction, useLocation, useNavigate} from "react-router-dom";
 
@@ -16,7 +15,7 @@ import {NavigateFunction, useLocation, useNavigate} from "react-router-dom";
  */
 export function checkSession(navigation : NavigateFunction){
     return setInterval(async () => {
-        let { error} = await supabase.auth.getUser();
+        let error = await doesUserExist();
         if (error) {
             clearCookie(parseToken());
             navigation(`/`);
@@ -272,14 +271,8 @@ function TransactionHub() {
     }
 
     async function buyAllHandler(){
-        // get session for current logged in user
-        const session = await getSession()
-
-        if (!session){
-            throw new Error("Session for current user not found")
-        }
         // get userID for the current logged in user from the session
-        const userID = session.user.id;
+        const userID  = await getUUID();
 
         // create a list of transactions from the items in basketItems
         const allTransactions = basketItems.map(item => ({
@@ -291,11 +284,7 @@ function TransactionHub() {
         }));
 
         // Push the list of transaction to the db
-        const {error} = await supabase.from('Transactions').insert(allTransactions)
-        if (error){
-            console.error(error)
-            return;
-        }
+        await addManyTransactions(allTransactions)
 
         // Remove the items from the basket
         clearBasket()

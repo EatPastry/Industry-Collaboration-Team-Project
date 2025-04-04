@@ -5,7 +5,7 @@ import Header from '../components/Header'
 import "../services/Authentication";
 import {generateCookie, signInWithPassword} from "../services/Authentication";
 import SupabaseLogin from "../components/SupabaseLogin";
-import {supabase} from "../utils/supabase";
+import {getSession, getUUID} from "../services/API";
 
 /**
  * Creates the elements for the Login page
@@ -31,10 +31,10 @@ function Login () {
             if (await signInWithPassword(email, password)){
                 responseMsg.innerText = "";
 
-                const {data: {session}} = await supabase.auth.getSession();
-                if (session && session.user.email){
-                    generateCookie(session.user.id)
-                    navigation(`pages/Recapped/${session.user.id}`);
+                const userID = await getUUID();
+                if (userID){
+                    generateCookie(userID)
+                    navigation(`pages/Recapped/${userID}`);
                 }else{
                     responseMsg.innerText = "Server Error";
                 }

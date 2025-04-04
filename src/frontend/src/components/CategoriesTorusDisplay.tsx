@@ -10,9 +10,9 @@ interface Category {
   savings: number;
 }
 
-// Colors for each of the top 5 categories (matching your brand palette)
-const colors = ['#FF1744', '#FF9100', '#FFEA00', '#00E676', '#2979FF'];
-const textColors = ['#C51162', '#DD6C00', '#C0B900', '#00A152', '#004FC4'];
+// colours for each of the top 5 categories (matching your brand palette)
+const colours = ['#FF1744', '#FF9100', '#FFEA00', '#00E676', '#2979FF'];
+const textcolours = ['#C51162', '#DD6C00', '#C0B900', '#00A152', '#004FC4'];
 
 function RotatingTorus({ topCategories }: { topCategories: Category[] }) {
   const torusRef = useRef<any>();
@@ -80,7 +80,7 @@ function RotatingTorus({ topCategories }: { topCategories: Category[] }) {
     <group ref={torusRef}>
       {topCategories.map((cat, index) => {
         const { start, end } = angles[index];
-        const color = colors[index % colors.length];
+        const color = colours[index % colours.length];
         const geometry = createTorusSegment(start, end);
         return (
           <mesh key={cat.category} geometry={geometry}>
@@ -104,7 +104,7 @@ function RotatingTorus({ topCategories }: { topCategories: Category[] }) {
               anchorX="center"
               anchorY="middle"
               outlineWidth={0.04}
-              outlineColor={textColors[index % textColors.length]}
+              outlineColor={textcolours[index % textcolours.length]}
               maxWidth={3}
               lineHeight={1}
               letterSpacing={0.02}
@@ -215,7 +215,7 @@ function CategoriesTorusDisplay() {
                 <div style={{
                   width: '10px',
                   height: '10px',
-                  backgroundColor: colors[index % colors.length],
+                  backgroundColor: colours[index % colours.length],
                   borderRadius: '2px'
                 }} />
                 <span style={{ fontSize: '14px' }}>{cat.category}</span>
