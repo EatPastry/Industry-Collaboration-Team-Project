@@ -232,6 +232,23 @@ export async function hasTransaction() {
 
     // returns true if there exists a transaction
     return !!(data && data.length > 0);
+}
 
 
+/**
+ * returns true if the profile is of Google login else returns false
+ */
+export async function isOfGoogle(){
+    const session = await getSession();
+    if (!session || session.user.identities == null){
+        return false;
+    }
+
+    for (let i = 0; i < session.user.identities.length; i++){
+        if (session.user.identities[i].provider === 'google'){
+            return true;
+        }
+    }
+
+    return false;
 }
