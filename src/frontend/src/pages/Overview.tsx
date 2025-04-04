@@ -5,9 +5,6 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import {supabase} from '../utils/supabase'
 
 
-
-
-
 const Overview: React.FC = () => {
   const navigation = useNavigate(); 
 

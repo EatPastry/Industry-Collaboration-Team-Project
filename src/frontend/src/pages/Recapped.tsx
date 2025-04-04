@@ -3,10 +3,7 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
-import {getFirstName} from "../services/API";
 import Overview from "./Overview";
-import GPTFacts from "./storyPages/GPTFacts";
-
 
 
 /**

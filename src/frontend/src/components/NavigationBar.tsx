@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import '../styles/navigationBar.css'
 import blankProfile from '../assets/blankProfile.jpg'
-import {getFullName, getProfilePicture, getSession} from "../services/API";
+import {getFullName, getProfilePicture, getUUID, signUserOut} from "../services/API";
 import {clearCookie, parseToken} from "../services/Authentication";
-import {supabase} from "../utils/supabase";
 import {NavigateFunction, useNavigate} from "react-router-dom";
 
 interface barProps {
@@ -24,10 +23,10 @@ function NavigationBar({isOpen, onClose}: barProps) {
     const [profilePicture, setProfilePicture] = useState(blankProfile);
 
     async function navigateToPage(page : string){
-        // fetch the session for the current user
-        const session = await getSession();
+        // fetch the userid for the current user
+        const userID = await getUUID();
 
-        if (!session){
+        if (!userID){
             return;
         }
 
@@ -35,7 +34,7 @@ function NavigationBar({isOpen, onClose}: barProps) {
             onClose();
         }
 
-        navigation(`pages/${page}/${session.user.id}`);
+        navigation(`pages/${page}/${userID}`);
     }
 
 
@@ -89,7 +88,7 @@ function NavigationBar({isOpen, onClose}: barProps) {
      */
     async function signOut(navigation : NavigateFunction){
         clearCookie(parseToken());
-        await supabase.auth.signOut();
+        await signUserOut()
         navigation(`/`);
     }
 

@@ -1,4 +1,3 @@
-// BrandsTorusDisplay.tsx
 import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls } from '@react-three/drei';
@@ -12,8 +11,8 @@ interface Brand {
 }
 
 //colours for each slice
-const colors = ['#FF1744', '#FF9100', '#FFEA00', '#00E676', '#2979FF'];
-const textColors = ['#C51162', '#DD6C00', '#C0B900', '#00A152', '#004FC4'];
+const colours = ['#FF1744', '#FF9100', '#FFEA00', '#00E676', '#2979FF'];
+const textcolours = ['#C51162', '#DD6C00', '#C0B900', '#00A152', '#004FC4'];
 
 
 function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
@@ -84,7 +83,7 @@ function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
     <group ref={torusRef}>
       {topBrands.map((brand, index) => {
         const { start, end } = angles[index];
-        const color = colors[index % colors.length];
+        const color = colours[index % colours.length];
         const geometry = createTorusSegment(start, end);
         return (
           <mesh key={brand.name} geometry={geometry}>
@@ -111,7 +110,7 @@ function RotatingTorus({ topBrands }: { topBrands: Brand[] }) {
               anchorX="center"
               anchorY="middle"
               outlineWidth={0.04}
-              outlineColor={textColors[index % textColors.length]}
+              outlineColor={textcolours[index % textcolours.length]}
               maxWidth={3}
               lineHeight={1}
               letterSpacing={0.02}
@@ -249,7 +248,7 @@ function BrandsTorusDisplay() {
                 <div style={{
                   width: '10px',
                   height: '10px',
-                  backgroundColor: colors[index % colors.length],
+                  backgroundColor: colours[index % colours.length],
                   borderRadius: '2px'
                 }} />
                 <span style={{ fontSize: '14px' }}>{brand.name}</span>

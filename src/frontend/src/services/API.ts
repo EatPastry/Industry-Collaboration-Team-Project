@@ -28,7 +28,6 @@ export async function getCurrentUserTransactions(){
     return userTransactions
 }
 
-
 // Takes a PartnerID and returns PartnerID, and ShopCategory from the Partner table for that given Partner ID
 export async function getPartnerIds(partnerID : (string | number)[]) : Promise<any | null>{
     // Pull the partnerData for each partnerID
@@ -81,6 +80,20 @@ export async function pNameToID(partnerName : string){
         return partner.partnerID
     }
     return null;
+}
+
+
+// Returns the partnerID and names for all the partners in the Partner table
+export async function getAllPartners(){
+    const { data, error } = await supabase
+        .from('Partner')
+        .select('partnerID, partnerName');
+
+    if (error){
+        throw error;
+    }else{
+        return data;
+    }
 }
 
 
@@ -143,6 +156,18 @@ export async function addTransaction(partnerID : string, amountSpent : number, d
     }
 }
 
+/**
+ * Adds an object of transactions to the Transactions table
+ */
+export async function addManyTransactions(transactions: { userID: string | null; partnerID: string; amountSpent:
+        number; discountPercentage: number; transactionTimestamp: string; }[]){
+    const {error} = await supabase.from('Transactions').insert(transactions)
+
+    if (error){
+        console.error(error)
+        return;
+    }
+}
 
 /**
  * Returns the first name of the current logged-in user
@@ -232,6 +257,92 @@ export async function hasTransaction() {
 
     // returns true if there exists a transaction
     return !!(data && data.length > 0);
+}
+
+/**
+ * Signs out the current logged-in user from their session
+ */
+export async function signUserOut(){
+    await supabase.auth.signOut();
+}
 
 
+
+
+/**
+ * Creates a row for the User in the user table if the user doesn't yet exist in the table
+ *
+ * @param firstName is the first name of the user to add
+ * @param lastName is the last name of the user to add
+ */
+export async function addGoogleUserTable(firstName : string, lastName : string){
+    const session = await getSession()
+
+    if (!session){
+        return;
+    }
+
+    const email = session.user.email;
+
+    const {data } = await supabase.from('User').select('email').eq('email', email);
+    if (data && data.length === 0){
+        await addUser(firstName, lastName)
+    }
+}
+
+
+/**
+ * Creates a row for the User in the user table
+ *
+ * @param firstName is the first name of the user to add
+ * @param lastName is the last name of the user to add
+ */
+export async function addUser(firstName : string, lastName : string) {
+    const session = await getSession();
+
+    if (!session){
+        return false;
+    }
+
+    const email = session.user.email;
+
+    await supabase.from('User').insert([{
+        userID : session.user.id, firstName : firstName, lastName : lastName, email : email}]);
+
+    return true;
+}
+
+
+
+/**
+ * Starts the sign in the Google process using SupaBases Oauth
+ * The User is then taken to the Google sign in page
+ */
+export async function googleOAuthSignIn(){
+    await supabase.auth.signInWithOAuth({
+        provider: 'google'
+    })
+}
+
+/**
+ * returns the UUID userID for the current signed-in user
+ */
+export async function getUUID(){
+    const session = await getSession();
+    if (!session){
+        return null;
+    }
+    return session.user.id;
+}
+
+/**
+ * Checks if there is a current signed-in user
+ * if no user then returns error, else returns null
+ */
+export async function doesUserExist(){
+    let { error} = await supabase.auth.getUser();
+    if (error){
+        return error;
+    }
+    return null;
 }
