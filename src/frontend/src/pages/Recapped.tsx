@@ -4,8 +4,9 @@ import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
 import {getFirstName} from "../services/API";
-import Overview from "./Overview";
 import GPTFacts from "./storyPages/GPTFacts";
+import ViewButton from "../components/ViewButton";
+import Board from "../components/Board";
 
 
 
@@ -62,11 +63,33 @@ function Recapped() {
     return protectionError;
   }
 
+  async function handleViewClick() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session || !session.user) return;
+      navigation(`/pages/Story/${session.user.id}`);
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
+  }
+
+
   return (
-      <div className="recapped">
-          <Overview/>
-        {/*<button onClick={() => toggleSubPages("gptFacts")}>Random Fun Facts (Chat-GPT)</button>*/}
-        {/*{gptFacts && <GPTFacts/>}*/}
+          <div className="navBarWrapper">
+            <div className="overview">
+                <h1 className ="yourRecapped">
+                  Your 2025 Recapped
+                </h1>
+
+                {/* View Button */}
+                <ViewButton label="View" onClick={handleViewClick} />
+
+                {/* Main Content */}
+                <div className="overview">
+                  <Board />
+                </div>
+            </div>
+        );
       </div>
 );}
 
