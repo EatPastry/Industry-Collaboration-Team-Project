@@ -6,24 +6,31 @@ import { start } from "repl";
 import { toPng } from 'html-to-image';
 
 /**
- * Creates a button which when clicked,
- * it generates an image and prompts the user to share
+ * Creates a button which when clicked generates an image of 
+ * the JSX element and it's children referenced by elementRef 
+ * and prompts the user to share on their device.
+ * 
+ * @param elementRef reference to a JSX component
+ * 
  * @returns A button which is used to share the image
  */
 export function ShareFileButton({elementRef} : {elementRef : any}) {
+  //Setup function for click event, calling toPng function to convert JSX component to image
   const htmlToImageConvert = () => {toPng(elementRef.current, { cacheBust: false })
       .then((dataUrl) => {
+        //Convert the returned image url into image file of .png format
         let file = base64toFile(dataUrl, `recapped.png`, "image/png");
         const shareData = {
           files: [file!]
         };
-
+        //Call on the browser to share the image
         try {
           navigator.share(shareData);
         } catch (error) {
           console.log("Something has failed", error);
         }
       })};
+  //Call function when button is clicked
   const onClick = async () => {
 
     htmlToImageConvert();
@@ -31,7 +38,7 @@ export function ShareFileButton({elementRef} : {elementRef : any}) {
   };
 
   const isShareable = navigator.canShare;
-
+  //Display error message if browser is incompatible
   if (!isShareable) {
     return <ShareProblem />;
   }
