@@ -48,7 +48,7 @@ function Brand() {
     return (
         <div className="fullscreen brand-screen">
             <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white" }}>
-                Your most commonly shopped brand was
+                
                 <br />
                 <div style={{ 
                     display: "flex", 
@@ -56,9 +56,9 @@ function Brand() {
                     alignItems: "center", 
                     fontSize: "50px",
                     fontWeight: "bold",
-                    marginTop: "10px"
+                    marginTop: "0px"
                 }}>
-                    {modeBrand}
+            
                 </div>
                 <br />
                 Here's a look at how much you saved with your top brands:

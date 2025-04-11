@@ -170,7 +170,7 @@ function CategoriesTorusDisplay() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
-      <div style={{ height: '400px', marginTop: '-10px' }}>
+      <div style={{ height: '400px', marginTop: '0px' }}>
         <Canvas style={{ height: '400px' }} camera={{ position: [5, 8, 10], fov: 75 }}>
           <ambientLight intensity={1.25} />
           <pointLight position={[10, 10, 10]} />

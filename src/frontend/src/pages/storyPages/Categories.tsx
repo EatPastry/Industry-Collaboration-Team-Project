@@ -54,7 +54,7 @@ function Categories(){
     // Return message
     return (
         <div className="fullscreen categories-screen" style={{ padding: '20px', color: 'white' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '0px' }}>
           Your Savings by Category
         </h2>
         <CategoriesTorusDisplay />

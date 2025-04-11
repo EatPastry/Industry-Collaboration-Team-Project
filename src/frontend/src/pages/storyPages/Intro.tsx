@@ -3,7 +3,7 @@ import {Slide, Fade, Zoom} from "react-awesome-reveal";
 
 function Intro() {
     return (
-        <div className="fullscreen" style={{background:"black"}}>
+        <div className="fullscreen fullscreenForStats" style={{background:"black"}}>
             <Zoom className="square-container" cascade duration={10000}>
             <div className="square black">
             <div className="square">
