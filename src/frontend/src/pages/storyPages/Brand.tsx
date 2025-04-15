@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUserTransactions, getPartnerIds } from "../../services/API";
 import TypeIt from "typeit-react";
-// import {supabase} from "../../utils/supabase";
 import BrandsTorusDisplay from "../../components/BrandTorusDisplay";
 
 

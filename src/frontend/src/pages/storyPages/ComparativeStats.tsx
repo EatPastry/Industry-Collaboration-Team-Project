@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { motion } from 'framer-motion';
 import {getCurrentUserTransactions, getSession, getEveryUsersTransactions} from "../../services/API";
 import '../../styles/ComparativeStats.css';
@@ -28,14 +28,6 @@ function ComparativeStats(){
 
 
     async function calculateComparativeStats(){
-        const session = await getSession();
-
-        if (!session){
-            return;
-        }
-
-        const userID = session.user.id;
-
         const userTransactions = await getCurrentUserTransactions();
         if (!userTransactions){
             return;

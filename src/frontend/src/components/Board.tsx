@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ImageBox from './ImageBox';
-import { supabase } from '../utils/supabase';
-import { getCurrentUserTransactions } from "../services/API";
-import { ShareFileButton } from "../components/ShareButton";
+import {getAllPartners, getCurrentUserTransactions} from "../services/API";
 
 interface Transaction {
   partnerID: string;
@@ -16,41 +14,23 @@ interface Partner {
 }
 
 function Board() {
-  const [rowCount, setRowCount] = useState<number | null>(null);
-  const [rowCountLoading, setRowCountLoading] = useState<boolean>(true);
-  const [rowCountError, setRowCountError] = useState<string | null>(null);
   const [partnerMapping, setPartnerMapping] = useState<Record<string, string>>({});
   const [totalAmountArray, setTotalAmountArray] = useState<number[]>([]);
   const [totalSavingsArray, setTotalSavingsArray] = useState<number[]>([]);
   const [brandArray, setBrandArray] = useState<string[]>([]);
 
-
-  //fetch number of partners
-  const fetchRowCount = async () => {
-    try {
-      const { count, error } = await supabase
-        .from('Partner')
-        .select('partnerID', { count: 'exact', head: true });
-      if (error) throw error;
-      setRowCount(count);
-    } catch (err) {
-      setRowCountError((err as Error).message);
-    } finally {
-      setRowCountLoading(false);
-    }
-  };
-//creates an object that stores parnterID and partnerName in a key value pair
+  //creates an object that stores parnterID and partnerName in a key value pair
   const fetchPartnerMapping = async () => {
     try {
-      const { data, error } = await supabase
-        .from('Partner')
-        .select('partnerID, partnerName');
-      if (error) throw error;
+      const allPartners = await getAllPartners()
       const mapping: Record<string, string> = {};
-      data.forEach((partner) => {
-        mapping[partner.partnerID] = partner.partnerName;
+
+      allPartners.forEach((partners) => {
+        mapping[partners.partnerID] = partners.partnerName;
       });
+
       setPartnerMapping(mapping);
+
     } catch (err) {
       console.error('Error fetching partners:', (err as Error).message);
     }
@@ -61,7 +41,7 @@ function Board() {
     if (!userTransactions) {
       return;
     }
-//create objects to store the total amount spent and total savings for each brand
+    //create objects to store the total amount spent and total savings for each brand
     const brandTotals: Record<string, number> = {};
     const brandSavings: Record<string, number> = {};
 
@@ -93,20 +73,20 @@ function Board() {
     setTotalAmountArray(sortedAmounts);
     setTotalSavingsArray(sortedSavings);
   }
- //Update the variables 
- useEffect(() => {
-  const fetchData = async () => {
-    await fetchRowCount();
-    await fetchPartnerMapping();
-  };
-  fetchData();
-}, []);
 
-useEffect(() => {
-  if (Object.keys(partnerMapping).length > 0) {
-    highestsBrand();
-  }
-}, [partnerMapping]);
+   //Update the variables
+   useEffect(() => {
+    const fetchData = async () => {
+      await fetchPartnerMapping();
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(partnerMapping).length > 0) {
+      highestsBrand();
+    }
+  }, [partnerMapping]);
 
   return (
     <div className="boardContainer">
@@ -123,9 +103,6 @@ useEffect(() => {
         </div>
       </div>
     ))}
-    <div className="shareContainerOverview">
-              
-            </div>
   </div>
 );
 }

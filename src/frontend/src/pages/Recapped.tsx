@@ -3,12 +3,8 @@ import {NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 import {ProtectUserRoutes} from '../components/ProtectRoutes';
 import {supabase} from '../utils/supabase'
 import {clearCookie, parseToken} from "../services/Authentication";
-import {getFirstName} from "../services/API";
-import GPTFacts from "./storyPages/GPTFacts";
 import ViewButton from "../components/ViewButton";
 import Board from "../components/Board";
-
-
 
 /**
  * Checks every 3 seconds that the session is still active <br>

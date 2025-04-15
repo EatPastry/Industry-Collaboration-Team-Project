@@ -1,8 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 import { ShareProblem } from "./ShareProblem";
 import { base64toFile } from "../utils/base64toImage";
-import { AsyncResult } from "@react-spring/web";
-import { start } from "repl";
 import { toPng } from 'html-to-image';
 
 /**

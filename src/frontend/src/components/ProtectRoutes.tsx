@@ -2,7 +2,6 @@ import React from "react";
 import {Navigate} from "react-router-dom";
 import "../services/Authentication.ts";
 import {isAuthenticated, isUserSpecific} from "../services/Authentication";
-import {supabase} from "../utils/supabase";
 
 interface ProtectRoutesProps{
     children: JSX.Element;
@@ -29,7 +28,6 @@ function ProtectRoutes({children} : ProtectRoutesProps){
  */
 export function ProtectUserRoutes(url : string){
     if (!isUserSpecific(url)){
-        supabase.auth.signOut();
         return <Navigate to = "/"/>
     }
     return null;

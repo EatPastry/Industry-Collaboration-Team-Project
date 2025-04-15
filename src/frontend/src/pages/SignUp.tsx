@@ -5,7 +5,7 @@ import "../services/Authentication";
 import {useNavigate} from 'react-router-dom';
 import SupabaseLogin from "../components/SupabaseLogin";
 import {createAccount, generateCookie, signInWithPassword} from "../services/Authentication";
-import {supabase} from "../utils/supabase";
+import {addUser, getUUID} from "../services/API";
 
 /**
  * Creates the elements for the SignUp page
@@ -65,15 +65,11 @@ function SignUp () {
         }
 
         // Generate a session and cookie for the user then navigate to Recapped page
-        const {data: {session}} = await supabase.auth.getSession();
-        if (session && session.user.email) {
-            generateCookie(session.user.id)
-
-            await supabase.from('User').insert([{
-                userID : session.user.id, firstName : firstName, lastName : lastName, email : email}]);
-
-            // navigation(`/pages/Recapped/${session.user.id}`);
-            navigation(`/pages/transactionHub/${session.user.id}`);
+        const uuid = await getUUID();
+        if (uuid) {
+            generateCookie(uuid)
+            await addUser(firstName, lastName)
+            navigation(`/pages/transactionHub/${uuid}`);
         }
 
     }
