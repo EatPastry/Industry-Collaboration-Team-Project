@@ -294,7 +294,7 @@ export async function signUserOut(){
  * @param firstName is the first name of the user to add
  * @param lastName is the last name of the user to add
  */
-export async function addGoogleUserTable(firstName : string, lastName : string){
+export async function addGoogleUser(firstName : string, lastName : string){
     const session = await getSession()
 
     if (!session){

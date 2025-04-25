@@ -3,7 +3,7 @@ import { Session } from '@supabase/supabase-js';
 import GoogleButton from "./GoogleButton";
 import {useNavigate} from "react-router-dom";
 import {generateCookie} from "../services/Authentication";
-import {addGoogleUserTable, getSession, getUUID, googleOAuthSignIn, hasTransaction} from "../services/API";
+import {addGoogleUser, getSession, getUUID, googleOAuthSignIn, hasTransaction} from "../services/API";
 
 /**
  * Handler for the Google button that signs into SupaBase with OAuth
@@ -36,7 +36,7 @@ function SupabaseLogin(){
                 const splitName = metaData.full_name.split(' ');
                 const firstName = splitName[0] || '';
                 const lastName = splitName.slice(1).join(' ') || '';
-                await addGoogleUserTable(firstName, lastName);
+                await addGoogleUser(firstName, lastName);
             }
         }
 
