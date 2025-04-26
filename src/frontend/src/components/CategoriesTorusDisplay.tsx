@@ -169,9 +169,10 @@ function CategoriesTorusDisplay() {
   }, []);
 
   return (
+
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
-      <div style={{ height: '400px', marginTop: '-10px' }}>
-        <Canvas style={{ height: '400px' }} camera={{ position: [5, 8, 10], fov: 75 }}>
+      <div style={{ height: '400px', }}>
+        <Canvas style={{ position: 'relative', height: '400px', width: '100vw'}} camera={{ position: [5, 6, 10], fov: 75 }}>
           <ambientLight intensity={1.25} />
           <pointLight position={[10, 10, 10]} />
           <RotatingTorus topCategories={topCategories} />
@@ -225,6 +226,7 @@ function CategoriesTorusDisplay() {
                 <span>${cat.savings.toLocaleString()}</span>
               </div>
             </div>
+            
           );
         })}
 
@@ -238,6 +240,7 @@ function CategoriesTorusDisplay() {
         </div>
       </div>
     </div>
+
   );
 }
 

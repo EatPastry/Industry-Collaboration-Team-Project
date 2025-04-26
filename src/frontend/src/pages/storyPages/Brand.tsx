@@ -46,7 +46,7 @@ function Brand() {
     
     return (
         <div className="fullscreen brand-screen">
-            <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white" }}>
+            <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white", position: 'fixed' }}>
                 Your most commonly shopped brand was
                 <br />
                 <div style={{ 

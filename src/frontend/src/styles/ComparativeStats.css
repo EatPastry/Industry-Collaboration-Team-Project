@@ -1,15 +1,5 @@
 /* General Styles */
-.fullscreen {
-    display: flex;
-    justify-content: center;
 
-    height: 100vh;
-    
-
-    color: #333;
-    padding: 20px;
-    box-sizing: border-box;
-}
 
 .stats-container {
     background: white;
@@ -17,7 +7,9 @@
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    width: 100%;
+    width: 90%;
+    height: fit-content;
+    margin-top: 10vh;
     text-align: center;
 }
 

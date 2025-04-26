@@ -53,11 +53,14 @@ function Categories(){
 
     // Return message
     return (
-        <div className="fullscreen categories-screen" style={{ padding: '20px', color: 'white' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <div className="fullscreen" style={{ }}>
+        <div style={{width: '100vw', textAlign: 'center', position: 'fixed', fontSize: "28px", color: "white", paddingTop: "30px"}}>
           Your Savings by Category
-        </h2>
-        <CategoriesTorusDisplay />
+        </div>
+        <div>
+            <CategoriesTorusDisplay/>
+        </div>
+        
         </div>
     );
 }

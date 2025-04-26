@@ -193,9 +193,9 @@ function BrandsTorusDisplay() {
   const total = topBrands.reduce((sum, brand) => sum + brand.count, 0);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '0px' }}>
-      <div style={{ height: '400px', marginTop: '-10px' }}>
-        <Canvas style={{ height: '400px' }} camera={{ position: [5, 8, 10], fov: 75 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', top: '500px' }}>
+      <div style={{ height: '400px' }}>
+        <Canvas style={{ height: '400px', top: '20vh'  }} camera={{ position: [5, 8, 10], fov: 75 }}>
           <ambientLight intensity={1.25} />
           <pointLight position={[10, 10, 10]} />
           <RotatingTorus topBrands={topBrands} />
@@ -220,7 +220,8 @@ function BrandsTorusDisplay() {
         gap: '4px',
         minWidth: '300px',
         margin: '0 auto',
-        marginTop: -50
+        marginTop: '15vh',
+        
       }}>
         {/* Header */}
         <div style={{
