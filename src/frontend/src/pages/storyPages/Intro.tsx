@@ -65,7 +65,7 @@ function Intro() {
             
             </div>
             </Zoom>
-            <div style={{paddingTop: "25vh", fontSize: "5vh", color: "white", width: "400vw"}}>
+            <div style={{fontSize: "5vh", color: "white", width: "400vw"}}>
             <Slide triggerOnce cascade damping={0.6} duration={3000} direction='left'>
                 <p>Hello,</p>
                 <p>You've had quite a year of saving</p>

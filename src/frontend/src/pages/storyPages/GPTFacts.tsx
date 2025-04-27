@@ -90,8 +90,6 @@ function GPTFacts () {
 
     return (
         <div style={{margin: '50px'}}>
-
-
             <header style={{margin: '50px'}}>
             <TypeIt key={aiMessage} options={{cursor: true, speed: 50}}></TypeIt></header>
         </div>

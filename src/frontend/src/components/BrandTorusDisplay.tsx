@@ -195,7 +195,7 @@ function BrandsTorusDisplay() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0px', top: '500px' }}>
       <div style={{ height: '400px' }}>
-        <Canvas style={{ height: '400px', top: '20vh'  }} camera={{ position: [5, 8, 10], fov: 75 }}>
+        <Canvas style={{ height: '400px', top: '15vh'  }} camera={{ position: [5, 8, 10], fov: 75 }}>
           <ambientLight intensity={1.25} />
           <pointLight position={[10, 10, 10]} />
           <RotatingTorus topBrands={topBrands} />
