@@ -89,8 +89,11 @@ function GPTFacts () {
     useEffect(() => {generateAiMessage().then()}, []);
 
     return (
-        <div>
-            <header><TypeIt key={aiMessage} options={{cursor: true, speed: 50}}></TypeIt></header>
+        <div style={{margin: '50px'}}>
+
+
+            <header style={{margin: '50px'}}>
+            <TypeIt key={aiMessage} options={{cursor: true, speed: 50}}></TypeIt></header>
         </div>
     );
 }

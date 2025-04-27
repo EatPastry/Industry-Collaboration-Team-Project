@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getCurrentUserTransactions, getPartnerIds } from "../../services/API";
 import TypeIt from "typeit-react";
+// import {supabase} from "../../utils/supabase";
 import BrandsTorusDisplay from "../../components/BrandTorusDisplay";
 
 
@@ -46,8 +47,8 @@ function Brand() {
     
     return (
         <div className="fullscreen brand-screen">
-            <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white", position: 'fixed' }}>
-                Your most commonly shopped brand was
+            <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white" }}>
+                
                 <br />
                 <div style={{ 
                     display: "flex", 
@@ -55,9 +56,9 @@ function Brand() {
                     alignItems: "center", 
                     fontSize: "50px",
                     fontWeight: "bold",
-                    marginTop: "10px"
+                    marginTop: "0px"
                 }}>
-                    {modeBrand}
+            
                 </div>
                 <br />
                 Here's a look at how much you saved with your top brands:
