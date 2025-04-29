@@ -179,7 +179,7 @@ function Story() {
                 let barState: 'behind' | 'current' | 'ahead' = 'ahead';
                 if (i < currentPage) barState = 'behind';
                 else if (i === currentPage) barState = 'current';
-
+                //Create a filled bar if it's story has passed
                 if (barState === 'behind') {
                   return (
                     <div
@@ -199,6 +199,7 @@ function Story() {
                       />
                     </div>
                   );
+                //Animate the bar if it is for the current story
                 } else if (barState === 'current') {
                   return (
                     <div
@@ -223,6 +224,7 @@ function Story() {
                       </Reveal>
                     </div>
                   );
+                  //Create an empty bar
                 } else {
                   return (
                     <div
@@ -287,7 +289,6 @@ function Story() {
               playing = false;
               setFill(playButton);
               let barArr = document.getElementsByClassName("test")
-              console.log(document.getElementsByClassName("css-wtz79b"))
               for(let i = 0; i<barArr.length; i++) {
                 barArr[i].className += ' paused'
               }
@@ -328,7 +329,7 @@ function Story() {
             </>
           )
         }
-
+    //story-container holds the story itself which is beneath all other elements
     return (
       
       <div className="Story">
