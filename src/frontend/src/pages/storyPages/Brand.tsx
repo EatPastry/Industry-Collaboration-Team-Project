@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { getCurrentUserTransactions, getPartnerIds } from "../../services/API";
 import TypeIt from "typeit-react";
@@ -43,32 +44,33 @@ function Brand() {
     useEffect(() => {
         calculateBrands()
     },[]);
-    
+
     return (
         <div className="fullscreen brand-screen">
             <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white", position: 'fixed' }}>
-                Your most commonly shopped brand was
+
                 <br />
-                <div style={{ 
-                    display: "flex", 
-                    justifyContent: "center", 
-                    alignItems: "center", 
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                     fontSize: "50px",
                     fontWeight: "bold",
-                    marginTop: "10px"
+                    marginTop: "0px"
                 }}>
-                    {modeBrand}
+                    Your Savings by Brand
+
                 </div>
                 <br />
-                Here's a look at how much you saved with your top brands:
             </div>
-    
+
             <div style={{ paddingTop: "4px" }}>
                 <BrandsTorusDisplay />
             </div>
         </div>
     );
 }
-    
+
 
 export default Brand;
+

@@ -160,10 +160,14 @@ function GPTFacts() {
         }
     });
     (0, react_1.useEffect)(() => { generateAiMessage().then(); }, []);
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement("header", null, 
-            react_1.default.createElement(TypewriterEffect, { 
-                text: aiMessage, 
+    return (react_1.default.createElement("div", {
+        style : {
+            marginTop: '100px',
+        }
+        },
+        react_1.default.createElement("header", null,
+            react_1.default.createElement(TypewriterEffect, {
+                text: aiMessage,
                 speed: 12
             })
         )

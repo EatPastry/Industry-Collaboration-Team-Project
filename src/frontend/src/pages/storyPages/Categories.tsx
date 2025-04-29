@@ -1,6 +1,8 @@
+
 import React, {useEffect, useState} from 'react';
 import {getCurrentUserTransactions, getPartnerIds} from '../../services/API'
 import CategoriesTorusDisplay from "../../components/CategoriesTorusDisplay";
+import BrandsTorusDisplay from "../../components/BrandTorusDisplay";
 
 /**
  * Returns category statistics for the current signed-in user
@@ -54,18 +56,32 @@ function Categories(){
     // Return message
     return (
         <div className="fullscreen" style={{ }}>
-        <div style={{width: '100vw', textAlign: 'center', position: 'fixed', fontSize: "28px", color: "white", paddingTop: "30px"}}>
-          Your Savings by Category
-        </div>
-        <div>
-            <CategoriesTorusDisplay/>
-        </div>
-        
+            <div style={{ paddingTop: "6vh", fontSize: "24px", color: "white", position: 'fixed' }}>
+
+                <br />
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "50px",
+                    fontWeight: "bold",
+                    marginTop: "0px"
+                }}>
+                    Your Savings by Category
+
+                </div>
+                <br />
+            </div>
+
+            <div style={{ paddingTop: "4px" }}>
+                <CategoriesTorusDisplay/>
+            </div>
         </div>
     );
 }
 
 
 export default Categories;
+
 
 

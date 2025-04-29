@@ -28,22 +28,20 @@
 
 /*Sets the bar title to the centre of the bar*/
 #barTitle{
-    position:inherit;
-    transform: translateY(10px);
-    
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 10px);
     transition: all 0.28s ease-in-out;
 }
 
+
 /*Menu Bar UNiDAYS title resizes to nav bar margin on desktop*/
 @media (width > 600px) {
-    #barTitle {
-        
-    }
     body.filler #barTitle {
-        left: calc(45% - 150px);
+        left: calc(50% - 150px);
+        transform: translate(-50%, 10px);
     }
 }
-
 
 
 

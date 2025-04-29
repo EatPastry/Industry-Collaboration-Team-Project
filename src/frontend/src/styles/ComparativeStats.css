@@ -1,15 +1,19 @@
 /* General Styles */
 
+.fullscreenForStats {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
 
 .stats-container {
     background: white;
-    padding: 2rem;
+    padding: 5rem;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 90%;
-    height: fit-content;
-    margin-top: 10vh;
+    max-width: 500px;
+    width: 80%;
     text-align: center;
 }
 
