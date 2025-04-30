@@ -60,7 +60,7 @@ function GPTFacts () {
                             "You are writing a creative response to a user that summarizes their spending habits. " +
                             "Try to come up with quirky names for the user such as techy-trendsetter etc. " +
                             "Incorporate stats about their spending into your response e.g. \`You saved £850, thats enough to buy a new iPhone!\'" +
-                            "Limit your response to 150 words."},
+                            "Limit your response to 50 words. Include new line characters at the end of sentences."},
                     {
                         role: "user", // "user" message is what the model actually responds to based on its instructions and the unique prompt
                         content: prompt,
@@ -89,12 +89,12 @@ function GPTFacts () {
     useEffect(() => {generateAiMessage().then()}, []);
 
     return (
-        <div style={{ margin: '50px' }}>
-            <header style={{ margin: '50px' }}>
-                <TypeIt key={aiMessage} options={{ cursor: true, speed: 50 }}>
+        <div className="fullscreen" style={{ backgroundColor: 'black', color: '#1cfc03', justifyContent: 'left' }}>
+            
+                <TypeIt className="terminal-font" key={aiMessage} options={{ cursor: true, speed: 50 }} style={{marginTop: '60px', marginLeft: '25px', marginRight: '25px'}}>
                     {aiMessage}
                 </TypeIt>
-            </header>
+            
         </div>
     );
 }

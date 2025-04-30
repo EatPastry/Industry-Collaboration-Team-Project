@@ -168,6 +168,10 @@ a, button {
     margin-left: 20px;
 }
 
+.terminal-font{ 
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 32px;
+}
 
 .color_background {
     position: absolute;
