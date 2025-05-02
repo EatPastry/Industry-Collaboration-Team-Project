@@ -1,0 +1,106 @@
+.navigationBar {
+    position: fixed;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background-color: grey;
+
+    transition: background-color 0.2s ease-in, left 0.28s ease-in-out;
+}
+
+/*Unhides the nav bar and brightens it*/
+.navigationBar.open {
+    left: 0;
+    background-color: rgba(255,255,255,0.85);
+    transition: left 0.2s ease-in-out, background-color 0.2s ease-in;
+}
+
+
+/*Navigation Content spans the whole height of the page and stacks vertically*/
+.navigationContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+}
+
+/*full name and profile picture are side-by-side, instead of vertically stacked*/
+#profileDetails{
+    display: flex;
+    flex-direction: row;
+}
+
+/* Translates full name in the sidebar such that it is inline with the center of the profile picture */
+#fullName{
+    padding-left: 4%;
+    transform: translateY(-15%);
+}
+
+
+/*Adds animation to margin addition */
+.navBarWrapper, .TransactionHub{
+    transition: margin-left 0.28s ease-in-out;
+}
+
+/*Adds a margin to the left of the page when the side bar is opened (hamburger button is pressed)*/
+body.filler .navBarWrapper,
+body.filler .TransactionHub{
+    margin-left: 300px;
+}
+
+#profileDetails{
+    justify-content: center;
+}
+
+.navBarButton {
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: none;
+    font-size: 20px;
+}
+
+.navBarButton:hover {
+    color: #1343de;
+    background-color: rgba(0,100,200,0.1);
+}
+/*Change the layout of the navigation Bar for screens below a 600px width*/
+@media screen and (max-width : 600px){
+    .navigationBar {
+        left: 0;
+        top: -100vh;
+        width: 100%;
+        height: auto;
+        transition: top 0.28s ease-in-out;
+        z-index: 100;
+
+    }
+
+    /*Unhides the nav bar and brightens it*/
+    .navigationBar.open {
+        top: 40px;
+        background-color: rgba(255,255,255,1);
+        transition: top 0.2s ease-in-out;
+    }
+
+    /*remove margin for mobile*/
+    body.filler .Recapped,
+    body.filler .navBarWrapper,
+    body.filler .TransactionHub{
+        margin-left: 0;
+    }
+
+
+    /*Sets the background such that it is above all content except for the menu and navigation bars*/
+    #mobileBackground{
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 99;
+        background-color: rgba(0,0,0,0.7);
+    }
+}
+
+

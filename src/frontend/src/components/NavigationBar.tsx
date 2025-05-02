@@ -1,0 +1,137 @@
+import React, {useEffect, useState} from 'react'
+import '../styles/navigationBar.css'
+import blankProfile from '../assets/blankProfile.jpg'
+import {getFullName, getProfilePicture, getUUID, signUserOut, isOfGoogle} from "../services/API";
+import {clearCookie, parseToken} from "../services/Authentication";
+import {NavigateFunction, useNavigate} from "react-router-dom";
+
+interface barProps {
+    isOpen: boolean; // The sidebar is visible when isOpen is true
+    onClose?: () => void;
+}
+
+/**
+ * Adds a Navigation Bar (sidebar) for navigation and log out functionality
+ *
+ * @param isOpen if the navBar is open or closed (hamburger has been pressed)
+ * @param onClose Handles closing the sidebar if the background is clicked
+ */
+function NavigationBar({isOpen, onClose}: barProps) {
+    const navigation = useNavigate();
+    const [fullName, setFullName] = useState("")
+    // Set the initial profile picture src to blankProfile.jpg
+    const [profilePicture, setProfilePicture] = useState(blankProfile);
+
+    async function navigateToPage(page : string){
+        // fetch the userid for the current user
+        const userID = await getUUID();
+
+        if (!userID){
+            return;
+        }
+
+        if (window.innerWidth <= 600 && onClose){
+            onClose();
+        }
+
+        navigation(`pages/${page}/${userID}`);
+    }
+
+
+    // User credentials fetched on the initial render only
+    useEffect(() => {
+        // fetches the full name and profile picture URL of the current logged-in user using API.ts
+        async function fetchProfileData(){
+            let name = await getFullName();
+
+            // Checks if the account was created using google
+            if (await isOfGoogle()){
+                const image = await getProfilePicture();
+
+                // Google Profile image render together or fail together
+                if (image && name) {
+                    setProfilePicture(image);
+                    setFullName(name);
+                }
+            }else{
+                // If account is not of Google then no profile picture exists
+                setFullName(name);
+            }
+
+        }
+
+        fetchProfileData()
+    }, []);
+
+    // called for every update of isOpen
+    useEffect(() => {
+        if (isOpen){
+            // Adds a filler margin to the left of the page (such that page components shift right 300px)
+            document.body.classList.add("filler");
+        }else{
+            // Removes the filler margin when isOpen is set to false (it is closed)
+            document.body.classList.remove("filler");
+        }
+
+        // Remove the filler when the NavigationBar dismounts
+        return () => {
+            document.body.classList.remove("filler");
+        }
+
+    }, [isOpen]);
+
+    /**
+     * Handles user sign out. <br>
+     * Closes Session and Clears User cookies
+     *
+     * @param navigation of useNavigate() to navigate to Log in (/) page
+     */
+    async function signOut(navigation : NavigateFunction){
+        clearCookie(parseToken());
+        await signUserOut()
+        navigation(`/`);
+    }
+
+    return (
+        <>
+            {/*variable classname to apply different styles when open or closed. see navigationBar.css */}
+            <div className = {`navigationBar ${isOpen ? 'open' : ''}`}>
+                {
+                    <div className="navigationContent">
+                        {/*Add styling to the current users details such that it sits in a row instead of a column */}
+                        <div id="profileDetails">
+
+                            {/*Add the profile picture. blankProfile if none exists */}
+                            <img src={profilePicture} alt="Profile Picture"
+                                 width="50" height="50"
+                                 style={{
+                                     borderRadius: "50%",
+                                     border: "2px solid black",
+                                     objectFit: "cover",
+                                 }
+                                 }
+                            />
+
+                            <h2 id="fullName">{fullName}</h2>
+                        </div>
+
+                        <br/>
+                        <button className='navBarButton' onClick={() => navigateToPage("Recapped")}>Recapped</button>
+                        
+                        <button className='navBarButton' onClick={() => navigateToPage("Story")}>Recapped Story</button>
+                        
+                        <button className='navBarButton' onClick={() => navigateToPage("TransactionHub")}>Transaction Hub</button>
+                        
+                        {/*Call signOut when the sign-out button is pressed */}
+                        <button className='navBarButton' id="signOutBtn" onClick={() => signOut(navigation)}>Sign Out</button>
+
+                    </div>
+                }
+            </div>
+            {/*The mobile (grey) background is only added when the menu is Open*/}
+            {isOpen && <div id="mobileBackground" onClick = {onClose}></div>}
+        </>
+    );
+}
+
+export default NavigationBar

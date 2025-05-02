@@ -1,0 +1,81 @@
+import React, {useEffect, useState} from 'react';
+import {Slide, Fade, Zoom} from "react-awesome-reveal";
+
+function Intro() {
+    return (
+        <div className="fullscreen fullscreenForStats" style={{background:"black"}}>
+            <Zoom className="square-container" cascade duration={10000}>
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            <div className="square">
+            <div className="square black">
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            
+            </div>
+            </Zoom>
+            <div style={{fontSize: "5vh", color: "white", width: "400vw"}}>
+            <Slide triggerOnce cascade damping={0.6} duration={3000} direction='left'>
+                <p>Hello,</p>
+                <p>You've had quite a year of saving</p>
+                <p>Let's see how you did...</p>
+            </Slide>
+                
+            </div>
+            
+        </div>
+    )
+}
+
+export default Intro;

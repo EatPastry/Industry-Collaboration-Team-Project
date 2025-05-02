@@ -1,0 +1,32 @@
+/*Styling for the UNiDAYS RECAPPED header*/
+
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap');
+
+
+/** {
+    cursor : none ; 
+}*/
+
+
+header {
+    background-color:  rgb(255, 255, 255);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    padding: 30px;
+    margin-top: 10px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+h1 {
+    font-family: "Gabarito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-size: 30px;
+    font-style: normal;
+    padding : 0;
+    margin : 0;
+}
+

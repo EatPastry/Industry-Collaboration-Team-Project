@@ -1,0 +1,80 @@
+import '../styles/styles.css'
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
+import Header from '../components/Header'
+import "../services/Authentication";
+import {generateCookie, signInWithPassword} from "../services/Authentication";
+import SupabaseLogin from "../components/SupabaseLogin";
+import {getSession, getUUID} from "../services/API";
+
+/**
+ * Creates the elements for the Login page
+ *@returns HTML elements of the login page
+ */
+function Login () {
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const navigation = useNavigate();
+
+    /**
+     * Handler for Button of id `loginBtn`
+     * <br>
+     * Calls {@Link signInWithPassword} to sign in
+     * <br>
+     * On success Navigates to Home page {@Link Recapped}, else denies access and displays message
+     */
+    async function onSubmit (){
+        let responseMsg = document.getElementById('userResponse') as HTMLInputElement;
+
+        if (responseMsg != null) {
+            // Sign the user in using filled username and password. Generate a cookie and session
+            if (await signInWithPassword(email, password)){
+                responseMsg.innerText = "";
+
+                const userID = await getUUID();
+                if (userID){
+                    generateCookie(userID)
+                    navigation(`pages/Recapped/${userID}`);
+                }else{
+                    responseMsg.innerText = "Server Error";
+                }
+            }else{
+                responseMsg.innerText = "Invalid Credentials";
+            }
+        }
+    }
+
+    return (
+        <div className='LoginPage'>
+            <Header />
+            <div className='fadeIn'>
+           <div className='login'>
+                <div id="title">Log In</div>
+               <form>
+                   <label>Email</label>
+                   <input id="emailBox" type="text" required
+                          onChange={(e) => setEmail(e.target.value)}></input>
+
+                   <label>Password</label>
+                   <input id="passwordBox" type="password" required
+                          onChange={(e) => setPassword(e.target.value)}></input>
+                   <div id="buttonWrapper">
+                       <button id="switchBtn" type="button" onClick={() => navigation('/SignUp')}>Create account
+                       </button>
+                       <button id="actionBtn" type="button" onClick={
+                           onSubmit}>Log In
+                       </button>
+                   </div>
+                   {/*Call Supabase Login to check for existing session and if google button should be displayed*/}
+                   <SupabaseLogin/>
+
+                   <strong id="userResponse"></strong>
+               </form>
+           </div>
+            </div>
+        </div>
+    );
+}
+
+
+export default Login;

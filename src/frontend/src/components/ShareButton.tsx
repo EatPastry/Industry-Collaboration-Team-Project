@@ -1,0 +1,49 @@
+import React from "react";
+import { ShareProblem } from "./ShareProblem";
+import { base64toFile } from "../utils/base64toImage";
+import { toPng } from 'html-to-image';
+
+/**
+ * Creates a button which when clicked generates an image of 
+ * the JSX element and it's children referenced by elementRef 
+ * and prompts the user to share on their device.
+ * 
+ * @param elementRef reference to a JSX component
+ * 
+ * @returns A button which is used to share the image
+ */
+export function ShareFileButton({elementRef} : {elementRef : any}) {
+  //Setup function for click event, calling toPng function to convert JSX component to image
+  const htmlToImageConvert = () => {toPng(elementRef.current, { cacheBust: false })
+      .then((dataUrl) => {
+        //Convert the returned image url into image file of .png format
+        let file = base64toFile(dataUrl, `recapped.png`, "image/png");
+        const shareData = {
+          files: [file!]
+        };
+        //Call on the browser to share the image
+        try {
+          navigator.share(shareData);
+        } catch (error) {
+          console.log("Something has failed", error);
+        }
+      })};
+  //Call function when button is clicked
+  const onClick = async () => {
+
+    htmlToImageConvert();
+
+  };
+
+  const isShareable = navigator.canShare;
+  //Display error message if browser is incompatible
+  if (!isShareable) {
+    return <ShareProblem />;
+  }
+
+  return (
+      <>
+        <button className="share-button" onClick={onClick}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> Share this story</button>
+      </>
+  );
+}
