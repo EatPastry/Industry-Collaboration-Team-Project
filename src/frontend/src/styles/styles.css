@@ -12,6 +12,9 @@
     -ms-overflow-style: none;
 }
 
+.colour-invert{
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(322deg) brightness(102%) contrast(101%);
+}
 
 
 /* disable scrollbars for Chrome and Safari */
@@ -603,6 +606,8 @@ a, button {
         margin-top: 10vh;
     }    
 }
+
+
 
 .app-container {
     position: relative;  /* Ensure it's positioned correctly above the canvas */

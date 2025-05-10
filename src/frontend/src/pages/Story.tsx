@@ -297,7 +297,7 @@ function Story() {
               playing = true;
               let barArr = document.getElementsByClassName("test")
               for(let i = 0; i<barArr.length; i++) {
-                barArr[i].className = 'css-1y8zshr'
+                barArr[i].className = 'test css-1l8502w'
               }
             }
           }

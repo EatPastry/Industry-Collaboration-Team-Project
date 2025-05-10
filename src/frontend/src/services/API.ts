@@ -365,3 +365,75 @@ export async function doesUserExist(){
     }
     return null;
 }
+
+export async function getAllUsers(){
+
+    // Pull all transactions associated with a given user
+    const {data: userIDs} = await supabase
+        .from("User")
+        .select("userID")
+
+    // Error check transaction pull
+    if (userIDs == null) {
+        console.error("Error fetching user transactions");
+        return null;
+    }
+
+    return userIDs
+}
+
+export async function getUserTransactions(userID: string){
+    // Pull all transactions associated with a given user
+    const {data: userTransactions} = await supabase
+        .from("Transactions")
+        .select("*")
+        .eq("userID", userID)
+
+    // Error check transaction pull
+    if (userTransactions == null) {
+        console.error("Error fetching user transactions");
+        return null;
+    }
+
+    return userTransactions
+}
+
+/**
+ * Returns the first name of the current logged-in user
+ */
+export async function getUserFirstName(userID: string){
+    // fetch the username using the userid for the current logged-in user
+    const {data: firstname} = await supabase.from('User').select('firstName').eq('userID', userID).single();
+    if (firstname){
+        return firstname.firstName?.toString()
+    }
+    return null
+}
+
+/**
+ * Returns the last name of the current logged-in user
+ */
+export async function getUserLastName(userID: string){
+    // fetch the username using the userid for the current logged-in user
+    const {data: lastName} = await supabase.from('User').select('lastName').eq('userID', userID).single();
+    if (lastName){
+        return lastName.lastName?.toString()
+    }
+    return null
+}
+
+/**
+ * Returns the full name the current logged-in user
+ */
+export async function getUserFullName(userID: string){
+    let firstName = await getUserFirstName(userID);
+    let lastName = await getUserLastName(userID);
+    if (!lastName){
+        lastName = ""
+    }
+
+    if (firstName){
+        return firstName.concat(" ", lastName);
+    }
+    return null;
+}

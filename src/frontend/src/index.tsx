@@ -11,6 +11,7 @@ import React, { useEffect } from "react";
 import "./styles/styles.css";
 import { Gradient } from "./assets/gradient";
 import Story from "./pages/Story";
+import Leaderboard from './pages/Leaderboard';
 
 let root: ReactDom.Root;
 const element = document.getElementById("root");
@@ -53,6 +54,7 @@ root.render(
         <Routes>
             <Route path='/' element={<Login/>}/>
             <Route path='/SignUp' element={<SignUp/>}/>
+            <Route path='/Leaderboard' element={<Leaderboard/>}/>
 
             <Route element={<ProtectRoutes><MenuBar/></ProtectRoutes>}>
                 <Route path='/pages/Recapped/:username' element={<Recapped/>}></Route>
