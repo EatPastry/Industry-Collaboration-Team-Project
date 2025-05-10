@@ -5,9 +5,20 @@ import { color } from 'motion-dom';
 import "../styles/leaderboard.css";
 import zIndex from '@mui/material/styles/zIndex';
 
+// const audio = new Audio('.../public/bell.mp3');
+
 function Leaderboard() {
-    const [currentLeader, setCurrentLeader] = useState<number | null>(null);
-    const [leaderSavings, setLeaderSavings] = useState<string | null>(null);
+    const [first, setFirst] = useState<string | null>(null);
+    const [second, setSecond] = useState<string | null>(null);
+    const [third, setThird] = useState<string | null>(null);
+    const [fourth, setFourth] = useState<string | null>(null);
+    const [fifth, setFifth] = useState<string | null>(null);
+    const [firstSavings, setFirstSavings] = useState<string | null>(null);
+    const [secondSavings, setSecondSavings] = useState<string | null>(null);
+    const [thirdSavings, setThirdSavings] = useState<string | null>(null);
+    const [fourthSavings, setFourthSavings] = useState<string | null>(null);
+    const [fifthSavings, setFifthSavings] = useState<string | null>(null);
+    // let prevUserID : string;
     async function calculateLeader(): Promise<void> {
             const userIDs = await getAllUsers();
             if (!userIDs){
@@ -29,29 +40,41 @@ function Leaderboard() {
                 })
               );
             
-              const topUser = usersWithTransactions.reduce((max, user) => 
-                user!.calculateTotalSaved > max!.calculateTotalSaved ? user : max
-              );
+              // const topUser = usersWithTransactions.reduce((max, user) => 
+              //   user!.calculateTotalSaved > max!.calculateTotalSaved ? user : max
+              // );
 
-              const leaderName = await getUserFullName(topUser?.userID);
-              if (!leaderName){
-                return;
-                }
+              const topUsers = usersWithTransactions.sort((a, b) => b!.calculateTotalSaved - a!.calculateTotalSaved).slice(0, 5);
 
-              setCurrentLeader(leaderName)
+              
+              //   audio.play();
 
-              function getFormattedString() {
-                let x = topUser!.calculateTotalSaved.toString();
+              // if(topUsers[0]!.userID.toString() != prevUserID) {
+                
+              // }
+
+              //   prevUserID = topUsers[0]!.userID.toString();
+              setFirst(await getUserFullName(topUsers[0]!.userID));
+              setSecond(await getUserFullName(topUsers[1]!.userID));
+              setThird(await getUserFullName(topUsers[2]!.userID));
+              setFourth(await getUserFullName(topUsers[3]!.userID));
+              setFifth(await getUserFullName(topUsers[4]!.userID));
+              setFirstSavings((getFormattedString(topUsers[0]!.calculateTotalSaved)));
+              setSecondSavings((getFormattedString(topUsers[1]!.calculateTotalSaved)));
+              setThirdSavings((getFormattedString(topUsers[2]!.calculateTotalSaved)));
+              setFourthSavings((getFormattedString(topUsers[3]!.calculateTotalSaved)));
+              setFifthSavings((getFormattedString(topUsers[4]!.calculateTotalSaved)));
+              //setCurrentLeader(leaderName)
+
+            function getFormattedString(val : number) {
+                let x = val.toString();
                 var pattern = /(-?\d+)(\d{3})/;
                 while (pattern.test(x))
                     x = x.replace(pattern, "$1,$2");
                 return "£" + x + ".00";
             }
 
-              setLeaderSavings(getFormattedString());
-            // setTimeout(() => {
-            //     setFinalSaved(totalSaved!);
-            // }, 2000);
+            //  setLeaderSavings(getFormattedString());
     
         }
     
@@ -71,9 +94,12 @@ function Leaderboard() {
        
             <div style={{fontSize: '72px', color: 'white', textAlign: 'center', width: '100vw', marginTop: '30px'}}>Current <img className="colour-invert" width="250px" alt = "UNiDAYS" src="https://assets1.unidays.world/v5/main/assets/images/logo_v003.svg"></img> Top Saver</div>
             <div style={{marginTop: '20vh', width: "100vw", display: "flex", justifyContent: "center"}}>
-              <div className="shadow" style={{width: "500px", backgroundColor: '#1343de', borderRadius: '20px', padding: '20px', zIndex: '1'}}>
-                <div style={{fontSize: '64px', color: 'white', textAlign: 'center'}}>{currentLeader}</div>
-                <div style={{fontSize: '64px', color: 'white', textAlign: 'center'}}>{leaderSavings}</div>
+              <div className="shadow" style={{width: "1200px", backgroundColor: '#1343de', borderRadius: '20px', padding: '20px', zIndex: '1'}}>
+                <div style={{fontSize: '64px', color: 'gold', textAlign: 'center', marginBottom: '20px'}}>🏆 {first} {firstSavings}</div>
+                <div style={{fontSize: '64px', color: 'white', textAlign: 'center', marginBottom: '20px'}}>2. {second} {secondSavings}</div>
+                <div style={{fontSize: '64px', color: 'white', textAlign: 'center', marginBottom: '20px'}}>3. {third} {thirdSavings}</div>
+                <div style={{fontSize: '64px', color: 'white', textAlign: 'center', marginBottom: '20px'}}>4. {fourth} {fourthSavings}</div>
+                <div style={{fontSize: '64px', color: 'white', textAlign: 'center'}}>5. {fifth} {fifthSavings}</div>
               </div>
             </div>
             <div className="container-money" style={{zIndex: '0'}}>
