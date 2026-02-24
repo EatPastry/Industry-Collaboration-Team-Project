@@ -4,6 +4,11 @@ This was a project involving the company UNiDAYs
 
 A working website can be found [here](https://unidays-recapped.vercel.app/)
 
+You can either Login using your own account, or use this premade account:
+
+Username: user1
+Password: password1
+
 ## My Contribution and Role
 
 In this collaboration, I acted as the head of the frontend team. My focus was on:
