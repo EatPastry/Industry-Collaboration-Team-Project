@@ -9,16 +9,6 @@ You can either Login using your own account, or use this premade account:
 Username: user1
 Password: password1
 
-## My Contribution and Role
-
-In this collaboration, I acted as the head of the frontend team. My focus was on:
-
-Architectural Design: Implementing a Microservices architecture that satisfies both academic flexibility and industry robustness.
-
-Requirement Translation: Working directly with industry stakeholders to turn vague business needs into actionable technical tickets.
-
-Core Implementation: Developed the core workings of the app, such as the story navigation and template story slides for the rest of my team to build on.
-
 ## Project Contributors
 
 | Name                          |
